@@ -28,7 +28,11 @@ function custom(key: string): Painting | undefined {
   return { f: c.file, t: `art/${c.file}-sm.webp`, u: `art/${c.file}.webp`, w: c.w, h: c.h, a: '', l: '', n: c.name, d: '', local: true };
 }
 
-export function painting(book: Book, ep?: number): Painting | undefined {
+export function painting(book: Book, ep?: number, kind?: Kind): Painting | undefined {
+  if (!ep && kind === 'backdrop') {
+    const b = custom(`${book.id}@backdrop`);
+    if (b) return b;
+  }
   if (ep) {
     const key = `${book.id}:${ep}`;
     const e = custom(key) ?? M.episodes[key];
@@ -38,7 +42,7 @@ export function painting(book: Book, ep?: number): Painting | undefined {
 }
 
 /** Livros com arte própria (usados com prioridade no destaque da página inicial). */
-export const BOOKS_WITH_CUSTOM_ART = new Set(Object.keys(CUSTOM_ART).map((k) => k.split(':')[0]));
+export const BOOKS_WITH_CUSTOM_ART = new Set(Object.keys(CUSTOM_ART).map((k) => k.split(/[:@]/)[0]));
 
 /** Tamanhos padronizados de miniatura do Wikimedia. */
 const STEPS = [500, 960, 1280, 1920];
@@ -56,7 +60,7 @@ function sized(p: Painting, want: number): string {
 
 /** URL da imagem (pintura real; arte vetorial apenas como reserva). */
 export function imageUrl(book: Book, kind: Kind, ep?: number): string {
-  const p = painting(book, ep);
+  const p = painting(book, ep, kind);
   return p ? sized(p, NEED[kind]) : artUrl(book, kind, ep);
 }
 

@@ -4,7 +4,7 @@ import { Art } from './Art';
 
 /** Fundo de destaque: obras verticais aparecem nítidas à direita sobre uma versão desfocada. */
 export function Backdrop({ book, ep, className = '' }: { book: Book; ep?: number; className?: string }) {
-  const p = painting(book, ep);
+  const p = painting(book, ep, 'backdrop');
   const portrait = !!p && p.h > p.w * 0.85;
   if (!portrait) {
     return (
@@ -15,7 +15,7 @@ export function Backdrop({ book, ep, className = '' }: { book: Book; ep?: number
   }
   return (
     <div className={`bd portrait ${className}`}>
-      <Art book={book} ep={ep} kind="thumb" className="bd-blur" aria-hidden="true" />
+      <Art book={book} ep={ep} kind="backdrop" className="bd-blur" aria-hidden="true" />
       <Art book={book} ep={ep} kind="backdrop" className="bd-sharp" />
     </div>
   );
