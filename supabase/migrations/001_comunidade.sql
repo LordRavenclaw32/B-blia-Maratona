@@ -145,7 +145,7 @@ begin
   return m;
 end $$;
 
-create or replace function _require(m members, roles text[]) returns void language plpgsql as $$
+create or replace function _require(m members, roles text[]) returns void language plpgsql set search_path = public as $$
 begin
   if not (m.role = any(roles)) then raise exception 'sem_permissao'; end if;
 end $$;
