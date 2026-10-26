@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { episodeOfChapter, type Book } from '../data/books';
-import { artUrl } from '../lib/art';
+import { Art } from './Art';
 import { navigate, setQuery } from '../lib/router';
 import { bookPercent, nextChapter, pct } from '../lib/stats';
 import { useProfile, useStore, type Rating } from '../lib/store';
@@ -87,7 +87,7 @@ function Preview({ book, rect, onClose }: { book: Book; rect: DOMRect; onClose: 
   return createPortal(
     <div className="preview" style={{ left, top, width }} onMouseLeave={onClose}>
       <button className="preview-art" onClick={() => openTitle(book.id)} aria-label={`Detalhes de ${book.name}`}>
-        <img src={artUrl(book, 'thumb')} alt="" />
+        <Art book={book} kind="thumb" />
         <Badge />
         <span className="card-title">{book.name}</span>
         {p > 0 && (
@@ -161,13 +161,12 @@ export function Card({ book, variant = 'wide', rank }: { book: Book; variant?: C
     else openTitle(book.id);
   };
 
-  const art = variant === 'poster' || variant === 'top10' ? artUrl(book, 'poster') : artUrl(book, 'thumb');
 
   return (
     <div ref={ref} className={`card ${variant}`} onMouseEnter={enter} onMouseLeave={leave}>
       {variant === 'top10' && <span className="rank">{rank}</span>}
       <button className="card-art" onClick={click} aria-label={variant === 'continue' ? `Continuar ${book.name}` : book.name}>
-        <img src={art} alt="" loading="lazy" />
+        <Art book={book} kind={variant === 'poster' || variant === 'top10' ? 'poster' : 'thumb'} loading="lazy" />
         <Badge />
         <span className={`card-title ${variant === 'poster' || variant === 'top10' ? 'poster-title' : ''}`}>{book.name}</span>
         {variant === 'continue' && (

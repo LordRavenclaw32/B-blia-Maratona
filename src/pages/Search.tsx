@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { BOOKS, episodeOfChapter, normalize, type Book } from '../data/books';
-import { artUrl } from '../lib/art';
+import { Art } from '../components/Art';
 import { navigate, useRoute } from '../lib/router';
 import { Card } from '../components/Card';
 import { Icon } from '../components/Icon';
@@ -76,7 +76,7 @@ export function Search() {
         <>
           {ref && (
             <button className="ref-jump" onClick={() => navigate(`/read/${ref.book.id}/${ref.chapter}`)}>
-              <img src={artUrl(ref.book, 'thumb', episodeOfChapter(ref.book, ref.chapter).n)} alt="" />
+              <Art book={ref.book} kind="thumb" ep={episodeOfChapter(ref.book, ref.chapter).n} />
               <span>
                 <span className="kick">Ir direto para</span>
                 <b>
@@ -108,7 +108,7 @@ export function Search() {
                   const e = book.episodes[n - 1];
                   return (
                     <button key={`${book.id}${n}`} className="ep-result" onClick={() => navigate(`/read/${book.id}/${e.start}`)}>
-                      <img src={artUrl(book, 'thumb', n)} alt="" loading="lazy" />
+                      <Art book={book} kind="thumb" ep={n} loading="lazy" />
                       <span>
                         <small>
                           {book.name} · E{n}

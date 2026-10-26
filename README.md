@@ -1,11 +1,11 @@
-# Maratona Bíblica
+# BíbliaFlix
 
-A Bíblia no formato de plataforma de streaming: **cada livro é uma série** e **cada grupo de capítulos é um episódio**. Troque a maratona de séries pela maratona da Palavra.
+**Seu app de maratona bíblica.** A Bíblia no formato de plataforma de streaming: **cada livro é uma série** e **cada grupo de capítulos é um episódio**. Troque a maratona de séries pela maratona da Palavra.
 
 ## Recursos
 
 - **66 séries, 383 episódios** cobrindo os 1.189 capítulos, organizados no cânon evangélico (Pentateuco, Históricos, Poéticos, Profetas Maiores e Menores, Evangelhos, Atos, Cartas e Apocalipse), cada um com título, sinopse e duração estimada.
-- **Arte própria gerada por código** para cada livro (pôster, banner e miniatura) e para cada episódio, com emblema e cenário ligados ao enredo.
+- **Arte bíblica real**: cada série e cada episódio usa uma pintura ou gravura em domínio público do Wikimedia Commons (Tissot, Doré, Rembrandt, Caravaggio, Michelangelo, John Martin, William Blake…). A curadoria fica em `src/data/artQueries.ts`; o workflow *Resolver arte bíblica* busca as obras e grava `src/data/artManifest.json` (revisão em `scripts/art-report.md`). Os créditos aparecem no app.
 - **Versões NVI, ARA e ARC** pela API [ABíbliaDigital](https://www.abibliadigital.com.br) (`/api/versions`, `/api/books`, `/api/verses/{versão}/{livro}/{capítulo}`). Se ela ficar fora do ar ou atingir o limite de requisições, o app passa sozinho para uma fonte JSON alternativa. Os capítulos lidos ficam guardados em IndexedDB e funcionam offline.
 - **Perfis locais** no estilo "Quem está lendo?", com avatar, PIN opcional e versão preferida. Os dados ficam só no navegador, com exportação e importação de backup.
 - **Leitor no estilo player**: barra de progresso dividida por capítulo, "Anteriormente em…", pular recapitulação, próximo episódio com contagem regressiva, temas escuro, sépia e claro, tamanho da fonte e atalhos (`N`, `P`, `Esc`).
@@ -35,7 +35,8 @@ O workflow `.github/workflows/deploy.yml` publica no GitHub Pages a cada push na
 ```
 src/data/books.ts      catálogo: livros, sinopses, episódios, paletas e emblemas
 src/lib/api.ts         ABíbliaDigital + fonte alternativa + cache
-src/lib/art.ts         gerador procedural de arte (SVG)
+src/data/artQueries.ts curadoria das obras por livro/episódio
+src/lib/paintings.ts   obras do Wikimedia Commons (com arte vetorial reserva)
 src/lib/share.ts       imagens para redes sociais (canvas)
 src/lib/store.tsx      perfis, progresso, lista, devocionais (localStorage)
 src/pages/             Perfis, Início, Leitor, Diário, Minha maratona, Busca, Configurações

@@ -204,7 +204,7 @@ export function Profiles() {
           <section className="welcome">
             <h2>Troque a maratona de séries pela maratona da Palavra.</h2>
             <ul>
-              <li>66 livros viram séries, com episódios, resumos e arte própria</li>
+              <li>66 livros viram séries, com episódios, resumos e obras de arte bíblica clássica</li>
               <li>Acompanhe seu progresso, sequência de dias e conquistas</li>
               <li>Escreva devocionais e compartilhe sua jornada</li>
             </ul>

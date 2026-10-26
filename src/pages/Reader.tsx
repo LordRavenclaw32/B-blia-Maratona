@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book, type Episode } from '../data/books';
 import { getChapter, SOURCE_LABEL, VERSIONS, type ChapterData, type VersionId } from '../lib/api';
-import { artUrl } from '../lib/art';
+import { Art } from '../components/Art';
+import { credit, painting } from '../lib/paintings';
 import { navigate } from '../lib/router';
 import { bookPercent, episodeRead, formatMinutes, pct } from '../lib/stats';
 import { useProfile, useStore, type ReaderTheme } from '../lib/store';
@@ -365,7 +366,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
                     navigate(`/read/${book.id}/${e.start}`);
                   }}
                 >
-                  <img src={artUrl(book, 'thumb', e.n)} alt="" loading="lazy" />
+                  <Art book={book} kind="thumb" ep={e.n} loading="lazy" />
                   <span>
                     <b>
                       E{e.n} · {e.title}
@@ -384,7 +385,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
 
       <article className="reader-body" onClick={() => panel && setPanel(null)}>
         <div className="ep-hero">
-          <img src={artUrl(book, 'thumb', ep.n)} alt="" />
+          <Art book={book} kind="poster" ep={ep.n} />
           <div className="ep-hero-shade" />
           <div className="ep-hero-text">
             <span className="kick">
@@ -395,6 +396,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
             <span className="muted small">
               {chapterRange(ep)} · {formatMinutes(readingMinutes(book, ep.start, ep.end))} · {versionLabel}
             </span>
+            {painting(book, ep.n) && <span className="ep-credit">Arte: {credit(painting(book, ep.n))}</span>}
           </div>
         </div>
 
@@ -504,7 +506,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
           {next ? (
             <button className="next-card" onClick={goNext}>
               <span className="next-art">
-                <img src={artUrl(next.book, 'thumb', next.ep.n)} alt="" />
+                <Art book={next.book} kind="thumb" ep={next.ep.n} />
                 <span className="ep-play">
                   <Icon name="play" size={30} />
                 </span>

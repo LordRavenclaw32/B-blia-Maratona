@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book } from '../data/books';
 import { VERSIONS } from '../lib/api';
-import { artUrl } from '../lib/art';
+import { Art } from './Art';
+import { credit, painting } from '../lib/paintings';
 import { setQuery } from '../lib/router';
 import { bookPercent, episodePercent, nextChapter, pct, formatMinutes } from '../lib/stats';
 import { useProfile, useStore } from '../lib/store';
@@ -36,7 +37,7 @@ export function TitleModal({ book }: { book: Book }) {
         <Icon name="close" />
       </button>
       <div className="tm-hero">
-        <img src={artUrl(book, 'backdrop')} alt="" />
+        <Art book={book} kind="backdrop" />
         <div className="tm-shade" />
         <div className="tm-hero-content">
           <Badge />
@@ -103,6 +104,14 @@ export function TitleModal({ book }: { book: Book }) {
               <span className="muted">Versículo-chave: </span>
               {book.keyVerse}
             </p>
+            {painting(book) && (
+              <p className="art-credit">
+                <span className="muted">Arte: </span>
+                <a href={painting(book)!.d} target="_blank" rel="noreferrer">
+                  {credit(painting(book))}
+                </a>
+              </p>
+            )}
           </div>
         </div>
 
@@ -122,7 +131,7 @@ export function TitleModal({ book }: { book: Book }) {
                 <button className="ep-btn" onClick={() => playBook(book, first)} aria-label={`Ler episódio ${e.n}: ${e.title}`}>
                   <span className="ep-n">{e.n}</span>
                   <span className="ep-thumb">
-                    <img src={artUrl(book, 'thumb', e.n)} alt="" loading="lazy" />
+                    <Art book={book} kind="thumb" ep={e.n} loading="lazy" />
                     <span className="ep-play">
                       <Icon name="play" size={22} />
                     </span>
@@ -186,7 +195,7 @@ export function TitleModal({ book }: { book: Book }) {
           {similar.map((b) => (
             <button key={b.id} className="sim-card" onClick={() => openTitle(b.id)}>
               <span className="sim-art">
-                <img src={artUrl(b, 'thumb')} alt="" loading="lazy" />
+                <Art book={b} kind="thumb" loading="lazy" />
                 <span className="card-title">{b.name}</span>
                 <span className="sim-eps">{b.episodes.length} ep.</span>
               </span>

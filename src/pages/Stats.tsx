@@ -1,5 +1,6 @@
 import { BOOKS, TOTAL_CHAPTERS } from '../data/books';
-import { artUrl, avatarUrl } from '../lib/art';
+import { avatarUrl } from '../lib/art';
+import { Art } from '../components/Art';
 import { badges, bookPercent, completedBooks, formatMinutes, minutesRead, overallPercent, pct, streak, testamentPercent, totalRead } from '../lib/stats';
 import { today, useProfile } from '../lib/store';
 import { openTitle } from '../components/Card';
@@ -172,7 +173,7 @@ export function Stats() {
             const p = bookPercent(profile, b);
             return (
               <button key={b.id} className={`bp ${p >= 1 ? 'done' : p > 0 ? 'started' : ''}`} onClick={() => openTitle(b.id)} title={`${b.name}: ${pct(p)}`}>
-                <img src={artUrl(b, 'poster')} alt="" loading="lazy" />
+                <Art book={b} kind="poster" loading="lazy" />
                 <span className="bp-name">{b.name}</span>
                 <span className="bar">
                   <i style={{ width: pct(p) }} />

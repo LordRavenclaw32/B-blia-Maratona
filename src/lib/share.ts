@@ -1,6 +1,7 @@
 import { BOOKS, TOTAL_CHAPTERS, type Book, type Episode } from '../data/books';
 import { artUrl, avatarUrl } from './art';
 import { APP_TAGLINE, bfMarkUrl } from './brand';
+import { imageUrl } from './paintings';
 import type { Devotional, Profile } from './store';
 import { bookPercent, completedBooks, overallPercent, pct, streak, totalRead } from './stats';
 
@@ -29,11 +30,20 @@ const SERIF = '"Merriweather", Georgia, "Times New Roman", serif';
 function loadImage(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
+    if (/^https?:/.test(src)) img.crossOrigin = 'anonymous';
     img.decoding = 'async';
     img.onload = () => resolve(img);
     img.onerror = reject;
     img.src = src;
   });
+}
+
+async function loadArt(book: Book, kind: 'poster' | 'backdrop' | 'thumb', ep?: number): Promise<HTMLImageElement> {
+  try {
+    return await loadImage(imageUrl(book, kind, ep));
+  } catch {
+    return loadImage(artUrl(book, kind, ep));
+  }
 }
 
 async function ensureFonts() {
@@ -183,7 +193,7 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
 
   // ── fundo ──
   if (input.kind === 'overall') {
-    const posters = await Promise.all(BOOKS.map((b) => loadImage(artUrl(b, 'poster'))));
+    const posters = await Promise.all(BOOKS.map((b) => loadArt(b, 'thumb')));
     const cols = story ? 6 : 8;
     const pw = W / cols;
     const ph = pw * 1.5;
@@ -194,13 +204,13 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
         const b = BOOKS[i % BOOKS.length];
         const img = posters[i % BOOKS.length];
         ctx.globalAlpha = bookPercent(profile, b) >= 1 ? 0.95 : bookPercent(profile, b) > 0 ? 0.6 : 0.22;
-        ctx.drawImage(img, c * pw, r * ph - (c % 2 ? ph / 2 : 0), pw - 4, ph - 4);
+        cover(ctx, img, c * pw, r * ph - (c % 2 ? ph / 2 : 0), pw - 4, ph - 4);
         i++;
       }
     }
     ctx.globalAlpha = 1;
   } else if (book) {
-    const img = await loadImage(artUrl(book, story ? 'poster' : 'backdrop'));
+    const img = await loadArt(book, story ? 'poster' : 'backdrop', input.episode?.n ?? input.devotional?.episode);
     cover(ctx, img, 0, 0, W, story ? H * 0.72 : H);
   }
 
@@ -347,7 +357,7 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
         ctx.fillStyle = 'rgba(255,255,255,.7)';
         ctx.font = `700 24px ${SANS}`;
         ctx.fillText('SÉRIES EM ANDAMENTO', pad, y);
-        const thumbs = await Promise.all(going.map((b) => loadImage(artUrl(b, 'thumb'))));
+        const thumbs = await Promise.all(going.map((b) => loadArt(b, 'thumb')));
         going.forEach((b, i) => {
           const ry = y + 30 + i * 120;
           ctx.save();

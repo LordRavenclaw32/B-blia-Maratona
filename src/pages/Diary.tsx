@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { BOOKS, getBook } from '../data/books';
-import { artUrl } from '../lib/art';
+import { Art } from '../components/Art';
 import { navigate } from '../lib/router';
 import { useProfile, useStore } from '../lib/store';
 import { VERSIONS } from '../lib/api';
@@ -71,7 +71,7 @@ export function Diary() {
               return (
                 <article key={d.id} className="dev-card">
                   <button className="dev-art" onClick={() => openDevotional({ existing: d })} aria-label="Editar">
-                    <img src={artUrl(b, 'thumb', d.episode)} alt="" loading="lazy" />
+                    <Art book={b} kind="thumb" ep={d.episode} loading="lazy" />
                     <span className="card-title">{b.name}</span>
                   </button>
                   <div className="dev-body">

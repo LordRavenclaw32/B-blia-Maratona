@@ -1,5 +1,6 @@
 import { episodeOfChapter, type Book } from '../data/books';
-import { artUrl } from '../lib/art';
+import { Art } from './Art';
+import { imageUrl } from '../lib/paintings';
 import { bookPercent, nextChapter, pct } from '../lib/stats';
 import { useProfile, useStore } from '../lib/store';
 import { Badge, openTitle, playBook } from './Card';
@@ -17,8 +18,8 @@ export function Hero({ book, kicker }: { book: Book; kicker?: string }) {
   return (
     <section className="hero" aria-label={`Destaque: ${book.name}`}>
       <picture>
-        <source media="(max-width: 800px)" srcSet={artUrl(book, 'poster')} />
-        <img className="hero-art" src={artUrl(book, 'backdrop')} alt="" />
+        <source media="(max-width: 800px)" srcSet={imageUrl(book, 'poster')} />
+        <Art className="hero-art" book={book} kind="backdrop" />
       </picture>
       <div className="hero-shade" />
       <div className="hero-content">
