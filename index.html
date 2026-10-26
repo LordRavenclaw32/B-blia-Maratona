@@ -15,6 +15,28 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Diagnóstico: se o app não iniciar (ex.: GitHub Pages publicando o branch errado), mostra o motivo.
+      (function () {
+        var errors = [];
+        window.addEventListener('error', function (e) {
+          errors.push((e.message || (e.target && (e.target.src || e.target.href)) || 'erro desconhecido') + '');
+        }, true);
+        setTimeout(function () {
+          var root = document.getElementById('root');
+          if (!root || root.children.length) return;
+          var dev = !!document.querySelector('script[src*="/src/main.tsx"]');
+          root.innerHTML =
+            '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:#141414;color:#fff;font-family:system-ui,sans-serif;padding:24px">' +
+            '<div style="max-width:560px"><h1 style="color:#e50914;font-size:28px;margin:0 0 12px">BíbliaFlix não iniciou</h1>' +
+            (dev
+              ? '<p>O GitHub Pages está publicando o <b>código-fonte</b> em vez do app pronto.</p><p>Corrija em <b>Settings → Pages → Build and deployment</b>: Source <b>Deploy from a branch</b>, Branch <b>gh-pages</b>, pasta <b>/ (root)</b> → Save. Aguarde 1–2 minutos e recarregue.</p>'
+              : '<p>Ocorreu um erro ao carregar o app. Tente recarregar com <b>Ctrl+Shift+R</b>.</p>') +
+            (errors.length ? '<pre style="white-space:pre-wrap;color:#aaa;font-size:12px;margin-top:16px">' + errors.slice(0, 5).join('\n').replace(/</g, '&lt;') + '</pre>' : '') +
+            '</div></div>';
+        }, 4000);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
