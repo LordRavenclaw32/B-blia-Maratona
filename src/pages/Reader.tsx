@@ -58,6 +58,12 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
   const [skipRecap, setSkipRecap] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
   const [atEnd, setAtEnd] = useState(false);
+  // versículo citado (#/read/livro/cap?v=16&ve=18): destacado e centralizado ao abrir
+  const focus = useMemo(() => {
+    const q = new URLSearchParams(location.hash.split('?')[1] ?? '');
+    const v = Number(q.get('v')) || 0;
+    return { v, ve: Math.max(v, Number(q.get('ve')) || v) };
+  }, []);
   const engaged = useRef(false);
   const openedAt = useRef(Date.now());
   const urlChapter = useRef(chapter);
@@ -86,6 +92,13 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
     },
     [book, chList],
   );
+
+  const focusStatus = chapters[chapter]?.status;
+  useEffect(() => {
+    if (!focus.v || focusStatus !== 'ok') return;
+    const t = setTimeout(() => document.getElementById(`v-${chapter}-${focus.v}`)?.scrollIntoView({ block: 'center', behavior: 'smooth' }), 120);
+    return () => clearTimeout(t);
+  }, [focus.v, focusStatus, chapter]);
 
   useEffect(() => {
     load(version);
@@ -461,7 +474,8 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
                       return (
                         <span
                           key={v.number}
-                          className={`verse ${selected ? 'sel' : ''} ${fav ? 'fav' : ''}`}
+                          id={`v-${c}-${v.number}`}
+                          className={`verse ${selected ? 'sel' : ''} ${fav ? 'fav' : ''} ${c === chapter && v.number >= focus.v && v.number <= focus.ve ? 'focus' : ''}`}
                           onClick={(e) => {
                             e.stopPropagation();
                             toggleVerse(c, v.number);

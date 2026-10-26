@@ -9,6 +9,7 @@ import { CUSTOM_ART } from '../data/customArt';
 import { APP_NAME } from '../lib/brand';
 import { CHURCH, planBooks } from '../lib/church';
 import { PlanCard } from './Church';
+import { ChurchContentRow } from './Messages';
 import { Icon } from '../components/Icon';
 
 const ORIGINALS = ['gn', 'ex', 'js', 'rt', '1sm', 'et', 'dn', 'jn', 'mt', 'jo', 'at', 'ap'];
@@ -63,6 +64,7 @@ export function Browse({ testament }: { testament?: Testament }) {
             )}
           </div>
         )}
+        {CHURCH && !testament && <ChurchContentRow />}
         <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
         {planList.length > 0 && <Row title={`Plano da igreja · ${CHURCH!.plano!.titulo}`} books={planList} variant="poster" />}
         <Row title="Minha lista" books={list} />

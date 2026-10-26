@@ -7,15 +7,24 @@ import { Logo } from './Brand';
 import { TopButtons } from './TopTools';
 import { APP_NAME } from '../lib/brand';
 import { CHURCH } from '../lib/church';
+import { useCommunity } from '../lib/community';
 
 export { Logo };
 
-const LINKS = [
-  { to: '/browse', label: 'Início', key: 'browse' },
-  ...(CHURCH ? [{ to: '/igreja', label: 'Minha igreja', key: 'igreja' }] : []),
-  { to: '/series/at', label: 'Antigo Testamento', key: 'series/at' },
-  { to: '/series/nt', label: 'Novo Testamento', key: 'series/nt' },
-  { to: '/list', label: 'Minha lista', key: 'list' },
+const LINKS = CHURCH
+  ? [
+      { to: '/browse', label: 'Início', key: 'browse' },
+      { to: '/mensagens', label: 'Mensagens', key: 'mensagens' },
+      { to: '/comunidade', label: 'Relacionamentos', key: 'comunidade' },
+      { to: '/igreja', label: 'Minha igreja', key: 'igreja' },
+    ]
+  : [
+      { to: '/browse', label: 'Início', key: 'browse' },
+      { to: '/series/at', label: 'Antigo Testamento', key: 'series/at' },
+      { to: '/series/nt', label: 'Novo Testamento', key: 'series/nt' },
+    ];
+const MORE_LINKS = [
+  ...(CHURCH ? [] : [{ to: '/list', label: 'Minha lista', key: 'list' }]),
   { to: '/diary', label: 'Diário', key: 'diary' },
   { to: '/stats', label: 'Minha maratona', key: 'stats' },
 ];
@@ -30,6 +39,7 @@ export function Navbar() {
   const [menu, setMenu] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const current = route.path.join('/') || 'browse';
+  const community = useCommunity();
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 10);
@@ -54,8 +64,8 @@ export function Navbar() {
     <header className={`navbar ${scrolled ? 'solid' : ''}`}>
       <Logo />
       <nav className="nav-links" aria-label="Principal">
-        {LINKS.map((l) => (
-          <a key={l.key} href={`#${l.to}`} className={current === l.key ? 'active' : ''}>
+        {[...LINKS, ...(community.isLeader ? [{ to: '/estudio', label: 'Estúdio', key: 'estudio' }] : []), ...MORE_LINKS].map((l) => (
+          <a key={l.key} href={`#${l.to}`} className={current.split('/')[0] === l.key.split('/')[0] && (l.key.includes('/') ? current === l.key : true) ? 'active' : ''}>
             {l.label}
           </a>
         ))}
@@ -118,6 +128,19 @@ export function Navbar() {
               <a className="dd-item" href="#/stats" onClick={() => setMenu(false)}>
                 <Icon name="chart" size={18} /> Minha maratona
               </a>
+              {CHURCH && (
+                <>
+                  <a className="dd-item" href="#/search" onClick={() => setMenu(false)}>
+                    <Icon name="search" size={18} /> Buscar
+                  </a>
+                  <a className="dd-item" href="#/list" onClick={() => setMenu(false)}>
+                    <Icon name="list" size={18} /> Minha lista
+                  </a>
+                  <a className="dd-item" href="#/diary" onClick={() => setMenu(false)}>
+                    <Icon name="pen" size={18} /> Diário
+                  </a>
+                </>
+              )}
               <hr />
               <button
                 className="dd-item center"
@@ -140,15 +163,23 @@ export function Navbar() {
 export function TabBar() {
   const route = useRoute();
   const cur = route.path[0] ?? 'browse';
-  const items = [
-    { to: '/browse', icon: 'home', label: 'Início', on: cur === 'browse' || cur === 'series' },
-    { to: '/search', icon: 'search', label: 'Buscar', on: cur === 'search' },
-    CHURCH
-      ? { to: '/igreja', icon: 'church', label: 'Igreja', on: cur === 'igreja' }
-      : { to: '/list', icon: 'list', label: 'Minha lista', on: cur === 'list' },
-    { to: '/diary', icon: 'pen', label: 'Diário', on: cur === 'diary' },
-    { to: '/stats', icon: 'chart', label: 'Progresso', on: cur === 'stats' || cur === 'settings' },
-  ];
+  const home = { to: '/browse', icon: 'home', label: 'Início', on: cur === 'browse' || cur === 'series' };
+  const progress = { to: '/stats', icon: 'chart', label: 'Progresso', on: cur === 'stats' || cur === 'settings' || cur === 'diary' || cur === 'list' };
+  const items = CHURCH
+    ? [
+        home,
+        { to: '/mensagens', icon: 'play', label: 'Mensagens', on: cur === 'mensagens' },
+        { to: '/comunidade', icon: 'user', label: 'Irmãos', on: cur === 'comunidade' || cur === 'estudio' },
+        { to: '/igreja', icon: 'church', label: 'Igreja', on: cur === 'igreja' },
+        progress,
+      ]
+    : [
+        home,
+        { to: '/search', icon: 'search', label: 'Buscar', on: cur === 'search' },
+        { to: '/list', icon: 'list', label: 'Minha lista', on: cur === 'list' },
+        { to: '/diary', icon: 'pen', label: 'Diário', on: cur === 'diary' },
+        { ...progress, on: cur === 'stats' || cur === 'settings' },
+      ];
   return (
     <nav className="tabbar" aria-label="Navegação inferior">
       {items.map((i) => (

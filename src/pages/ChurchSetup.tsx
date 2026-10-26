@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon';
 import { useUI } from '../components/ui';
 import { BOOKS } from '../data/books';
 import { VERSIONS } from '../lib/api';
+import { rpc } from '../lib/server';
 import { accessHash, DEMO_SLUG, demoConfig, LS_DEMO, planDays, type ChurchConfig } from '../lib/church';
 
 /** Configurador do app de uma igreja: monte, teste neste aparelho e baixe o arquivo para publicar. */
@@ -464,6 +465,8 @@ export function ChurchSetup() {
               <span>Mostrar “tecnologia BíbliaFlix” no rodapé</span>
             </label>
           </section>
+
+          <ServerActivation slug={slug} name={f.nome} />
         </div>
 
         <aside className="setup-preview">
@@ -510,5 +513,105 @@ export function ChurchSetup() {
         </aside>
       </div>
     </main>
+  );
+}
+
+const LS_MASTER = 'mb:chave-mestra';
+
+/** Ativa a comunidade da igreja no servidor (mensagens, relacionamentos, estúdio) e gera os códigos da liderança. */
+function ServerActivation({ slug, name }: { slug: string; name: string }) {
+  const { toast } = useUI();
+  const [master, setMaster] = useState(() => {
+    try {
+      return localStorage.getItem(LS_MASTER) ?? '';
+    } catch {
+      return '';
+    }
+  });
+  const [remember, setRemember] = useState(!!master);
+  const [status, setStatus] = useState<{ active: boolean; members: number } | null>(null);
+  const [codes, setCodes] = useState<{ pastor_code: string; leader_code: string } | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    setStatus(null);
+    setCodes(null);
+    if (!slug) return;
+    const t = setTimeout(() => rpc<{ active: boolean; members: number }>('church_status', { p_slug: slug }).then(setStatus).catch(() => setStatus(null)), 500);
+    return () => clearTimeout(t);
+  }, [slug]);
+
+  const activate = async () => {
+    if (!slug || !name.trim()) return toast('Preencha o nome e o endereço da igreja');
+    if (status?.active && !confirm('Esta igreja já está ativa. Gerar novos códigos de pastor e líder? Os antigos deixam de funcionar.')) return;
+    setBusy(true);
+    try {
+      const c = await rpc<{ pastor_code: string; leader_code: string }>('register_church', { p_master: master.trim(), p_slug: slug, p_name: name.trim() });
+      setCodes(c);
+      setStatus((st) => ({ active: true, members: st?.members ?? 0 }));
+      try {
+        if (remember) localStorage.setItem(LS_MASTER, master.trim());
+        else localStorage.removeItem(LS_MASTER);
+      } catch {
+        /* ignore */
+      }
+    } catch (e) {
+      toast((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const fmt = (c: string) => c.replace(/(.{5})/, '$1-');
+  const copyAll = () =>
+    navigator.clipboard
+      ?.writeText(`${name}\nCódigo do pastor(a): ${fmt(codes!.pastor_code)}\nCódigo dos líderes: ${fmt(codes!.leader_code)}\nNo app: Relacionamentos → ⚙️ → “Sou líder ou pastor(a)”.`)
+      .then(() => toast('Códigos copiados'));
+
+  return (
+    <section className="panel">
+      <h2>7. Comunidade da igreja (servidor)</h2>
+      <p className="muted small">
+        Libera as abas <b>Mensagens</b>, <b>Relacionamentos</b> e o <b>Estúdio</b> dos pastores e líderes (séries, lançamentos, mural do mês, vídeos, podcasts e acompanhamento da leitura dos
+        membros). Só você, com a chave mestra, ativa igrejas.
+      </p>
+      <p className="small">
+        Situação:{' '}
+        {!slug ? '—' : status === null ? 'verificando…' : status.active ? <b className="ok">ativa · {status.members} membro(s)</b> : <b>ainda não ativada</b>}
+      </p>
+      <div className="form-grid">
+        <label>
+          <span>Chave mestra</span>
+          <input type="password" value={master} onChange={(e) => setMaster(e.target.value)} placeholder="BF-XXXX-XXXX-XXXX-XXXX" autoComplete="off" />
+        </label>
+      </div>
+      <label className="check small">
+        <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} />
+        <span>Lembrar a chave neste aparelho</span>
+      </label>
+      <div className="inline">
+        <button className="btn btn-primary sm" disabled={busy || !master.trim() || !slug} onClick={activate}>
+          <Icon name="key" size={16} /> {status?.active ? 'Gerar novos códigos' : 'Ativar comunidade'}
+        </button>
+      </div>
+      {codes && (
+        <div className="codes">
+          <button className="code-box" onClick={copyAll}>
+            <small>Pastor(a)</small>
+            <b>{fmt(codes.pastor_code)}</b>
+            <Icon name="copy" size={16} />
+          </button>
+          <button className="code-box" onClick={copyAll}>
+            <small>Líderes</small>
+            <b>{fmt(codes.leader_code)}</b>
+            <Icon name="copy" size={16} />
+          </button>
+          <p className="muted tiny">
+            Entregue ao pastor. Ele cria a conta no app (Relacionamentos), toca em ⚙️ e digita o código para virar pastor(a). Depois ele mesmo gerencia líderes e membros. Anote: os códigos não ficam
+            salvos aqui.
+          </p>
+        </div>
+      )}
+    </section>
   );
 }

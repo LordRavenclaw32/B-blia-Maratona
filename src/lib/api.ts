@@ -193,7 +193,8 @@ export function getChapter(version: VersionId, book: Book, chapter: number): Pro
     throw lastErr instanceof Error ? lastErr : new Error('Falha ao carregar o capítulo');
   })();
   inflight.set(key, p);
-  p.finally(() => inflight.delete(key));
+  const done = () => inflight.delete(key);
+  p.then(done, done);
   return p;
 }
 

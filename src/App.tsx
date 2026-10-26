@@ -7,6 +7,10 @@ import { CHURCH, IS_DEMO, SHOW_DEMO_BAR, needsAccess, nsKey } from './lib/church
 import { Church } from './pages/Church';
 import { ChurchSetup } from './pages/ChurchSetup';
 import { Pitch } from './pages/Pitch';
+import { Messages } from './pages/Messages';
+import { Community } from './pages/Community';
+import { Studio } from './pages/Studio';
+import { CommunityProvider } from './lib/community';
 import { Icon } from './components/Icon';
 import { TopPanelProvider, TopPanels } from './components/TopTools';
 import { MusicProvider } from './lib/music';
@@ -117,6 +121,15 @@ function Routes() {
     case 'igreja':
       page = CHURCH ? <Church /> : <Browse />;
       break;
+    case 'mensagens':
+      page = CHURCH ? <Messages path={rest} /> : <Browse />;
+      break;
+    case 'comunidade':
+      page = CHURCH ? <Community /> : <Browse />;
+      break;
+    case 'estudio':
+      page = CHURCH ? <Studio /> : <Browse />;
+      break;
     default:
       page = <Browse />;
   }
@@ -168,11 +181,13 @@ export default function App() {
       <CoversProvider>
       <UIProvider>
         <MusicProvider>
+          <CommunityProvider>
           <TopPanelProvider>
             {intro ? <Intro onDone={done} /> : locked ? <AccessGate onOk={() => setLocked(false)} /> : <Routes />}
             <TopPanels />
             {!intro && <DemoBar />}
           </TopPanelProvider>
+          </CommunityProvider>
         </MusicProvider>
       </UIProvider>
       </CoversProvider>
