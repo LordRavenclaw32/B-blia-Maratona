@@ -26,6 +26,7 @@ No celular, abra o link e use **Adicionar à tela inicial** para instalar como a
 - 🎵 **Louvor de fundo** na barra superior: cole um link do Spotify, YouTube ou YouTube Music (ou escolha uma playlist sugerida). A música continua tocando enquanto você navega e lê; o painel recolhe e fica só o controle ▶/⏸ na barra.
 - ⚙️ **Configurações rápidas**: tela cheia, volume do louvor, fazer/carregar backup, importar outra versão da Bíblia em JSON (66 livros) e sair da conta/app.
 - **Temporadas ilustradas**: cada coleção (Pentateuco, Históricos, Poéticos, Profetas, Evangelhos, Cartas…) tem um banner temático.
+- 🎨 **Capas personalizadas**: em cada série (botão *Personalizar capa*) e em cada episódio (ícone de imagem na miniatura), escolha uma arte da galeria bíblica do app ou envie a sua, com estilos *Bíblico, Cinema, Dourado, Noite e P&B*. A capa vale no app e nas imagens de compartilhamento, e entra no backup.
 - **Imagens locais**: todas as obras são baixadas para `public/art/c` pelo workflow, sem depender de links externos.
 
 ## Rodando

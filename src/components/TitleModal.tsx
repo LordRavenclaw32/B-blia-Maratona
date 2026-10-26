@@ -16,7 +16,7 @@ export function TitleModal({ book }: { book: Book }) {
   const versions = useVersions();
   const profile = useProfile();
   const { actions } = useStore();
-  const { openShare, openDevotional, toast } = useUI();
+  const { openShare, openDevotional, toast, openCover } = useUI();
   const [confirmReset, setConfirmReset] = useState(false);
   const close = () => setQuery('title', null);
   const p = bookPercent(profile, book);
@@ -54,6 +54,9 @@ export function TitleModal({ book }: { book: Book }) {
             <RatingButtons bookId={book.id} />
             <button className="round-btn" onClick={() => openShare({ kind: 'book', book, episode: started ? nextEp : undefined })} aria-label="Compartilhar progresso" title="Compartilhar">
               <Icon name="share" size={20} />
+            </button>
+            <button className="btn btn-gray sm cover-btn" onClick={() => openCover({ book })} title="Personalizar capa da série">
+              <Icon name="image" size={18} /> Personalizar capa
             </button>
           </div>
         </div>
@@ -134,6 +137,9 @@ export function TitleModal({ book }: { book: Book }) {
             })();
             return (
               <li key={e.n} className={`episode ${ep >= 1 ? 'done' : ''} ${nextEp.n === e.n && started ? 'current' : ''}`}>
+                <button className="ep-cover-btn" onClick={() => openCover({ book, ep: e.n })} aria-label={`Personalizar capa do episódio ${e.n}`} title="Personalizar capa do episódio">
+                  <Icon name="image" size={16} />
+                </button>
                 <button className="ep-btn" onClick={() => playBook(book, first)} aria-label={`Ler episódio ${e.n}: ${e.title}`}>
                   <span className="ep-n">{e.n}</span>
                   <span className="ep-thumb">

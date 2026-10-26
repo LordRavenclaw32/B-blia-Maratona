@@ -6,6 +6,7 @@ import { useStore } from '../lib/store';
 import { useVersions } from '../lib/useVersions';
 import { Icon } from './Icon';
 import { useUI } from './ui';
+import { restoreCoverImages, withCoverImages } from '../lib/covers';
 
 type Panel = 'music' | 'settings' | null;
 
@@ -164,8 +165,8 @@ function QuickSettings({ onClose }: { onClose: () => void }) {
     }
   };
 
-  const exportData = () => {
-    const blob = new Blob([actions.exportData()], { type: 'application/json' });
+  const exportData = async () => {
+    const blob = new Blob([await withCoverImages(actions.exportData())], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `bibliaflix-backup-${new Date().toISOString().slice(0, 10)}.json`;
@@ -176,7 +177,9 @@ function QuickSettings({ onClose }: { onClose: () => void }) {
 
   const importData = async (file: File) => {
     try {
-      const n = actions.importData(await file.text());
+      const text = await file.text();
+      await restoreCoverImages(text);
+      const n = actions.importData(text);
       toast(`Backup carregado (${n} perfil${n > 1 ? 's' : ''})`);
     } catch (e) {
       toast(`Backup inválido: ${(e as Error).message}`);

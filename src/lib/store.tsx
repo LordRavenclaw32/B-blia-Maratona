@@ -44,6 +44,16 @@ export interface Favorite {
   at: number;
 }
 
+/** Capa personalizada de uma série (chave = id do livro) ou episódio ("livro:n"). */
+export interface Cover {
+  /** caminho de uma arte do app (art/…) ou "idb:<id>" para imagem enviada pelo usuário */
+  src: string;
+  w: number;
+  h: number;
+  /** estilo visual aplicado (ver COVER_STYLES) */
+  style?: string;
+}
+
 export interface Profile {
   id: string;
   name: string;
@@ -56,6 +66,7 @@ export interface Profile {
   ratings: Record<string, Rating>;
   devotionals: Devotional[];
   favorites: Favorite[];
+  covers: Record<string, Cover>;
   /** yyyy-mm-dd → capítulos lidos no dia */
   activity: Record<string, number>;
 }
@@ -122,6 +133,7 @@ function normalizeProfile(p: Partial<Profile>): Profile {
     ratings: p.ratings ?? {},
     devotionals: p.devotionals ?? [],
     favorites: p.favorites ?? [],
+    covers: p.covers ?? {},
     activity: p.activity ?? {},
   };
 }
@@ -164,6 +176,7 @@ interface Actions {
   saveDevotional(d: Omit<Devotional, 'id' | 'createdAt' | 'updatedAt'> & { id?: string }): Devotional;
   deleteDevotional(id: string): void;
   toggleFavorite(f: Omit<Favorite, 'id' | 'at'>): boolean;
+  setCover(key: string, cover: Cover | null): void;
   updateSettings(patch: Partial<Settings>): void;
   exportData(): string;
   importData(json: string): number;
@@ -314,6 +327,14 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       },
       deleteDevotional(id) {
         mutateProfile((p) => ({ ...p, devotionals: p.devotionals.filter((d) => d.id !== id) }));
+      },
+      setCover(key, cover) {
+        mutateProfile((p) => {
+          const covers = { ...p.covers };
+          if (cover) covers[key] = cover;
+          else delete covers[key];
+          return { ...p, covers };
+        });
       },
       toggleFavorite(f) {
         const p = dbRef.current.profiles.find((x) => x.id === sessionId);

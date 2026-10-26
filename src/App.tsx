@@ -4,6 +4,7 @@ import { Navbar, TabBar } from './components/Navbar';
 import { BFMark } from './components/Brand';
 import { TopPanelProvider, TopPanels } from './components/TopTools';
 import { MusicProvider } from './lib/music';
+import { CoversProvider } from './lib/covers';
 import { APP_NAME, APP_TAGLINE } from './lib/brand';
 import { TitleModal } from './components/TitleModal';
 import { UIProvider } from './components/ui';
@@ -122,6 +123,7 @@ export default function App() {
   };
   return (
     <StoreProvider>
+      <CoversProvider>
       <UIProvider>
         <MusicProvider>
           <TopPanelProvider>
@@ -130,6 +132,7 @@ export default function App() {
           </TopPanelProvider>
         </MusicProvider>
       </UIProvider>
+      </CoversProvider>
     </StoreProvider>
   );
 }

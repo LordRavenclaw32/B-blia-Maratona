@@ -3,6 +3,8 @@ import type { Devotional } from '../lib/store';
 import type { ShareInput } from '../lib/share';
 import { ShareModal } from './ShareModal';
 import { DevotionalModal } from './DevotionalModal';
+import { CoverEditor } from './CoverEditor';
+import type { Book } from '../data/books';
 
 export interface DevotionalDraft {
   bookId?: string;
@@ -15,6 +17,7 @@ interface UI {
   toast(msg: string): void;
   openShare(input: Omit<ShareInput, 'profile' | 'format'>): void;
   openDevotional(d: DevotionalDraft): void;
+  openCover(c: { book: Book; ep?: number }): void;
 }
 
 const Ctx = createContext<UI | null>(null);
@@ -23,6 +26,7 @@ export function UIProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<{ id: number; msg: string }[]>([]);
   const [share, setShare] = useState<Omit<ShareInput, 'profile' | 'format'> | null>(null);
   const [dev, setDev] = useState<DevotionalDraft | null>(null);
+  const [cover, setCover] = useState<{ book: Book; ep?: number } | null>(null);
   const idRef = useRef(0);
 
   const toast = useCallback((msg: string) => {
@@ -31,13 +35,14 @@ export function UIProvider({ children }: { children: ReactNode }) {
     setTimeout(() => setToasts((t) => t.filter((x) => x.id !== id)), 2800);
   }, []);
 
-  const value = useMemo<UI>(() => ({ toast, openShare: setShare, openDevotional: setDev }), [toast]);
+  const value = useMemo<UI>(() => ({ toast, openShare: setShare, openDevotional: setDev, openCover: setCover }), [toast]);
 
   return (
     <Ctx.Provider value={value}>
       {children}
       {share && <ShareModal input={share} onClose={() => setShare(null)} />}
       {dev && <DevotionalModal draft={dev} onClose={() => setDev(null)} />}
+      {cover && <CoverEditor book={cover.book} ep={cover.ep} onClose={() => setCover(null)} />}
       <div className="toasts" role="status" aria-live="polite">
         {toasts.map((t) => (
           <div key={t.id} className="toast">

@@ -17,6 +17,8 @@ export interface ShareInput {
   episode?: Episode;
   devotional?: Devotional;
   verse?: { ref: string; text: string; version: string };
+  /** capa personalizada (URL + filtro CSS) */
+  cover?: { url: string; filter: string };
 }
 
 const RED = '#e50914';
@@ -219,8 +221,19 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
     ctx.fillStyle = 'rgba(0,0,0,.42)';
     ctx.fillRect(0, 0, W, H);
   } else if (book) {
-    const img = await loadArt(book, story ? 'poster' : 'backdrop', input.episode?.n ?? input.devotional?.episode);
+    let img: HTMLImageElement | null = null;
+    if (input.cover) {
+      try {
+        img = await loadImage(/^https?:|^data:/.test(input.cover.url) ? input.cover.url : assetUrl(input.cover.url));
+      } catch {
+        img = null;
+      }
+    }
+    img ??= await loadArt(book, story ? 'poster' : 'backdrop', input.episode?.n ?? input.devotional?.episode);
+    ctx.save();
+    if (input.cover && input.cover.filter !== 'none') ctx.filter = input.cover.filter;
     cover(ctx, img, 0, 0, W, story ? H * 0.72 : H);
+    ctx.restore();
   }
 
   const grad = ctx.createLinearGradient(0, 0, 0, H);

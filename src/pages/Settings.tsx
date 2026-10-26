@@ -7,6 +7,7 @@ import { useProfile, useStore, type ReaderTheme } from '../lib/store';
 import { Icon } from '../components/Icon';
 import { useUI } from '../components/ui';
 import { useVersions } from '../lib/useVersions';
+import { restoreCoverImages, withCoverImages } from '../lib/covers';
 
 export function Settings() {
   const versions = useVersions();
@@ -27,8 +28,8 @@ export function Settings() {
     idbCount().then(setCached);
   }, []);
 
-  const exportData = () => {
-    const blob = new Blob([actions.exportData()], { type: 'application/json' });
+  const exportData = async () => {
+    const blob = new Blob([await withCoverImages(actions.exportData())], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = `bibliaflix-${profile.name.toLowerCase().replace(/\s+/g, '-')}.json`;
@@ -39,7 +40,9 @@ export function Settings() {
 
   const importData = async (file: File) => {
     try {
-      const n = actions.importData(await file.text());
+      const text = await file.text();
+      await restoreCoverImages(text);
+      const n = actions.importData(text);
       toast(`${n} perfil(is) importado(s)`);
     } catch (e) {
       toast(`Arquivo inválido: ${(e as Error).message}`);
