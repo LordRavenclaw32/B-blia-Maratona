@@ -791,3 +791,16 @@ img[src^='art/'] { object-position: center 28%; }
 @media (max-width: 800px) {
   .bd.portrait .bd-sharp { inset: 0; width: 100%; max-width: none; height: 100%; -webkit-mask-image: none; mask-image: none; }
 }
+
+.page-banner {
+  margin: -100px calc(-1 * var(--gutter)) 1.6rem; padding: 150px var(--gutter) 2.2rem; min-height: 320px; align-items: flex-end;
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.25) 0%, rgba(20, 20, 20, 0.55) 55%, var(--bg) 100%), linear-gradient(90deg, rgba(20, 20, 20, 0.75), transparent 70%), var(--bg-img) center 45% / cover no-repeat;
+}
+.page-banner .page-title { text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7); }
+.page-banner .muted { color: #e2e2e2; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8); }
+@media (max-width: 900px) { .page-banner { margin-top: -80px; padding-top: 120px; min-height: 260px; } }
+.dev-banner { margin: -2rem -2.2rem 1.2rem; height: 190px; border-radius: 8px 8px 0 0; background-size: cover; background-position: center 30%; position: relative; }
+.dev-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 35%, var(--bg-2) 100%); border-radius: inherit; }
+@media (max-width: 600px) { .dev-banner { margin: -3.6rem -1.1rem 1rem; border-radius: 0; } }
+.diary .page-banner { background-position: center, center, center 80%; }
+.dev-banner { background-position: center 78%; }

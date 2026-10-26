@@ -38,7 +38,7 @@ export const BOOK_ART: Record<string, string[]> = {
   ob: ['Prophet Obadiah painting', 'Obadiah icon'],
   jn: ['Michelangelo prophet Jonah Sistine Chapel', 'Jonah and the whale painting'],
   mq: ['Prophet Micah painting', 'Micah icon prophet'],
-  na: ['John Martin The Fall of Nineveh 1829', 'Prophet Nahum painting'],
+  na: ['Tissot Drawing Nahum', 'John Martin Fall of Nineveh', 'Prophet Nahum icon'],
   hc: ['Prophet Habakkuk painting', 'Habakkuk Bernini'],
   sf: ['Prophet Zephaniah painting', 'Zephaniah icon'],
   ag: ['Prophet Haggai painting', 'Haggai Tissot'],
@@ -403,7 +403,7 @@ export const EPISODE_ART: Record<string, string[][]> = {
   ],
   na: [
     ['Prophet Nahum painting', 'Nahum prophet icon'],
-    ['John Martin Fall of Nineveh', 'Nahum prophet icon Russian'],
+    ['Fall of Nineveh painting', 'Nineveh destruction Assyria', 'Nahum prophet icon Russian'],
   ],
   hc: [
     ['Prophet Habakkuk painting', 'Habakkuk Donatello'],

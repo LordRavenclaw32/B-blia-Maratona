@@ -51,6 +51,13 @@ export const CUSTOM_ART: Record<string, CustomArt> = {
   '1sm:6': { file: '1sm-e6-davi-golias', w: 735, h: 919, name: 'Davi e Golias' },
   '1jo:1': { file: '1jo-e1-advogado', w: 736, h: 736, name: 'Temos um Advogado' },
   '1ts:2': { file: '1ts-e2-volta-senhor', w: 720, h: 1080, name: 'A volta do Senhor' },
+  'ap:2': { file: 'ap-e2-leao-juda', w: 736, h: 1104, name: 'O Leão de Judá' },
+  'gn:13': { file: 'gn-e13-jose-poco', w: 736, h: 1104, name: 'José lançado na cisterna' },
+  'ex:5': { file: 'ex-e5-cordeiro-pascoa', w: 736, h: 1104, name: 'O cordeiro da Páscoa' },
+  'ed': { file: 'ed-rolo-lei', w: 736, h: 1104, name: 'O rolo da Lei' },
+  'jr:11': { file: 'jr-e11-rolo-queimado', w: 736, h: 1104, name: 'O rolo queimado' },
+  'js:5': { file: 'js-e5-batalha', w: 736, h: 1307, name: 'A batalha de Gibeom' },
+  'lc:1': { file: 'lc-e1-nascimento', w: 736, h: 1308, name: 'O nascimento em Belém' },
 };
 
 /** Fundo da tela de perfis. */
@@ -58,3 +65,9 @@ export const PROFILE_BACKGROUND = 'art/bg-biblia-maos.webp';
 
 /** Fundo da tela de boas-vindas (primeiro acesso). */
 export const WELCOME_BACKGROUND = 'art/bg-maratona-telas.webp';
+
+/** Fundo das devocionais (diário, editor e imagem de compartilhamento). */
+export const DEVOTIONAL_BACKGROUND = 'art/bg-devocional.webp';
+
+/** Fundo da página Minha maratona. */
+export const STATS_BACKGROUND = 'art/bg-livro-luz.webp';

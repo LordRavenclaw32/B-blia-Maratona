@@ -5,6 +5,8 @@ import { navigate } from '../lib/router';
 import { useProfile, useStore } from '../lib/store';
 import { VERSIONS } from '../lib/api';
 import { Icon } from '../components/Icon';
+import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
+import { assetUrl } from '../lib/paintings';
 import { StarRating } from '../components/DevotionalModal';
 import { useUI } from '../components/ui';
 
@@ -29,7 +31,7 @@ export function Diary() {
 
   return (
     <main className="page diary">
-      <div className="page-head">
+      <div className="page-head page-banner" style={{ ['--bg-img' as string]: `url(${assetUrl(DEVOTIONAL_BACKGROUND)})` }}>
         <div>
           <h1 className="page-title">Meu diário de maratona</h1>
           <p className="muted">

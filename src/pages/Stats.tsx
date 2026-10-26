@@ -5,6 +5,8 @@ import { badges, bookPercent, completedBooks, formatMinutes, minutesRead, overal
 import { today, useProfile } from '../lib/store';
 import { openTitle } from '../components/Card';
 import { Icon } from '../components/Icon';
+import { STATS_BACKGROUND } from '../data/customArt';
+import { assetUrl } from '../lib/paintings';
 import { useUI } from '../components/ui';
 
 function Ring({ value, size = 180, stroke = 14, label, sub }: { value: number; size?: number; stroke?: number; label: string; sub: string }) {
@@ -70,7 +72,7 @@ export function Stats() {
 
   return (
     <main className="page stats">
-      <div className="page-head">
+      <div className="page-head page-banner" style={{ ['--bg-img' as string]: `url(${assetUrl(STATS_BACKGROUND)})` }}>
         <div className="stats-who">
           <img src={avatarUrl(profile.avatar)} alt="" />
           <div>

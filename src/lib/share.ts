@@ -1,7 +1,8 @@
 import { BOOKS, TOTAL_CHAPTERS, type Book, type Episode } from '../data/books';
 import { artUrl, avatarUrl } from './art';
 import { APP_TAGLINE, bfMarkUrl } from './brand';
-import { imageUrl } from './paintings';
+import { assetUrl, imageUrl } from './paintings';
+import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
 import type { Devotional, Profile } from './store';
 import { bookPercent, completedBooks, overallPercent, pct, streak, totalRead } from './stats';
 
@@ -209,6 +210,11 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
       }
     }
     ctx.globalAlpha = 1;
+  } else if (input.kind === 'devotional') {
+    const img = await loadImage(assetUrl(DEVOTIONAL_BACKGROUND));
+    cover(ctx, img, 0, 0, W, H);
+    ctx.fillStyle = 'rgba(0,0,0,.42)';
+    ctx.fillRect(0, 0, W, H);
   } else if (book) {
     const img = await loadArt(book, story ? 'poster' : 'backdrop', input.episode?.n ?? input.devotional?.episode);
     cover(ctx, img, 0, 0, W, story ? H * 0.72 : H);

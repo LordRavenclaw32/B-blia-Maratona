@@ -68,6 +68,11 @@ export function fallbackUrl(book: Book, kind: Kind, ep?: number): string {
   return artUrl(book, kind, ep);
 }
 
+/** Resolve caminhos de public/ em URLs absolutas (CSS e canvas). */
+export function assetUrl(path: string): string {
+  return new URL(path, document.baseURI).href;
+}
+
 export function credit(p: Painting | undefined): string {
   if (!p) return '';
   const name = p.n.replace(/\s*\(\s*\)\s*$/, '');

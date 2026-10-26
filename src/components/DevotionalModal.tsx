@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { BOOKS, getBook } from '../data/books';
 import { useStore } from '../lib/store';
 import { Icon } from './Icon';
+import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
+import { assetUrl } from '../lib/paintings';
 import { Modal, useUI, type DevotionalDraft } from './ui';
 
 export const MOODS = ['Grato', 'Edificado', 'Consolado', 'Confrontado', 'Inspirado', 'Reflexivo', 'Desafiado', 'Em paz', 'Esperançoso', 'Arrependido'];
@@ -77,6 +79,7 @@ export function DevotionalModal({ draft, onClose }: { draft: DevotionalDraft; on
       <button className="modal-close" onClick={onClose} aria-label="Fechar">
         <Icon name="close" />
       </button>
+      <div className="dev-banner" style={{ backgroundImage: `url(${assetUrl(DEVOTIONAL_BACKGROUND)})` }} aria-hidden="true" />
       <h2 className="dev-head">
         <Icon name="pen" /> {ex ? 'Editar devocional' : 'Avalie sua maratona'}
       </h2>
