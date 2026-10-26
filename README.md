@@ -16,8 +16,8 @@
 
 ## Testar agora
 
-- **Link de teste (direto do repositório):** https://raw.githack.com/LordRavenclaw32/B-blia-Maratona/gh-pages/index.html
-- **Link oficial (GitHub Pages):** https://lordravenclaw32.github.io/B-blia-Maratona/ — se ainda não abrir, ative uma vez em *Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `gh-pages` / root*.
+- **Link de teste (direto do repositório):** https://raw.githack.com/LordRavenclaw32/BibliaFlix-Maratona/gh-pages/index.html
+- **Link oficial (GitHub Pages):** https://lordravenclaw32.github.io/BibliaFlix-Maratona/ — se ainda não abrir, ative uma vez em *Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `gh-pages` / root*.
 
 No celular, abra o link e use **Adicionar à tela inicial** para instalar como app (PWA).
 
@@ -50,8 +50,8 @@ Sem token, a API limita as requisições por hora. Cadastre-se no site da ABíbl
 O workflow `.github/workflows/deploy.yml` gera o build e publica no branch `gh-pages` a cada push (e após cada atualização das artes). Para instalar localmente:
 
 ```bash
-git clone https://github.com/LordRavenclaw32/B-blia-Maratona.git
-cd B-blia-Maratona
+git clone https://github.com/LordRavenclaw32/BibliaFlix-Maratona.git
+cd BibliaFlix-Maratona
 npm install
 npm run dev
 ```
