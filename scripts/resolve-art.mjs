@@ -13,7 +13,7 @@ const previous = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8'
 const API = 'https://commons.wikimedia.org/w/api.php';
 const UA = 'BibliaFlixArtResolver/1.0 (https://github.com/LordRavenclaw32/B-blia-Maratona)';
 const OK_MIME = /^image\/(jpeg|png|tiff|webp)$/;
-const BAD_TITLE = /geograph|stained glass|railway|station|baptist church|cylinder|statue|sculpture|relief|stamp|coin|\bmap\b|logo|diagram|\.pdf|\.djvu|\.svg|DSC_?\d|IMG_\d|photograph|church of|cathedral|basilica|tomb of|grave/i;
+const BAD_TITLE = /Tissot Drawing|Brunoff|geograph|stained glass|railway|station|baptist church|cylinder|statue|sculpture|relief|stamp|coin|\bmap\b|logo|diagram|\.pdf|\.djvu|\.svg|DSC_?\d|IMG_\d|photograph|church of|cathedral|basilica|tomb of|grave/i;
 const BIBLE = /bible|biblical|testament|prophet|christ|jesus|apostle|saint|gospel|tissot|dor[ée]|psalm|psalter|religious|christian|evangelist|moses|abraham|isaac|jacob|joseph|david|solomon|samson|elijah|elisha|daniel|jonah|isaiah|jeremiah|ezekiel|madonna|angel|scripture|israelite|hebrew|jewish|judaism|eden|paradise|apocalypse|revelation|nativity|crucifixion|resurrection|last supper|last judg|annunciation|magi|lazarus|pentecost|noah|deluge|babel|exodus|pharaoh|sinai|jericho|ruth|esther|job|habakkuk|zechariah|amos|hosea|micah|nahum|joel|malachi|haggai|obadiah|zephaniah|nehemiah|ezra|lamentations|song of songs|song of solomon|sistine|icons of|vanitas|nineveh|assyria/i;
 const ART = /paint|drawing|illustrat|icon|fresco|engrav|mosaic|miniature|manuscript|art project|tissot|dor[eé]|watercolou?r|etching|woodcut|lithograph|canvas|oil on|panel|altarpiece|museum|gallery|illumin|plate|blake|rembrandt|caravaggio|rubens|michelangelo|sistine|codex|bible/i;
 const NOT_ART = /photographs? of|concert|statue|sculpture|medal|coin|relief|stained glass|buildings|townscape|cityscape photo|streets|landscapes of|church buildings|exteriors/i;
@@ -194,7 +194,7 @@ for (const [id, queries0] of Object.entries(BOOK_ART)) {
   const queries = [...queries0, ...generic];
   const used = new Set();
   let book = await resolve(queries0, usedBooks);
-  book ??= await resolve(queries, new Set());
+  book ??= await resolve(queries, usedBooks);
   if (book) {
     used.add(book.f);
     used.add(workKey(book));
