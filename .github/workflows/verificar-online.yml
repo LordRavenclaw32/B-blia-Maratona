@@ -1,0 +1,23 @@
+name: Verificar app publicado
+
+on:
+  workflow_run:
+    workflows: ['Publicar BíbliaFlix (GitHub Pages)']
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install --no-save playwright@1.48.2 && npx playwright install --with-deps chromium
+      - name: Aguarda o GitHub Pages atualizar
+        run: sleep 90
+      - run: node scripts/smoke-online.mjs
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/

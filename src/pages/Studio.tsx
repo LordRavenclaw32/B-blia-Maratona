@@ -3,7 +3,7 @@ import { CommunityGate } from '../components/CommunityGate';
 import { Icon } from '../components/Icon';
 import { MediaPlayer, RichText } from '../components/RichText';
 import { Modal, useUI } from '../components/ui';
-import { CHURCH } from '../lib/church';
+import { COMMUNITY_NAME } from '../lib/church';
 import { MONTHS, monthKey, monthLabel, ROLE_LABEL, seasonsOf, useCommunity, type Content, type Series } from '../lib/community';
 import { fetchMediaInfo, MEDIA_LABEL, parseMedia } from '../lib/media';
 import { findRefs } from '../lib/refs';
@@ -599,7 +599,7 @@ export function Studio() {
     <main className="page studio">
       <div className="page-head">
         <div>
-          <span className="kick">{ROLE_LABEL[c.member!.role]} · {CHURCH?.nome}</span>
+          <span className="kick">{ROLE_LABEL[c.member!.role]} · {COMMUNITY_NAME}</span>
           <h1 className="page-title">Estúdio</h1>
           <p className="muted">Crie séries e lançamentos, monte o mural do mês, publique mensagens e importe vídeos e podcasts.</p>
         </div>

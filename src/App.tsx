@@ -122,13 +122,13 @@ function Routes() {
       page = CHURCH ? <Church /> : <Browse />;
       break;
     case 'mensagens':
-      page = CHURCH ? <Messages path={rest} /> : <Browse />;
+      page = <Messages path={rest} />;
       break;
     case 'comunidade':
-      page = CHURCH ? <Community path={rest} /> : <Browse />;
+      page = <Community path={rest} />;
       break;
     case 'estudio':
-      page = CHURCH ? <Studio /> : <Browse />;
+      page = <Studio />;
       break;
     default:
       page = <Browse />;

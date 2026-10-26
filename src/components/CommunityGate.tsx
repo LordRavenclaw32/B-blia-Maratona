@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CHURCH } from '../lib/church';
+import { COMMUNITY_NAME } from '../lib/church';
 import { useCommunity } from '../lib/community';
 import { useProfile } from '../lib/store';
 import { BrandMark } from './Brand';
@@ -41,7 +41,7 @@ export function CommunityGate({ title, text }: { title: string; text: string }) 
         <p className="muted">{text}</p>
         <ul>
           <li>
-            <Icon name="play" size={18} /> Mensagens, séries, vídeos e podcasts da {CHURCH?.nome}
+            <Icon name="play" size={18} /> Mensagens, séries, vídeos e podcasts · {COMMUNITY_NAME}
           </li>
           <li>
             <Icon name="user" size={18} /> Acompanhe a leitura dos irmãos e incentive com um “Amém”

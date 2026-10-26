@@ -1,0 +1,104 @@
+// Teste do app publicado (GitHub Pages + servidor real): modo normal, apresentação e app da igreja de demonstração.
+// Cria contas temporárias na comunidade e as exclui no final.
+import { chromium } from 'playwright';
+
+const BASE = (process.env.SITE_URL || 'https://lordravenclaw32.github.io/BibliaFlix-Maratona/').replace(/\/?$/, '/');
+const RUN = Date.now().toString(36);
+let fails = 0;
+const ok = (c, m) => {
+  console.log(`${c ? 'PASS' : 'FAIL'} ${m}`);
+  if (!c) fails++;
+};
+
+async function enter(page, url, name) {
+  await page.goto(url, { waitUntil: 'networkidle' });
+  const intro = page.locator('.intro');
+  if (await intro.count()) await intro.click();
+  await page.waitForSelector('input[aria-label="Nome"]');
+  await page.fill('input[aria-label="Nome"]', name);
+  await page.click('button:has-text("Continuar")');
+  await page.waitForSelector('.rows');
+}
+
+async function join(page, login) {
+  await page.waitForSelector('.gate-form');
+  await page.fill('.gate-form input[placeholder="(11) 98765-4321"]', login);
+  await page.fill('.gate-form input[type="password"]', String(Math.floor(100000 + Math.random() * 899999)));
+  await page.check('.gate-form input[type="checkbox"]');
+  await page.click('.gate-form button:has-text("Entrar na comunidade")');
+}
+
+async function leave(page) {
+  await page.goto(page.url().split('#')[0] + '#/comunidade');
+  await page.click('button[aria-label="Meu perfil na comunidade"]');
+  await page.click('button:has-text("Excluir conta")');
+  await page.waitForSelector('.gate-form');
+}
+
+const browser = await chromium.launch();
+const errors = [];
+const open = async (viewport) => {
+  const ctx = await browser.newContext({ viewport });
+  const page = await ctx.newPage();
+  page.on('pageerror', (e) => errors.push(e.message));
+  page.on('dialog', (d) => d.accept());
+  return page;
+};
+
+const n = await open({ width: 1366, height: 860 });
+const c = await open({ width: 390, height: 844 });
+try {
+  // 1. modo normal (BíbliaFlix) com a Comunidade BíbliaFlix
+  await enter(n, BASE + '?igreja=bibliaflix', 'Visitante');
+  ok((await n.title()) === 'BíbliaFlix', 'modo normal abre (BíbliaFlix)');
+  ok((await n.locator('.row').count()) > 8, 'início com as séries da Bíblia');
+  await n.goto(BASE + '?igreja=bibliaflix#/mensagens');
+  await join(n, `teste-${RUN}@verificacao`);
+  await n.waitForSelector('.c-row, .c-hero', { timeout: 20000 });
+  ok((await n.locator('text=Comece por aqui').count()) > 0, 'modo social no app normal: mensagens do servidor');
+  await n.goto(BASE + '?igreja=bibliaflix#/comunidade');
+  await n.waitForSelector('.feed-item', { timeout: 20000 });
+  ok(true, 'relacionamentos (feed) no app normal');
+  await n.click('.community-tabs button:has-text("Conversas")');
+  await n.waitForSelector('.conv-list .conv-new');
+  ok(true, 'conversas no app normal');
+  await leave(n);
+  ok(true, 'conta temporária excluída (app normal)');
+
+  // 2. apresentação comercial
+  const p = await open({ width: 1366, height: 860 });
+  await p.goto(BASE + '#/apresentacao', { waitUntil: 'networkidle' });
+  await p.waitForSelector('.pitch');
+  ok((await p.locator('.package').count()) === 2, 'apresentação comercial com os 2 pacotes');
+
+  // 3. app da igreja de demonstração (modo teste) com modo social
+  await c.goto(BASE + 'igreja/exemplo/');
+  await c.waitForURL(/igreja=exemplo/);
+  await enter(c, c.url(), 'Teste');
+  ok((await c.title()) === 'Graça Play', 'app da igreja abre (Graça Play)');
+  await c.goto(BASE + '?igreja=exemplo#/mensagens');
+  await join(c, `teste-${RUN}@verificacao`);
+  await c.waitForSelector('.c-hero', { timeout: 20000 });
+  ok((await c.locator('text=Raízes da Fé').count()) > 0, 'igreja: lançamento “Raízes da Fé”');
+  ok((await c.locator('.mural .mural-item').count()) >= 1, 'igreja: mural do mês');
+  await c.goto(BASE + '?igreja=exemplo#/comunidade');
+  await c.waitForSelector('.feed-item', { timeout: 20000 });
+  ok((await c.locator('.feed-item').count()) >= 5, 'igreja: feed de atividades dos irmãos');
+  await c.click('.community-tabs button:has-text("Irmãos")');
+  await c.waitForSelector('a.brother');
+  await c.click('a.brother:has-text("Ana Paula")');
+  await c.waitForSelector('.member-profile .heatmap', { timeout: 20000 });
+  ok(true, 'igreja: perfil do irmão com rotina de leitura');
+  await c.goto(BASE + '?igreja=exemplo#/comunidade?aba=conversas');
+  await c.waitForSelector('.conv-list .conv-new');
+  ok(true, 'igreja: conversas');
+  await leave(c);
+  ok(true, 'conta temporária excluída (igreja)');
+} catch (e) {
+  console.log('FAIL erro: ' + e.message.split('\n')[0]);
+  fails++;
+}
+ok(errors.length === 0, 'sem erros de JavaScript ' + JSON.stringify(errors.slice(0, 3)));
+await browser.close();
+console.log(fails ? `${fails} FALHA(S)` : 'TUDO OK');
+process.exit(fails ? 1 : 0);

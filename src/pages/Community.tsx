@@ -4,7 +4,7 @@ import { Icon } from '../components/Icon';
 import { useUI } from '../components/ui';
 import { avatarUrl } from '../lib/art';
 import { APP_NAME } from '../lib/brand';
-import { CHURCH, whatsappLink } from '../lib/church';
+import { CHURCH, COMMUNITY_NAME, whatsappLink } from '../lib/church';
 import { relTime, ROLE_LABEL, useCommunity, type CommunityMember, type FeedItem, type Role } from '../lib/community';
 import { useRoute, setQuery } from '../lib/router';
 import { Chat, ConversationList } from './Conversations';
@@ -495,7 +495,7 @@ export function Community({ path = [] }: { path?: string[] }) {
   if (!c.session)
     return (
       <main className="page community">
-        <CommunityGate title="Relacionamentos" text={`Leia junto com os irmãos da ${CHURCH?.nome}: veja quem está lendo, incentive com um “Amém” e cresça em comunidade.`} />
+        <CommunityGate title="Relacionamentos" text={`Leia junto com os irmãos · ${COMMUNITY_NAME}: veja quem está lendo, incentive com um “Amém” e cresça em comunidade.`} />
       </main>
     );
   if (path[0] === 'membro' && path[1])
@@ -524,7 +524,7 @@ export function Community({ path = [] }: { path?: string[] }) {
       <div className="page-head">
         <div>
           <h1 className="page-title">Relacionamentos</h1>
-          <p className="muted">{c.member?.church_name ?? CHURCH?.nome}</p>
+          <p className="muted">{c.member?.church_name ?? COMMUNITY_NAME}</p>
         </div>
         {c.isLeader && (
           <a className="btn btn-primary sm" href="#/estudio">

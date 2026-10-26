@@ -85,6 +85,8 @@ function detect(): ChurchConfig | null {
 
 export const CHURCH: ChurchConfig | null = detect();
 export const IS_DEMO = CHURCH?.slug === DEMO_SLUG;
+/** Nome da comunidade social: a igreja licenciada ou a comunidade geral do BíbliaFlix. */
+export const COMMUNITY_NAME = CHURCH?.nome ?? 'Comunidade BíbliaFlix';
 
 /** Faixa de "modo demonstração" (configurador ou ?demo=1 vindo da apresentação). */
 export const SHOW_DEMO_BAR = (() => {

@@ -11,21 +11,19 @@ import { useCommunity } from '../lib/community';
 
 export { Logo };
 
-const LINKS = CHURCH
-  ? [
-      { to: '/browse', label: 'Início', key: 'browse' },
-      { to: '/mensagens', label: 'Mensagens', key: 'mensagens' },
-      { to: '/comunidade', label: 'Relacionamentos', key: 'comunidade' },
-      { to: '/igreja', label: 'Minha igreja', key: 'igreja' },
-    ]
-  : [
-      { to: '/browse', label: 'Início', key: 'browse' },
-      { to: '/series/at', label: 'Antigo Testamento', key: 'series/at' },
-      { to: '/series/nt', label: 'Novo Testamento', key: 'series/nt' },
-    ];
+const LINKS = [
+  { to: '/browse', label: 'Início', key: 'browse' },
+  { to: '/mensagens', label: 'Mensagens', key: 'mensagens' },
+  { to: '/comunidade', label: 'Relacionamentos', key: 'comunidade' },
+  ...(CHURCH
+    ? [{ to: '/igreja', label: 'Minha igreja', key: 'igreja' }]
+    : [
+        { to: '/series/at', label: 'Antigo Testamento', key: 'series/at' },
+        { to: '/series/nt', label: 'Novo Testamento', key: 'series/nt' },
+      ]),
+];
 const MORE_LINKS = [
-  ...(CHURCH ? [] : [{ to: '/list', label: 'Minha lista', key: 'list' }]),
-  { to: '/diary', label: 'Diário', key: 'diary' },
+  ...(CHURCH ? [{ to: '/diary', label: 'Diário', key: 'diary' }] : []),
   { to: '/stats', label: 'Minha maratona', key: 'stats' },
 ];
 
@@ -129,8 +127,7 @@ export function Navbar() {
               <a className="dd-item" href="#/stats" onClick={() => setMenu(false)}>
                 <Icon name="chart" size={18} /> Minha maratona
               </a>
-              {CHURCH && (
-                <>
+              <>
                   <a className="dd-item" href="#/search" onClick={() => setMenu(false)}>
                     <Icon name="search" size={18} /> Buscar
                   </a>
@@ -141,7 +138,6 @@ export function Navbar() {
                     <Icon name="pen" size={18} /> Diário
                   </a>
                 </>
-              )}
               <hr />
               <button
                 className="dd-item center"
@@ -167,21 +163,13 @@ export function TabBar() {
   const cur = route.path[0] ?? 'browse';
   const home = { to: '/browse', icon: 'home', label: 'Início', on: cur === 'browse' || cur === 'series' };
   const progress = { to: '/stats', icon: 'chart', label: 'Progresso', on: cur === 'stats' || cur === 'settings' || cur === 'diary' || cur === 'list' };
-  const items = CHURCH
-    ? [
-        home,
-        { to: '/mensagens', icon: 'play', label: 'Mensagens', on: cur === 'mensagens' },
-        { to: '/comunidade', icon: 'user', label: 'Irmãos', on: cur === 'comunidade' || cur === 'estudio' },
-        { to: '/igreja', icon: 'church', label: 'Igreja', on: cur === 'igreja' },
-        progress,
-      ]
-    : [
-        home,
-        { to: '/search', icon: 'search', label: 'Buscar', on: cur === 'search' },
-        { to: '/list', icon: 'list', label: 'Minha lista', on: cur === 'list' },
-        { to: '/diary', icon: 'pen', label: 'Diário', on: cur === 'diary' },
-        { ...progress, on: cur === 'stats' || cur === 'settings' },
-      ];
+  const items = [
+    home,
+    { to: '/mensagens', icon: 'play', label: 'Mensagens', on: cur === 'mensagens' },
+    { to: '/comunidade', icon: 'user', label: 'Irmãos', on: cur === 'comunidade' || cur === 'estudio' },
+    CHURCH ? { to: '/igreja', icon: 'church', label: 'Igreja', on: cur === 'igreja' } : { to: '/search', icon: 'search', label: 'Buscar', on: cur === 'search' },
+    progress,
+  ];
   return (
     <nav className="tabbar" aria-label="Navegação inferior">
       {items.map((i) => (

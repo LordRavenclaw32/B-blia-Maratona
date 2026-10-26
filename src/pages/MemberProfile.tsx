@@ -5,7 +5,7 @@ import { Art } from '../components/Art';
 import { getBook } from '../data/books';
 import { avatarUrl } from '../lib/art';
 import { APP_NAME } from '../lib/brand';
-import { CHURCH, whatsappLink } from '../lib/church';
+import { CHURCH, COMMUNITY_NAME, whatsappLink } from '../lib/church';
 import { relTime, ROLE_LABEL, useCommunity, type MemberProfile as Profile } from '../lib/community';
 import { navigate } from '../lib/router';
 import { describe, RoleBadge } from './Community';
@@ -83,7 +83,7 @@ export function MemberProfile({ id }: { id: string }) {
               </button>
             )}
             {!me && c.isLeader && phone.length >= 10 && (
-              <a className="btn btn-whats sm" href={whatsappLink(phone, `Olá, ${m.name}! Aqui é da ${CHURCH?.nome}, pelo ${APP_NAME}.`)} target="_blank" rel="noreferrer">
+              <a className="btn btn-whats sm" href={whatsappLink(phone, `Olá, ${m.name}! Aqui é da ${COMMUNITY_NAME}, pelo ${APP_NAME}.`)} target="_blank" rel="noreferrer">
                 <Icon name="whatsapp" size={18} /> WhatsApp
               </a>
             )}

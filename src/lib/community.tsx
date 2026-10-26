@@ -177,7 +177,8 @@ interface CommunityValue {
 }
 
 const Ctx = createContext<CommunityValue | null>(null);
-const SLUG = CHURCH ? CHURCH.slugReal ?? CHURCH.slug : '';
+// sem igreja, o app normal usa a comunidade geral do BíbliaFlix
+const SLUG = CHURCH ? CHURCH.slugReal ?? CHURCH.slug : 'bibliaflix';
 const LS_SESSION = nsKey('mb:comunidade');
 const LS_CATALOG = nsKey('mb:catalogo');
 const LS_SNAP = nsKey('mb:sync');
@@ -273,8 +274,8 @@ function eventsSince(prev: Snapshot, p: Profile) {
 
 export function CommunityProvider({ children }: { children: ReactNode }) {
   const { profile } = useStore();
-  const [session, setSession] = useState<Session | null>(() => (CHURCH ? lsGet<Session>(LS_SESSION) : null));
-  const [catalog, setCatalog] = useState<Catalog | null>(() => (CHURCH ? lsGet<Catalog>(LS_CATALOG) : null));
+  const [session, setSession] = useState<Session | null>(() => lsGet<Session>(LS_SESSION));
+  const [catalog, setCatalog] = useState<Catalog | null>(() => lsGet<Catalog>(LS_CATALOG));
   const [catalogError, setCatalogError] = useState<string | null>(null);
   const [unread, setUnread] = useState(0);
   const sessionRef = useRef(session);
@@ -393,7 +394,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CommunityValue>(() => {
     const member = session?.member ?? null;
     return {
-      enabled: !!CHURCH,
+      enabled: true,
       slug: SLUG,
       session,
       member,

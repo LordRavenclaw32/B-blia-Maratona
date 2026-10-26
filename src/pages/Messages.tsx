@@ -5,7 +5,7 @@ import { Countdown, downloadIcs, MediaPlayer, RichText, refLink } from '../compo
 import { useUI } from '../components/ui';
 import { WELCOME_BACKGROUND } from '../data/customArt';
 import { APP_NAME } from '../lib/brand';
-import { CHURCH, churchLink } from '../lib/church';
+import { COMMUNITY_NAME, churchLink } from '../lib/church';
 import { isLaunched, monthKey, monthLabel, seasonsOf, useCommunity, type Content, type Series } from '../lib/community';
 import { parseMedia } from '../lib/media';
 import { assetUrl } from '../lib/paintings';
@@ -314,7 +314,7 @@ function ItemPage({ id }: { id: string }) {
 
   const share = async () => {
     const url = `${churchLink()}#/mensagens/item/${item.id}`;
-    const text = `${item.title}${item.author ? ` — ${item.author}` : ''} · ${CHURCH?.nome}`;
+    const text = `${item.title}${item.author ? ` — ${item.author}` : ''} · ${COMMUNITY_NAME}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: item.title, text, url });
@@ -430,7 +430,7 @@ export function Messages({ path }: { path: string[] }) {
   if (!c.session)
     return (
       <main className="page messages">
-        <CommunityGate title={`Mensagens da ${CHURCH?.nome}`} text="Entre na comunidade da igreja para assistir às séries, mensagens, vídeos e podcasts dos pastores e líderes." />
+        <CommunityGate title={`Mensagens · ${COMMUNITY_NAME}`} text="Entre na comunidade para assistir às séries, mensagens, vídeos e podcasts dos pastores e líderes." />
       </main>
     );
   if (!c.catalog)
@@ -485,7 +485,7 @@ export function ChurchContentRow() {
     <section className="c-row home">
       <h2>
         <a href="#/mensagens">
-          Da {CHURCH?.nome} <Icon name="chevronRight" size={18} />
+          {COMMUNITY_NAME} <Icon name="chevronRight" size={18} />
         </a>
       </h2>
       <div className="c-scroll">

@@ -64,7 +64,7 @@ export function Browse({ testament }: { testament?: Testament }) {
             )}
           </div>
         )}
-        {CHURCH && !testament && <ChurchContentRow />}
+        {!testament && <ChurchContentRow />}
         <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
         {planList.length > 0 && <Row title={`Plano da igreja · ${CHURCH!.plano!.titulo}`} books={planList} variant="poster" />}
         <Row title="Minha lista" books={list} />
