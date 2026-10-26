@@ -9,10 +9,10 @@ Itens sem imagem: 0
 - E3: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré The Deluge`
 - E4: The Tower of Babel — Pieter Brueghel the Elder `Pieter Bruegel Tower of Babel`
 - E5: The Caravan of Abram — James Tissot `Tissot Abram`
-- E6: Tissot Drawing 033 God renews his promises to Abraham (Genesis 17 19) for Brunoff 033 Nouvelles promesses de D — James Tissot `Tissot God promises Abraham`
+- E6: God belooft Abraham een zoon Het leven van Abraham (serietitel), RP-P-1879-A-2934 — Rijksmuseum `Abraham covenant stars`
 - E7: The Destruction Of Sodom And Gomorrah — John Martin `John Martin Destruction of Sodom and Gomorrah`
 - E8: Sacrifice of Isaac — Caravaggio `Caravaggio Sacrifice of Isaac`
-- E9: Tissot Drawing 047 Abraham's servant meets Rebecca (Genesis 24 17) for Brunoff 044 Le serviteur d'Abraham renc — James Tissot `Tissot Rebecca at the well`
+- E9: Rebecca receives Abraham's gifts from Eliezer - François Boucher — GoldenArtists `Eliezer and Rebecca painting`
 - E10: Bartolome-Esteban-Murillo-Jacob-s-Dream — Multiple Aurthors `Jacob ladder dream painting`
 - E11: Jacob wrestling with the angel — Rembrandt `Rembrandt Jacob wrestling with the angel`
 - E12: Reconciliation of Jacob and Esau — Attributed to Caspar Jacob van Opstal the Younger `Jacob and Esau reconciliation painting`
@@ -24,7 +24,7 @@ Itens sem imagem: 0
 - **livro**: Passage of the Jews through the Red Sea — Ivan Aivazovsky `Aivazovsky Passage of the Jews through the Red Sea`
 - E1: Pharaoh's Daughter Receives the Mother of Moses — James Tissot `Tissot Moses Pharaoh daughter`
 - E2: Landscape with Moses and the Burning Bush — Domenichino `Moses burning bush painting`
-- E3: Tissot Drawing 124 Pharaoh sues to Moses (Exodus 9 27) for Brunoff 115 Pharaon accorde à Moïse — James Tissot `Tissot Moses and Aaron before Pharaoh`
+- E3: Moses and Aaron before Pharaoh: An Allegory of the Dinteville Family — Master of the Dinteville Allegory `Moses before Pharaoh painting`
 - E4: Holman The Plague of Hail — illustrators of the 1890 Holman Bible `John Martin Seventh Plague of Egypt`
 - E5: Frame detail of The Death of the Pharaoh's Firstborn Son, by Lawrence Alma-Tadema, 1872 — Neoclassicism Enthusiast `Alma-Tadema Death of the Pharaoh Firstborn Son`
 - E6: 037.The Egyptians Drown in the Sea — Gustave Doré `Doré Egyptians drowned in the Red Sea`
@@ -37,61 +37,61 @@ Itens sem imagem: 0
 - E13: Tissot Moses and Joshua in the Tabernacle — James Tissot `Tissot Tabernacle`
 ## lv
 - **livro**: Tissot Moses Blesses Joshua Before the High Priest — James Tissot `Tissot high priest`
-- E1: Tissot Drawing 146 (not in Brunoff) The tabernacle and altar of burnt offering — James Tissot `Tissot burnt offering`
-- E2: Tissot Drawing 156 The election of Aaron (Numbers 17 6) for Brunoff 155 L'élection — James Tissot `Tissot Aaron sons`
+- E1: Landscape with Noah, Offering a Sacrifice of Gratitude — Joseph Anton Koch `Offering sacrifice altar painting`
+- E2: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré Holy Bible Plate`
 - E3: The Chief Priests Ask Jesus by What Right Does He Act in This Way — James Tissot `Tissot priest`
 - E4: Day of Atonement (Doomsday). Novgorod icon-painting school. 15th cent., State Tretyakov Gallery, Moscow, Russi — anonymous `Day of Atonement painting`
 - E5: Pharaoh's Daughter Has Moses Brought to Her — James Tissot `Tissot Moses law people`
 - E6: Sukkot (Feast of Tabernacles) (Das Laubhütten-Fest) — Moritz Daniel Oppenheim `Feast of Tabernacles painting`
-- E7: Tissot Drawing 147 The costume of the high priest (Exodus 28 4) for Brunoff 137 Le costume du Grand-Prétre — James Tissot `Tissot high priest`
+- E7: Gustave Doré - The Holy Bible - Plate CXLI, The Judas Kiss — Gustave Doré (1832-1883) The "Pannemaker" in the lower right refers to Adolphe François Pa `Doré Holy Bible Plate`
 ## nm
 - **livro**: Moses and the Brazen Serpent — Boëtius Adams Bolswert, after Sir Peter Paul Rubens `Rubens Brazen Serpent`
 - E1: The Israelites gathering Manna in the Wilderness — Jacob Willemsz de Wet `Israelites in the wilderness painting`
-- E2: Tissot Drawing 122 Aaron (Exodus 4 16) for Brunoff 116 Aaron — James Tissot `Tissot Aaron`
+- E2: Moses and Eleazar show the brazen serpent before the writhin —  `Rubens Brazen Serpent`
 - E3: The Israelites Led by the Pillar of Fire by Night — William West `Pillar of fire Israelites`
-- E4: Tissot Drawing 135 Quails are sent to the Israelites (Exodus 16 13) for Brunoff 127 Les cailles — James Tissot `Tissot quails`
+- E4: Anyone who is bitten by a snake is cured by looking at the brazen serpent raised by Moses (Numbers 21:6-9) — Peter Paul Rubens `Rubens Brazen Serpent`
 - E5: Jollain The Spies Return from Canaan — Gerard Jollain `spies Canaan grapes`
 - E6: The Punishment of Korah and the Stoning of Moses and Aaron . Detail of a fresco. — Sandro Botticelli `Botticelli Punishment of the Rebels`
-- E7: Tissot Drawing 133 Moses smites the rock in the desert (Exodus 17 6) for Brunoff 129 L'eau sortant du rocher — James Tissot `Tissot Moses smites the rock`
-- E8: Tissot Drawing 170 The brazen serpent (Numbers 21 4-9) for Brunoff 158 Le serpent d'airain — James Tissot `Tissot brazen serpent`
+- E7: Moses striking the Rock — anonymous `Moses striking the rock painting`
+- E8: The Brazen Serpent (after Rubens) — anonymous `Rubens Brazen Serpent`
 - E9: Rembrandt - SCHOOL OF - Balaam and his Ass, and the Angel, lot.116 — Rembrandt `Rembrandt Balaam and the Ass`
 - E10: Tissot Moses and Joshua in the Tabernacle — James Tissot `Moses names Joshua painting`
-- E11: Tissot Drawing 146 (not in Brunoff) The tabernacle and altar of burnt offering — James Tissot `Tissot offering`
-- E12: Moses and Eleazar show the brazen serpent before the writhin —  `Rubens Brazen Serpent`
+- E11: Moses and Eleazar reveal the brazen serpent to the people af —  `Rubens Brazen Serpent`
+- E12: Moses and the Brazen Serpent — Schelte a Bolswert (Q2288622) ; After: Peter Paul Rubens (Q5599) `Rubens Brazen Serpent`
 - E13: Tissot Moses Blesses Joshua Before the High Priest — James Tissot `Tissot Moses Joshua`
 ## dt
 - **livro**: Moses Viewing the Promised Land — Frederic Edwin Church `Moses views the Promised Land painting`
-- E1: Tissot Drawing 110 Moses speaks to the people (Exodus 6 9) for Brunoff 108 Moïse parle au peuple — James Tissot `Tissot Moses speaks to the people`
+- E1: (Moses Viewing the Promised Land) — Robert Walter Weir `Moses views the Promised Land painting`
 - E2: Pharaoh's Daughter Receives the Mother of Moses — James Tissot `Tissot Moses`
 - E3: Moses and the Israelites after the Miracle of Water from the Rock — Lucas van Leyden `Moses and the Israelites painting`
 - E4: Moses Speaks to Pharaoh, by James Tissot — James Tissot `Tissot Moses law`
-- E5: Les Israélites jurent de le venger (Judges 20 8-9) • invenit James Tissot • pinxit James Tissot • excudit Maur — Phillip Medhurst `Tissot Israel judges`
-- E6: Tissot Drawing 160 Moses and the Ten Commandments (Exodus 34 30) for Brunoff 148 Moïse et les tables de la loi — James Tissot `Tissot Moses commandments`
-- E7: (Moses Viewing the Promised Land) — Robert Walter Weir `Moses views the Promised Land painting`
-- E8: Tissot Drawing 143 The ark of the covenant (Exodus 25 10) for Brunoff 136 L'Arche — James Tissot `Tissot covenant`
+- E5: Leighton Moses views the Promised Land — Frederic Leighton `Moses views the Promised Land painting`
+- E6: Moses Smashing the Tablets of the Law — Rembrandt `Moses tablets painting`
+- E7: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré Holy Bible Plate`
+- E8: Moses with the Tablets of the Law — Moritz Daniel Oppenheim `Moses tablets of the law painting`
 - E9: Moses at Mount Nebo — Attributed to Cornelis Molenaer / Attributed to Gillis Mostaert `Moses on Mount Nebo painting`
 ## js
 - **livro**: The seven trumpets of Jericho — Unknown author Unknown author `Tissot Seven Trumpets of Jericho`
 - E1: Tissot The Harlot of Jericho and the Two Spies — James Tissot `Tissot Rahab spies`
 - E2: The Ark Passes Over the Jordan — James Tissot `Tissot Ark passes over the Jordan`
-- E3: Tissot Drawing 183 The seven trumpets of Jericho (Joshua 6 13) for Brunoff 174 Les trompettes de Jéricho — James Tissot `Tissot Seven Trumpets of Jericho`
-- E4: Tissot Drawing 185 Achan and Joshua (Joshua 7 20) for Brunoff 176 L'interrogatoire d'Achan et Josué — James Tissot `Tissot Achan`
+- E3: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré Holy Bible Plate`
+- E4: Commodore Joshua Barney- many interesting facts connected with the life of Commodore Joshua Barney, hero of th — Internet Archive Book Images `Joshua Ai painting`
 - E5: Joshua Commanding the Sun to Stand Still — John Martin `John Martin Joshua Commanding the Sun to Stand Still`
-- E6: Tissot Drawing 054 (not in Brunoff) Jacob and Rachel — James Tissot `Tissot Drawing`
+- E6: Gustave Doré - The Holy Bible - Plate CXLI, The Judas Kiss — Gustave Doré (1832-1883) The "Pannemaker" in the lower right refers to Adolphe François Pa `Doré Holy Bible Plate`
 - E7: Tissot Moses and Joshua in the Tabernacle — James Tissot `Tissot Joshua`
 - E8: Tissot Moses Blesses Joshua Before the High Priest — James Tissot `Joshua painting Tissot`
 ## jz
 - **livro**: The Blinding of Samson — Rembrandt `Rembrandt Blinding of Samson`
-- E1: Les Israélites jurent de le venger (Judges 20 8-9) • invenit James Tissot • pinxit James Tissot • excudit Maur — Phillip Medhurst `Judges of Israel painting`
-- E2: Tissot Drawing 201 Eglon slain by Ehud (Judges 3 21) for Brunoff 188 Églon tué par Aod — James Tissot `Tissot Ehud`
-- E3: Tissot Drawing 199 Deborah beneath the palm tree (Judges 4 4) for Brunoff 190 Débora sous son palmier — James Tissot `Tissot Deborah`
-- E4: Tissot Drawing 207 Gideon chooses the three hundred (Judges 7 6) for Brunoff 194 Gédéon choisit les trois cent — James Tissot `Tissot Gideon`
-- E5: Tissot Drawing 208 Abimelech slays his seventy brethren (Judges 9 5) for Brunoff 196 Abimélech tue ses soixant — James Tissot `Tissot Abimelech`
+- E1: Rembrandt workshop blinding samson, w34071 — Rembrandt `Rembrandt Blinding of Samson`
+- E2: The Blinding of Samson. — Wincenty de Lesseur / After Rembrandt `Rembrandt Blinding of Samson`
+- E3: (Venice) Jael kills Sisera by Jacopo Amigoni — Didier Descouens `Jael and Sisera painting`
+- E4: Gideon wringing the fleece — Unknown author Unknown author `Gideon fleece painting`
+- E5: Abraham and Abimelech — Jan de Herdt `Abimelech painting`
 - E6: Jephthah's Daughter — James Tissot `Tissot Jephthah daughter`
-- E7: Tissot Drawing 214 Samson kills a young lion Judges 14 5 for Brunoff 202 Samson et le lion — James Tissot `Tissot Samson lion`
-- E8: Samson and Delilah — Peter Paul Rubens `Rubens Samson and Delilah`
-- E9: Rembrandt workshop blinding samson, w34071 — Rembrandt `Rembrandt Blinding of Samson`
-- E10: Tissot Drawing 235 The Ephraimites wish to know the Levite Judges 19 22 for Brunoff 221 Les Ephraïmites veulen — James Tissot `Tissot Levite concubine`
+- E7: Samson and Delilah — Peter Paul Rubens `Samson painting Rubens`
+- E8: Samson and Delilah by Rubens 02 — ChoHyeri `Rubens Samson and Delilah`
+- E9: Samson and Delilah by Rubens, 1609 —  `Samson painting Rubens`
+- E10: A wooded landscape with the Concubine carried by the Levite from Gibeah — Salomon van Ruysdael `Judges Gibeah painting`
 ## rt
 - **livro**: Ruth in Boaz's Field — Julius Schnorr von Carolsfeld `Julius Schnorr Ruth in Boaz field`
 - E1: Ruth and Naomi — Philip Hermogenes Calderon `Philip Hermogenes Calderon Ruth and Naomi`
@@ -100,14 +100,14 @@ Itens sem imagem: 0
 - E4: Ruth and Boaz — George Frederic Watts `Ruth and Boaz painting`
 ## 1sm
 - **livro**: David with the head of Goliath — Caravaggio `Caravaggio David with the Head of Goliath`
-- E1: Le grand prétre et la vieille femme (1 Samuel 1 12-13) • invenit James Tissot • pinxit James Tissot • excudit  — Phillip Medhurst `Hannah presents Samuel to Eli painting`
+- E1: Samuel Relating to Eli the Judgements of God upon Eli's House — John Singleton Copley `Samuel and Eli painting`
 - E2: The plague of ashdod 1630 —  `Poussin The Plague of Ashdod`
 - E3: Samuel Anointing Saul — François de Nomé `Samuel anoints Saul painting`
-- E4: Tissot Drawing 274 Saul prophesies before Samuel 1 Samuel 19 24 for Brunoff 262 Saül prophétise avec les proph — James Tissot `Tissot Saul`
+- E4: While David is playing his harp before Saul, the evil spirit that has the king in his power is driven away (1  — Jozef Israëls `Saul king Israel painting`
 - E5: Caravaggio-David with the Head of Goliath-kunsthistorisches museum-Vienna — Yair Haklai `Caravaggio David with the Head of Goliath`
 - E6: David with the head of Goliath — Artemisia Gentileschi `Gentileschi David and Goliath`
 - E7: David and Jonathan — Giovanni Battista Cima da Conegliano `David and Jonathan painting`
-- E8: Tissot Drawing 281 David and Saul in the cave 1 Samuel 24 9 for Brunoff 269 David et Saül dans la caverne — James Tissot `Tissot David cave`
+- E8: Caravaggio-david-goliath-fin — Jim.kovic `Caravaggio David with the Head of Goliath`
 - E9: The Meeting of David and Abigail — Peter Paul Rubens `Rubens Abigail meeting David`
 - E10: Saul and the Witch of Endor — Jacob Cornelisz van Oostsanen `Witch of Endor painting`
 ## 2sm
@@ -117,17 +117,17 @@ Itens sem imagem: 0
 - E3: Oktober David en de zoon van Jonatan Maanden van het jaar (serietitel), RP-P-BI-4703 — Rijksmuseum `David and Mephibosheth`
 - E4: Bathsheba with David's letter — Rembrandt `Rembrandt Bathsheba at Her Bath`
 - E5: Absalom Causeth Amnon to be Slain — James Tissot `Tissot Absalom`
-- E6: Tissot Drawing 308 The death of Absalom 2 Samuel 18 15 for Brunoff 295 La mort d'Absalon — James Tissot `Tissot death of Absalom`
+- E6: 080.The Death of Absalom — Gustave Doré `Doré death of Absalom`
 - E7: David mourning for Absalom — Unknown author Unknown author `David mourning Absalom`
 - E8: Koning David ziet de engel des doods Koning David knielt voor het altaar op de dorsvloer, RP-P-OB-44.680 — Rijksmuseum `David Araunah threshing floor`
 ## 1rs
 - **livro**: The Judgment of Solomon — Nicolas Poussin `Poussin Judgment of Solomon`
 - E1: The anointing of Solomon — Cornelis de Vos `Anointing of Solomon painting`
 - E2: The Judgement of Solomon — Workshop of Peter Paul Rubens `Judgement of Solomon painting`
-- E3: Tissot Drawing 331 Solomon dedicates the Temple at Jerusalem 1 Kings 8 13 for Brunoff 303 La dédicace par Salo — James Tissot `Tissot Solomon Temple`
+- E3: King Solomon in the Temple, by Gustav Brand c.1922 — Frumious Bander `Solomon builds the Temple painting`
 - E4: The visit of the Queen of Sheba to King Solomon — Sir Edward John Poynter (1836 - 1919) – creator Details on Google Art Project `Edward Poynter Visit of the Queen of Sheba to King Solomon`
 - E5: Rehoboam - Abijah — Michelangelo `Rehoboam painting`
-- E6: Tissot Drawing 344 Jezebel advises Ahab 1 Kings 21 7 for Brunoff 316 Jézabel conseille son mari — James Tissot `Tissot Jezebel Ahab`
+- E6: The Judgement of Solomon — Peter Paul Rubens (1577 Siegen - 1640 Antwerpen) – Creator (Flemish) Born in Siegen. Died  `Judgement of Solomon painting`
 - E7: Elías y los profetas de Baal — Juan de Valdés Leal `Elijah prophets of Baal painting`
 - E8: Elijah in the Wilderness — Frederic Leighton `Elijah in the wilderness painting`
 - E9: Naboth in his Vineyard — James Smetham `Naboth vineyard painting`
@@ -149,12 +149,12 @@ Itens sem imagem: 0
 - E3: 'David Dancing before the Ark' by Simeon Solomon, pen and ink — Simeon Solomon `David dancing before the Ark painting`
 - E4: Landscape with king David praying — Attributed to Michiel Gast `King David praying painting`
 - E5: Tissot Michal Watching David from a Window — James Tissot (1836-1902), French painter `Tissot David dancing before the ark`
-- E6: Tissot Drawing 322 The musicians for Brunoff 338 Les musiciens — James Tissot `Tissot musicians`
+- E6: King David and musicians in the Charles the Bald Psalter — École du Palais de Charles le Chauve, 9th century , before 869 `King David musicians psalms`
 - E7: King David presenting the sceptre to Solomon — Cornelis de Vos `David instructs Solomon painting`
 ## 2cr
-- **livro**: La dédicace par Salomon du temple (1 Kings 10 2) • invenit James Tissot • pinxit Michel Simonidy • excudit Mau — Phillip Medhurst `Tissot Dedication of Solomon Temple`
-- E1: Tissot Drawing 331 Solomon dedicates the Temple at Jerusalem 1 Kings 8 13 for Brunoff 303 La dédicace par Salo — James Tissot `Tissot Solomon temple`
-- E2: Solomon Dedicating the Temple outside Jerusalem — Philips Koninck `Solomon dedicates the Temple painting`
+- **livro**: Solomon Dedicating the Temple outside Jerusalem — Philips Koninck `Solomon dedicates the Temple painting`
+- E1: The Queen of Sheba before the temple of Solomon in Jerusalem — Salomon de Bray `Temple of Solomon painting`
+- E2: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré Holy Bible Plate`
 - E3: Rehoboam - Abijah — Michelangelo `Rehoboam painting`
 - E4: Rechabeam, Abiam en Asa Koningen van Juda (serietitel) Thesaurus sacrarum historiarum veteris testamenti (seri — Rijksmuseum `King Asa of Judah Destroying the Idols`
 - E5: Sistine chapel ceiling: Asa, Jehoshaphat and Joram — Michelangelo `Jehoshaphat painting`
@@ -169,14 +169,14 @@ Itens sem imagem: 0
 - E2: 105.The Rebuilding of the Temple Is Begun — Gustave Doré `Doré rebuilding the Temple`
 - E3: Haggai predikt De profeet Haggai (titel op object), RP-P-1905-5840 — Rijksmuseum `Haggai Zechariah temple rebuilding`
 - E4: 109.Ezra Reads the Law to the People — Gustave Doré `Doré Ezra`
-- E5: Tissot Drawing 358 Ezra and the king Nehemiah 2 3 for Brunoff 344 Esdras et son Roi — James Tissot `Ezra prays painting`
+- E5: Ezra reading the Law — Unknown author Unknown author `Ezra reading the law`
 ## ne
-- **livro**: Tissot Drawing 359 Nehemiah looks on the ruins of Jerusalem Nehemiah 2 17 for Brunoff 345 Néhémie voit les rui — James Tissot `Tissot Nehemiah`
-- E1: Tissot Drawing 358 Ezra and the king Nehemiah 2 3 for Brunoff 344 Esdras et son Roi — James Tissot `Nehemiah before the king`
-- E2: Esdras et son Roi (Nehemiah 2 2) • invenit James Tissot • pinxit Michel Simonidy • excudit Maurice de Brunoff  — Phillip Medhurst `Tissot Nehemiah`
+- **livro**: Gustave Doré - The Holy Bible - Plate I, The Deluge — Gustave Doré / Adam Cuerden `Doré Holy Bible Plate`
+- E1: Gustave Doré - The Holy Bible - Plate CXLI, The Judas Kiss — Gustave Doré (1832-1883) The "Pannemaker" in the lower right refers to Adolphe François Pa `Doré Holy Bible Plate`
+- E2: Gustave Doré - The Holy Bible - Plate I, The Deluge (unadjusted) — Gustave Doré `Doré Holy Bible Plate`
 - E3: 108.Nehemiah Views the Ruins of Jerusalem's Walls — Gustave Doré `Nehemiah Jerusalem walls`
 - E4: 109.Ezra Reads the Law to the People — Gustave Doré `Doré Ezra reading the law`
-- E5: Tissot Drawing 360 The procession on the walls of Jerusalem Nehemiah 12 27 for Brunoff 346 La procession sur l — James Tissot `Tissot procession walls Jerusalem`
+- E5: Family drowning in flood - Dore — Gustave Doré `Doré Holy Bible Plate`
 ## et
 - **livro**: Ahasuerus and Haman at the Feast of Esther — Rembrandt `Rembrandt Ahasuerus and Haman at the Feast of Esther`
 - E1: Bowl with Judah and Lion Surrounded by Scened from the Book of Esther — Anonymous (Russian artist) Unknown author Copy after Nicholaus Johannes Piscator (Dutch, 1 `Esther crowned queen painting`
@@ -200,7 +200,7 @@ Itens sem imagem: 0
 - E2: The Creation of the Sun, Moon and Planets — Michelangelo `Michelangelo Creation of the Sun and Moon`
 - E3: The Good Shepherd — Joakim Skovgaard `The Good Shepherd painting`
 - E4: Landscape with king David praying — Attributed to Michiel Gast `King David praying painting`
-- E5: Tissot Drawing 263 David plays harp before Saul 1 Samuel 16 23 for Brunoff 251 David joue de la harpe — James Tissot `Tissot David harp`
+- E5: Reichersberg Stiftskirche Fresken König David als Psalmist — Painting: Christian Wink; Photo: Andreas Praefcke `David psalmist painting`
 - E6: The Prophet Nathan rebukes King David — Eugène Siberdt `Nathan rebukes David painting`
 - E7: Psalm 1, Beatus vir qui non abiit in consilio inpiorum et in via peccatorum non stetit et in cathedra pestilen —  `King David psalter illumination`
 - E8: Saul listening to David playing the harp — Erasmus Quellinus II `King David playing harp painting`
@@ -234,11 +234,11 @@ Itens sem imagem: 0
 - E3: Song of songs — Gustave Moreau `Gustave Moreau Song of Songs`
 - E4: Anna and Samuel. Initial E. Song of Anna. Byzantium. Constantinople. Psalter and New Testament — Unknown author Unknown author `Song of Songs miniature`
 ## is
-- **livro**: 'Isaiah Sistine Chapel ceiling' by Michelangelo JBU36FXD — Jörg Bittner Unna `Michelangelo prophet Isaiah Sistine Chapel`
+- **livro**: 'Isaiah Sistine Chapel ceiling' by Michelangelo JBU36 — Jörg Bittner Unna `Michelangelo prophet Isaiah Sistine Chapel`
 - E1: Prophet Isaiah — Michelangelo `Michelangelo prophet Isaiah Sistine Chapel`
 - E2: The Isaiah - Sistine Chapel ceiling — Jörg Bittner Unna `Michelangelo prophet Isaiah Sistine Chapel`
 - E3: The Tree of Jesse — Circle of Geertgen tot Sint Jans `Tree of Jesse painting`
-- E4: Page from Tales of a Parrot (Tuti-nama): Thirty-fifth night: The Brahman gives an account of his falling in lo — anonymous `Fall of Babylon painting`
+- E4: The Brahman gives an account of his falling in love with the king of Babylon’s daughter to his friend, the mag — anonymous `Fall of Babylon painting`
 - E5: 121.Isaiah's Vision of the Destruction of Babylon — Gustave Doré `Doré Isaiah`
 - E6: The Last Judgement — John Martin `John Martin The Last Judgement`
 - E7: Isaiah — Michelangelo `Michelangelo prophet Isaiah Sistine Chapel`
@@ -248,7 +248,7 @@ Itens sem imagem: 0
 - E11: Carlo De Notaris Cyrus and Daniel — Carlo De Notaris `Cyrus the Great painting`
 - E12: The Prophet Isaiah — Raphael `Prophet Isaiah Raphael`
 - E13: Man of Sorrows — William Dyce `Man of Sorrows painting`
-- E14: Het voeden der wezen-Het voeden der wezen in het Diaconieweeshuis-Maaltijd van weesmeisjes uit het Diaconiewee — Jan Victors `feeding the hungry painting`
+- E14: Isaiah (detail) — Michelangelo `Michelangelo prophet Isaiah Sistine Chapel`
 - E15: Christ in the Heavenly Jerusalem — Anonymous ( Italy ) Unknown author `Heavenly Jerusalem painting`
 - E16: The Plains of Heaven — John Martin `John Martin The Plains of Heaven`
 ## jr
@@ -259,7 +259,7 @@ Itens sem imagem: 0
 - E4: Prophet Jeremiah Icon — Unknown author Unknown author `Jeremiah prophet icon`
 - E5: Jeremiah lamenting over Jerusalem — Gerbrand van den Eeckhout `Jeremiah lamenting painting`
 - E6: The Prophet Jeremiah — Piero della Francesca `Prophet Jeremiah painting`
-- E7: Tissot Drawing 394 Jeremiah Jeremiah 19 11 for Brunoff 381 Jéremie — James Tissot `Tissot Jeremiah`
+- E7: The Prophet Jeremiah, from the series of Prophets and Sibyls in the Sistine Chapel — Giorgio Ghisi / Michelangelo / Nicolaus van Aelst `Prophet Jeremiah Michelangelo`
 - E8: Jeremia op de puinhopen van Jeruzalem-Jeremiah on the ruins of Jerusalem Jeremiah on the ruins of Jerusalem — Horace Vernet `Jeremiah painting Horace Vernet`
 - E9: Prophet Jeremiah PRIZREN 2 IMG 4773-2 — BLAGO Fund, Inc. `Prophet Jeremiah painting`
 - E10: Annunciation triptych by Barthélemy d'Eyck, right panel, prophet Jeremiah — Photo by Szilas in the Royal Museums of Fine Arts of Belgium, Brussels `Prophet Jeremiah painting`
@@ -304,8 +304,8 @@ Itens sem imagem: 0
 - **livro**: Mountain Landscape with River Valley and the Prophet Hosea — Gillis van Coninxloo `Prophet Hosea painting`
 - E1: Hosea&Sybil — Pinturicchio `Prophet Hosea painting`
 - E2: Fol. 350r, Hosea, historiated initial V, Hosea preaching to three men. —  `Hosea preaching`
-- E3: Tissot Drawing 404 Hosea Hosea 2 19 for Brunoff 391 Osée — James Tissot `Tissot Hosea`
-- E4: Prophet Hosea in Augsburg Cathedral, stained glass window — Unknown artist author Unknown artist author `Prophet Hosea painting`
+- E3: Prophet Hosea in Augsburg Cathedral, stained glass window — Unknown artist author Unknown artist author `Prophet Hosea painting`
+- E4: Gustave Doré Morte Agag — Gustave Doré `Doré prophet`
 ## jl
 - **livro**: Prophet Joel — Michelangelo `Michelangelo prophet Joel Sistine Chapel`
 - E1: Saint Augustine Appearing to Prevent a Plague of Locusts — Miguel Jacinto Meléndez `locust plague painting`
@@ -314,7 +314,7 @@ Itens sem imagem: 0
 ## am
 - **livro**: Prophet Amos (89471482) — Gustave Doré `Prophet Amos painting`
 - E1: The Prophet Amos, from Prophets and Sibyls — Francesco Rosselli / Baccio Baldini `Prophet Amos painting`
-- E2: Tissot Drawing 406 Amos Amos 5 6 for Brunoff 393 Amos — James Tissot `Tissot Amos`
+- E2: Amos the Prophet — Gustave Doré `Prophet Amos painting`
 - E3: 136.The Prophet Amos — Gustave Doré `Doré Amos`
 ## ob
 - **livro**: The prophet Obadiah PRIZREN 2 IMG 5307-2 — BLAGO Fund, Inc. `Prophet Obadiah painting`
@@ -331,9 +331,9 @@ Itens sem imagem: 0
 - E2: Adoration of the Child — Gerard van Honthorst `Nativity painting Gerard van Honthorst`
 - E3: Gustave Doré Morte Agag — Gustave Doré `Doré prophet`
 ## na
-- **livro**: Tissot Drawing 410 Nahum Nahum 1 9 for Brunoff 397 Nahum — James Tissot `Tissot Nahum`
-- E1: Nahum (Nahum 1 9) • invenit James Tissot • pinxit Charles Hoffbauer • excudit Maurice de Brunoff apud Philip d — Phillip Medhurst `Tissot Nahum`
-- E2: Gustave Doré Morte Agag — Gustave Doré `Doré prophet`
+- **livro**: Fall of nineveh — (Mu-tamajo) むーたんじょ `openverse: John Martin Fall of Nineveh`
+- E1: Gustave Doré Morte Agag — Gustave Doré `Doré prophet`
+- E2: 136.The Prophet Amos — Gustave Doré `Doré prophet`
 ## hc
 - **livro**: The Prophet Habakkuk — anonymous `Prophet Habakkuk painting`
 - E1: Habakkuk Prophet Hajdudorog Frame — Jojojoe `Prophet Habakkuk painting`
@@ -386,7 +386,7 @@ Itens sem imagem: 0
 - E4: Jesus Stilling the Tempest — James Tissot `Tissot Jesus calms the storm`
 - E5: Landscape with the Good Samaritan — Rembrandt `Good Samaritan painting`
 - E6: The Marriage Feast (The Parables of Our Lord and Saviour Jesus Christ) — Brothers Dalziel / John Everett Millais `Parable of the Great Banquet`
-- E7: Возвращение блудного сына. Отец — Andrei Mironov `Prodigal son painting`
+- E7: The Return of the Prodigal Son (detail) — Rembrandt `Rembrandt The Return of the Prodigal Son`
 - E8: Zacchaeus in the Sycamore Awaiting the Passage of Jesus — James Tissot `Tissot Zacchaeus`
 - E9: The Widow's Mite — James Tissot `Tissot widow mite`
 - E10: Ecce Homo — Jörg Breu the Elder `Antonio Ciseri Ecce Homo`
@@ -398,7 +398,7 @@ Itens sem imagem: 0
 - E3: The Pool of Bethesda — Robert Bateman (1836 - 1889) – Artist (British) Details on Google Art Project `Pool of Bethesda painting`
 - E4: Christ and the Woman taken in Adultery — Pieter Brueghel the Elder `Christ and the woman taken in adultery painting`
 - E5: The Good Shepherd — Joakim Skovgaard `The Good Shepherd painting`
-- E6: Auferweckung des Lazarus — Michelangelo Merisi da Caravaggio `Caravaggio Raising of Lazarus`
+- E6: The Raising of Lazarus — Caravaggio `Caravaggio Raising of Lazarus`
 - E7: Jesus Washing Peter’s Feet — Ford Madox Brown `Ford Madox Brown Jesus Washing Peter Feet`
 - E8: Ecce Homo — Jörg Breu the Elder `Antonio Ciseri Ecce Homo`
 - E9: Noli me tangere — Battistello Caracciolo `Noli me tangere painting`
@@ -421,7 +421,7 @@ Itens sem imagem: 0
 - E1: The Apostle Paul in Contemplation — Rembrandt `Rembrandt Saint Paul at his Writing Desk`
 - E2: Abraham and the Angels — Rembrandt `Rembrandt Abraham`
 - E3: The Resurrection of Jesus Christ — Piero della Francesca `Piero della Francesca Resurrection`
-- E4: The Apostle Paul — Rembrandt `Saint Paul Rembrandt`
+- E4: An Elderly Man as Saint Paul — Rembrandt `Saint Paul Rembrandt`
 - E5: Saint Peter and Saint Paul — El Greco `Saint Paul painting El Greco`
 - E6: Saint Paul Writing His Epistles — Valentin de Boulogne `Saint Paul painting Valentin`
 ## 1co
@@ -447,7 +447,7 @@ Itens sem imagem: 0
 - E1: The apostle Paul in prison — Rembrandt `Rembrandt Saint Paul in Prison`
 - E2: St. Michael — Raphael `Raphael Saint Michael`
 ## fp
-- **livro**: The Apostle Paul — Rembrandt `Apostle Paul painting Rembrandt`
+- **livro**: Apostle Paul — Rembrandt `Apostle Paul painting Rembrandt`
 - E1: Beaux-Arts de Carcassonne - La séparation de Saint Pierre et de Saint Paul 1671 - Giovanni Lanfranco 106x144 — Didier Descouens `Saint Paul painting`
 - E2: Saint Paul Writing. — Pier Francesco Sacchi `Saint Paul writing painting`
 ## cl
@@ -514,7 +514,7 @@ Itens sem imagem: 0
 - E4: The Seven Angels with the Trumpets — Albrecht Dürer `Dürer seven trumpets apocalypse`
 - E5: The Great Red Dragon and the Woman Clothed with the Sun — William Blake `William Blake The Great Red Dragon and the Woman Clothed in Sun`
 - E6: Angel with seven jars containing the wrath of God, Battistero di Padova — Giusto de Menabuoi. `Seven bowls wrath angels`
-- E7: The Whore of Babylon, from The Apocalypse — Albrecht Dürer `Dürer Whore of Babylon`
+- E7: The Whore of Babylon — Albrecht Dürer `Dürer Whore of Babylon`
 - E8: The Four Horsemen of the Apocalypse: The Rider on the White Horse — George Frederic Watts `Rider on the white horse painting`
 - E9: The Plains of Heaven — John Martin `John Martin The Plains of Heaven`
 ## Temporadas
