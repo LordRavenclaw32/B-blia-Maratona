@@ -125,16 +125,22 @@ function MusicDock({ open, onClose }: { open: boolean; onClose: () => void }) {
           Tocar
         </button>
       </form>
-      <div className="chips">
+      <div className="presets">
         {MUSIC_PRESETS.map((p) => (
-          <button key={p.url} className="chip" onClick={() => submit(p.url)}>
-            {p.name}
+          <button key={p.url} className={`preset ${music.url === p.url ? 'on' : ''}`} onClick={() => submit(p.url)}>
+            <span className="preset-icon">
+              <Icon name={music.url === p.url && music.playing ? 'pause' : 'play'} size={18} />
+            </span>
+            <span>
+              <b>{p.name}</b>
+              <small>{p.desc}</small>
+            </span>
           </button>
         ))}
-        <a className="chip ghost" href="https://music.youtube.com/search?q=louvor+adora%C3%A7%C3%A3o" target="_blank" rel="noreferrer">
-          Buscar no YouTube Music ↗
-        </a>
       </div>
+      <a className="chip ghost search-more" href="https://music.youtube.com/search?q=louvor+adora%C3%A7%C3%A3o" target="_blank" rel="noreferrer">
+        Buscar mais no YouTube Music ↗
+      </a>
 
       {music.now && (
         <div className="now-card">

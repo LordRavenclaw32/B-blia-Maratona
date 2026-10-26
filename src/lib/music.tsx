@@ -19,11 +19,9 @@ export interface NowPlaying {
   artist?: string;
 }
 
-export const MUSIC_PRESETS: { name: string; url: string }[] = [
-  { name: 'Louvores de adoração', url: 'https://www.youtube.com/playlist?list=PLpkTleyJcAlM51aY0WP3eZduTkuvwUNI8' },
-  { name: 'Gospel mais tocadas', url: 'https://www.youtube.com/playlist?list=PLTRU2u_bXJoq2LT7afaldQ4eXKRU1MF_z' },
-  { name: '60 louvores que tocam a alma', url: 'https://www.youtube.com/watch?v=BIuoC3Uc0y8' },
-  { name: '30 melhores de adoração', url: 'https://www.youtube.com/watch?v=EHEwWvaegT0' },
+export const MUSIC_PRESETS: { name: string; desc: string; url: string }[] = [
+  { name: 'Louvores Clássicos', desc: 'Hinos e louvores que marcaram gerações', url: 'https://youtu.be/XpIDU2R_j2M' },
+  { name: 'Gospel 2026', desc: 'Playlist com os louvores mais tocados', url: 'https://www.youtube.com/watch?v=ldK43s9UyQI&list=PLveUSFqkZWtOQ252_YytOiV-ckTFMKCeg' },
 ];
 
 export function parseMusicUrl(raw: string): ParsedMusic | null {
