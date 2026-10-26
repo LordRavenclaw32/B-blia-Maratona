@@ -82,6 +82,8 @@ src/pages/             Perfis, Início, Leitor, Diário, Minha maratona, Busca, 
 - **Relacionamentos:** atividades dos irmãos com "Amém", lista de membros, acompanhamento da leitura para líderes (situação, últimos 7 dias, sequência, plano da igreja, exportação de planilha, WhatsApp) e gestão para pastores (níveis de acesso, PIN, códigos).
 - **Perfil dos irmãos:** rotina de leitura das últimas 12 semanas, séries em andamento e concluídas, e atividades. O membro pode deixar o perfil privado (líderes continuam vendo).
 - **Conversas:** mensagens individuais entre qualquer membro, líder ou pastor da igreja, e grupos criados pela liderança. Versículos e links ficam clicáveis e há contador de mensagens não lidas.
+- **Publicações:** devocionais, estudos, orações e testemunhos, públicos ou privados. Aceitam imagem, vídeo, link do YouTube ou áudio gravado no app, além de Amém, Amei, comentários e compartilhamento (no feed, por WhatsApp ou como ponto de partida para outra devocional).
+- **Anúncios:** banners com texto, vídeo ou áudio criados pela liderança. Aparecem na tela inicial ao lado de "Continuar lendo", com agendamento e botão de ação.
 - **Estúdio:** área de pastores e líderes para criar séries, lançamentos, mural do mês e mensagens, e importar vídeos e podcasts.
 - **Níveis de acesso:** membro (conta com celular/e-mail + PIN), líder e pastor(a), liberados por código.
 - **Ativar uma igreja:** use o Configurador → "7. Comunidade da igreja", com a sua chave mestra. Ele gera os códigos do pastor e dos líderes.

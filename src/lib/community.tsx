@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { getBook } from '../data/books';
 import { CHURCH, nsKey, planChapters } from './church';
-import { rpc, ServerError } from './server';
+import { rpc, ServerError, uploadFile } from './server';
 import { completedBooks, streak, totalRead } from './stats';
 import { today, useStore, type Profile } from './store';
 
@@ -140,6 +140,71 @@ export interface ChatMessage {
   role?: Role | null;
 }
 
+export interface PostMember {
+  id: string;
+  name: string;
+  avatar: number;
+  role: Role;
+}
+
+export type PostKind = 'devocional' | 'estudo' | 'reflexao' | 'oracao' | 'testemunho';
+
+export interface SharedPost {
+  id: string;
+  kind: PostKind;
+  title?: string | null;
+  body?: string | null;
+  verse?: string | null;
+  media_type?: 'image' | 'video' | 'audio' | null;
+  media_url?: string | null;
+  created_at: string;
+  member: PostMember;
+}
+
+export interface Post extends SharedPost {
+  book?: string | null;
+  rating?: number | null;
+  visibility: 'public' | 'private';
+  mine: boolean;
+  amem: number;
+  amei: number;
+  my_reactions: ('amem' | 'amei')[];
+  comments: number;
+  shares: number;
+  shared?: SharedPost | null;
+  inspired?: { id: string; title?: string | null; name: string } | null;
+}
+
+export interface PostComment {
+  id: number;
+  body: string;
+  created_at: string;
+  mine: boolean;
+  member: PostMember;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  body?: string | null;
+  image_url?: string | null;
+  media_type?: 'video' | 'audio' | null;
+  media_url?: string | null;
+  link?: string | null;
+  link_label?: string | null;
+  starts_at: string;
+  ends_at?: string | null;
+  author?: string | null;
+}
+
+export const POST_KIND_LABEL: Record<PostKind, string> = {
+  devocional: 'Devocional',
+  estudo: 'Estudo',
+  reflexao: 'Reflexão',
+  oracao: 'Oração',
+  testemunho: 'Testemunho',
+};
+
 interface Session {
   token: string;
   member: Member;
@@ -173,6 +238,8 @@ interface CommunityValue {
   updateMe(patch: { name?: string; avatar?: number; grp?: string; share?: boolean }): Promise<void>;
   refreshCatalog(): Promise<void>;
   call<T>(fn: string, args?: Record<string, unknown>): Promise<T>;
+  /** envia imagem, vídeo ou áudio e devolve a URL pública */
+  upload(blob: Blob): Promise<string>;
   syncNow(): Promise<void>;
 }
 
@@ -264,8 +331,6 @@ function eventsSince(prev: Snapshot, p: Profile) {
     if (fresh.length && book) events.push({ kind: 'read', data: { book: id, ref: `${book.name} ${ranges(fresh)}`, n: fresh.length } });
   }
   for (const b of completedBooks(p)) if (!prev.done.includes(b.id)) events.push({ kind: 'complete', data: { book: b.id, name: b.name } });
-  for (const d of p.devotionals)
-    if (!prev.devs.includes(d.id)) events.push({ kind: 'devotional', data: { title: d.title, book: d.bookId, rating: d.rating, verse: d.verse ?? null } });
   const s = streak(p).current;
   const mark = [3, 7, 15, 30, 50, 100, 365].filter((m) => s >= m && prev.streak < m).pop();
   if (mark) events.push({ kind: 'streak', data: { days: mark } });
@@ -431,6 +496,9 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       },
       refreshCatalog,
       call,
+      async upload(blob) {
+        return uploadFile(await call<string>('request_upload'), blob);
+      },
       syncNow,
     };
   }, [session, catalog, catalogError, unread, refreshUnread, start, save, call, refreshCatalog, syncNow, profile?.avatar]);

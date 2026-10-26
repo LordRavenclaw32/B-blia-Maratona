@@ -33,6 +33,9 @@ export interface Devotional {
   verse?: string;
   createdAt: number;
   updatedAt: number;
+  /** publicação na comunidade (quando publicada) */
+  postId?: string;
+  visibility?: 'public' | 'private';
 }
 
 export interface Favorite {

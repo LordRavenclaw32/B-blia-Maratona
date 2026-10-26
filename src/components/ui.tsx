@@ -11,6 +11,8 @@ export interface DevotionalDraft {
   episode?: number;
   verse?: string;
   existing?: Devotional;
+  /** começar a partir da devocional de outra pessoa */
+  inspired?: { postId: string; name: string; title?: string | null };
 }
 
 interface UI {

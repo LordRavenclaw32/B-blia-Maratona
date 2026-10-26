@@ -6,7 +6,8 @@ import { getBook } from '../data/books';
 import { avatarUrl } from '../lib/art';
 import { APP_NAME } from '../lib/brand';
 import { CHURCH, COMMUNITY_NAME, whatsappLink } from '../lib/church';
-import { relTime, ROLE_LABEL, useCommunity, type MemberProfile as Profile } from '../lib/community';
+import { relTime, ROLE_LABEL, useCommunity, type MemberProfile as Profile, type Post } from '../lib/community';
+import { PostCard } from '../components/Posts';
 import { navigate } from '../lib/router';
 import { describe, RoleBadge } from './Community';
 import { Heatmap } from './Stats';
@@ -18,12 +19,17 @@ export function MemberProfile({ id }: { id: string }) {
   const [data, setData] = useState<Profile | null>(null);
   const [error, setError] = useState('');
   const [opening, setOpening] = useState(false);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const { openDevotional } = useUI();
 
   useEffect(() => {
     setData(null);
     c.call<Profile>('member_profile', { p_member: id })
       .then(setData)
       .catch((e: Error) => setError(e.message));
+    c.call<Post[]>('posts_feed', { p_before: null, p_member: id })
+      .then(setPosts)
+      .catch(() => setPosts([]));
   }, [id]);
 
   if (error)
@@ -203,6 +209,24 @@ export function MemberProfile({ id }: { id: string }) {
             </section>
           )}
         </>
+      )}
+
+      {!!posts?.length && (
+        <section className="mp-posts">
+          <h2>Publicações</h2>
+          <ol className="feed">
+            {posts.map((p) => (
+              <li key={p.id} className="feed-post">
+                <PostCard
+                  post={p}
+                  onChange={(np) => setPosts((cur) => cur!.map((x) => (x.id === np.id ? np : x)))}
+                  onRemove={(pid) => setPosts((cur) => cur!.filter((x) => x.id !== pid))}
+                  onInspire={(sp) => openDevotional({ bookId: sp.book ?? undefined, verse: sp.verse ?? undefined, inspired: { postId: sp.id, name: sp.member.name, title: sp.title ?? null } })}
+                />
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
     </div>
   );

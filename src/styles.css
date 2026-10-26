@@ -57,14 +57,14 @@ input, select, textarea { font: inherit; color: inherit; }
 
 /* ───────── Intro ───────── */
 .intro { position: fixed; inset: 0; background: #000; display: grid; place-items: center; z-index: 100; cursor: pointer; overflow: hidden; }
-.intro-stage { display: flex; flex-direction: column; align-items: center; text-align: center; animation: introOut 3.3s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
+.intro-stage { display: flex; flex-direction: column; align-items: center; text-align: center; animation: introOut 5.3s cubic-bezier(0.6, 0, 0.3, 1) forwards; }
 .intro-mark { width: min(46vw, 220px); height: auto; filter: drop-shadow(0 0 28px rgba(var(--red-rgb), 0.55)); }
-.intro-mark .bf-letters { animation: lettersIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: 50% 40%; }
-.intro-mark .bf-book { animation: bookOpen 0.8s 0.55s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: 50% 80%; }
-.intro-mark .bf-lines { animation: fadeIn 0.4s 1.15s both; }
-.intro-word { font-family: var(--display); font-size: clamp(2.6rem, 10vw, 5.2rem); letter-spacing: 0.06em; color: #fff; margin-top: 0.6rem; line-height: 1; animation: wordIn 0.7s 1.2s both; }
+.intro-mark .bf-letters { animation: lettersIn 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: 50% 40%; }
+.intro-mark .bf-book { animation: bookOpen 1.1s 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both; transform-origin: 50% 80%; }
+.intro-mark .bf-lines { animation: fadeIn 0.6s 1.7s both; }
+.intro-word { font-family: var(--display); font-size: clamp(2.6rem, 10vw, 5.2rem); letter-spacing: 0.06em; color: #fff; margin-top: 0.6rem; line-height: 1; animation: wordIn 1s 1.8s both; }
 .intro-word b, .logo-word b { color: var(--red); font-weight: 400; }
-.intro-tag { color: #bdbdbd; font-size: clamp(0.9rem, 2.6vw, 1.15rem); letter-spacing: 0.32em; text-transform: uppercase; margin-top: 0.7rem; animation: wordIn 0.7s 1.55s both; }
+.intro-tag { color: #bdbdbd; font-size: clamp(0.9rem, 2.6vw, 1.15rem); letter-spacing: 0.32em; text-transform: uppercase; margin-top: 0.7rem; animation: wordIn 1s 2.4s both; }
 @keyframes lettersIn { from { transform: scale(0.3); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes bookOpen { from { transform: scaleX(0.05) scaleY(0.6); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes wordIn { from { transform: translateY(16px); opacity: 0; letter-spacing: 0.3em; } to { transform: none; opacity: 1; } }
@@ -947,8 +947,8 @@ button.account:hover { background: #2c2c2c; border-color: #555; }
 .church-mark { display: block; flex: none; object-fit: contain; border-radius: 8px; }
 .logo.is-church .logo-word { max-width: min(42vw, 360px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .church-word b { color: var(--red); font-weight: 400; }
-.intro .church-mark.intro-mark { width: min(40vw, 200px); height: min(40vw, 200px); filter: drop-shadow(0 0 28px rgba(var(--red-rgb), 0.55)); animation: lettersIn 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
-.intro-credit { margin-top: 1.4rem; color: #777; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; animation: wordIn 0.7s 1.8s both; }
+.intro .church-mark.intro-mark { width: min(40vw, 200px); height: min(40vw, 200px); filter: drop-shadow(0 0 28px rgba(var(--red-rgb), 0.55)); animation: lettersIn 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.intro-credit { margin-top: 1.4rem; color: #777; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; animation: wordIn 1s 2.9s both; }
 @media (max-width: 520px) { .logo .church-mark { width: 36px; height: 36px; } .logo.is-church .logo-word { max-width: 34vw; font-size: 1.3rem; } }
 
 .demo-bar { position: fixed; left: 50%; transform: translateX(-50%); bottom: 16px; z-index: 60; display: flex; align-items: center; gap: 0.6rem; padding: 0.45rem 0.9rem; border-radius: 999px; background: rgba(20, 20, 20, 0.92); border: 1px solid rgba(var(--red-rgb), 0.7); box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5); font-size: 0.82rem; white-space: nowrap; max-width: calc(100vw - 32px); }
@@ -1378,3 +1378,98 @@ a.brother:hover { background: #222; }
 .chat-input textarea { flex: 1; resize: none; max-height: 140px; min-height: 44px; border-radius: 22px; padding: 0.65rem 1rem; }
 .chat-input .btn { border-radius: 50%; width: 46px; height: 46px; padding: 0; justify-content: center; flex: none; }
 @media (max-width: 900px) { .chat-page { padding-top: 64px; } .chat { height: calc(100vh - 64px - 72px); height: calc(100dvh - 64px - 72px); border-radius: 10px; } }
+
+/* ───────── Publicações ───────── */
+.composer-closed { display: flex; align-items: center; gap: 0.8rem; width: 100%; padding: 0.8rem 1rem; margin-bottom: 0.8rem; border-radius: 12px; background: var(--bg-2); border: 1px solid #2a2a2a; color: var(--muted); text-align: left; }
+.composer-closed:hover { border-color: var(--red); color: #fff; }
+.composer-closed img { width: 40px; height: 40px; border-radius: 50%; }
+.composer-closed span { flex: 1; }
+.composer { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.8rem; }
+.composer textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+.composer-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.composer-foot .seg button { display: inline-flex; align-items: center; gap: 0.3rem; }
+.media-picker { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.media-picker .chip { display: inline-flex; align-items: center; gap: 0.3rem; }
+.media-link { width: 100%; }
+.media-picked { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+.media-picked .post-image, .media-picked .media-frame { max-height: 320px; width: auto; max-width: 100%; }
+.recorder { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; padding: 0.6rem 0.8rem; border-radius: 10px; background: #202020; }
+.rec-dot { width: 12px; height: 12px; border-radius: 50%; background: #555; }
+.rec-dot.on { background: #ff3b3b; animation: pulse 1s infinite; }
+@keyframes pulse { 50% { opacity: 0.3; } }
+.feed-filter { margin: 0.2rem 0 0.8rem; }
+.feed-post { list-style: none; }
+.post-card { background: var(--bg-2); border: 1px solid #262626; border-radius: 12px; padding: 0.9rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.post-card.k-devocional { border-left: 3px solid var(--red); }
+.post-author { display: flex; align-items: center; gap: 0.7rem; }
+.post-author img { width: 42px; height: 42px; border-radius: 50%; flex: none; object-fit: cover; }
+.post-author > div { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.post-author small { display: inline-flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; }
+.post-author.small img { width: 26px; height: 26px; }
+.post-author.small { gap: 0.4rem; font-size: 0.85rem; }
+.post-menu { position: relative; }
+.post-menu .dropdown { right: 0; top: 100%; min-width: 230px; z-index: 20; }
+.post-menu .dropdown.up { top: auto; bottom: 100%; left: 0; right: auto; }
+.post-title { margin: 0; font-size: 1.12rem; }
+.post-verse { align-self: flex-start; display: inline-flex; align-items: center; gap: 0.3rem; }
+.post-body .rich-text { font-size: 1rem; line-height: 1.7; }
+.post-body .rich-text p { margin: 0 0 0.7rem; }
+.post-body.clamped { max-height: 16em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+.post-inspired { margin: 0; display: inline-flex; align-items: center; gap: 0.3rem; }
+.post-media { border-radius: 10px; overflow: hidden; background: #000; }
+.post-image { display: block; width: 100%; max-height: 560px; object-fit: contain; background: #000; border-radius: 10px; }
+.post-actions { display: flex; flex-wrap: wrap; gap: 0.35rem; border-top: 1px solid #2a2a2a; padding-top: 0.5rem; }
+.react { padding: 0.32rem 0.75rem; border-radius: 999px; border: 1px solid #3a3a3a; font-size: 0.82rem; }
+.react:hover { border-color: #777; }
+.react.on { background: rgba(var(--red-rgb), 0.18); border-color: var(--red); }
+.react.on.love { background: rgba(255, 70, 110, 0.18); border-color: #ff466e; }
+.shared-embed { border: 1px solid #333; border-radius: 10px; padding: 0.7rem 0.8rem; background: #151515; display: flex; flex-direction: column; gap: 0.35rem; }
+.shared-title { font-size: 0.98rem; }
+.shared-body { margin: 0; color: #ccc; font-size: 0.92rem; white-space: pre-wrap; }
+.comments { display: flex; flex-direction: column; gap: 0.6rem; border-top: 1px solid #2a2a2a; padding-top: 0.6rem; }
+.comment { display: flex; gap: 0.55rem; }
+.comment img, .comment-form img { width: 30px; height: 30px; border-radius: 50%; flex: none; }
+.comment p { margin: 0; padding: 0.45rem 0.7rem; border-radius: 12px; background: #242424; font-size: 0.9rem; line-height: 1.4; }
+.comment small { display: inline-flex; gap: 0.2rem; margin-left: 0.6rem; }
+.comment-form { display: flex; align-items: center; gap: 0.5rem; }
+.comment-form input { flex: 1; border-radius: 999px; padding: 0.5rem 0.9rem; }
+.dev-inspired { display: flex; align-items: center; gap: 0.35rem; padding: 0.5rem 0.7rem; border-radius: 8px; background: rgba(var(--red-rgb), 0.12); font-size: 0.9rem; }
+.mp-posts h2 { font-size: 1.15rem; margin: 0 0 0.7rem; }
+.spinner.small { width: 22px; height: 22px; }
+
+/* ───────── Anúncios ───────── */
+.home-top { display: block; }
+.home-top.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 34%); gap: 0.4rem; align-items: start; }
+.home-top-main { min-width: 0; }
+.home-top .ann-carousel { padding: 0 var(--gutter) 0 0; margin-bottom: 3vw; }
+.home-top:not(.split) .ann-carousel { padding: 0 var(--gutter); max-width: 760px; }
+.ann-carousel .row-title { margin-left: 0; }
+.ann-card { display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; background: var(--bg-2); border: 1px solid rgba(var(--red-rgb), 0.45); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); animation: fadeIn 0.4s; }
+.ann-visual { position: relative; aspect-ratio: 16 / 7; background: #111; }
+.ann-visual > img { width: 100%; height: 100%; object-fit: cover; }
+.ann-visual .media-frame, .ann-visual video { width: 100%; height: 100%; aspect-ratio: auto; }
+.ann-visual .media-audio { position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0.6rem; width: auto; }
+.ann-ph { position: absolute; inset: 0; display: grid; place-items: center; background: linear-gradient(135deg, var(--red), #111 80%); }
+.ann-play { position: absolute; inset: 0; margin: auto; width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center; background: rgba(0, 0, 0, 0.6); border: 2px solid #fff; color: #fff; }
+.ann-play:hover { background: var(--red); }
+.ann-tag { position: absolute; top: 8px; left: 8px; padding: 0.12rem 0.5rem; border-radius: 4px; background: rgba(0, 0, 0, 0.7); font-size: 0.66rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.ann-text { padding: 0.8rem 0.9rem 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.ann-text b { font-size: 1.05rem; }
+.ann-text p { margin: 0; color: #ccc; font-size: 0.9rem; line-height: 1.4; }
+.ann-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-top: 0.3rem; }
+.ann-dots { display: flex; align-items: center; justify-content: center; gap: 0.35rem; margin-top: 0.4rem; }
+.ann-dots .dot { width: 8px; height: 8px; border-radius: 50%; background: #555; padding: 0; }
+.ann-dots .dot.on { background: var(--red); width: 20px; border-radius: 4px; }
+.ann-editor { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 1.2rem; align-items: start; }
+.ann-preview { position: sticky; top: 0; }
+@media (max-width: 900px) {
+  .home-top.split { grid-template-columns: 1fr; }
+  .home-top .ann-carousel { padding: 0 var(--gutter); }
+  .ann-editor { grid-template-columns: 1fr; }
+}
+.post-author > div { display: block; }
+.post-author > div > small { display: flex; margin-top: 0.1rem; }
+.post-author .role-badge { margin-left: 0.2rem; }
+.ann-visual { overflow: hidden; }
+.ann-visual > img, .ann-visual > .media-frame, .ann-visual > video, .ann-visual > iframe { position: absolute; inset: 0; width: 100%; height: 100%; }
+.series-badge img.church-mark { position: static !important; width: 18px !important; height: 18px !important; min-width: 0; inset: auto; object-fit: contain; transform: none; flex: none; }

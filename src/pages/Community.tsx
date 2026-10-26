@@ -5,7 +5,8 @@ import { useUI } from '../components/ui';
 import { avatarUrl } from '../lib/art';
 import { APP_NAME } from '../lib/brand';
 import { CHURCH, COMMUNITY_NAME, whatsappLink } from '../lib/church';
-import { relTime, ROLE_LABEL, useCommunity, type CommunityMember, type FeedItem, type Role } from '../lib/community';
+import { relTime, ROLE_LABEL, useCommunity, type CommunityMember, type FeedItem, type Post, type Role } from '../lib/community';
+import { Composer, PostCard } from '../components/Posts';
 import { useRoute, setQuery } from '../lib/router';
 import { Chat, ConversationList } from './Conversations';
 import { MemberProfile } from './MemberProfile';
@@ -47,74 +48,126 @@ export function RoleBadge({ role }: { role: Role }) {
   return <span className={`role-badge ${role}`}>{ROLE_LABEL[role]}</span>;
 }
 
+/** Linha de atividade automática (leituras, séries concluídas, lançamentos…). */
+function ActivityItem({ f, onAmen }: { f: FeedItem; onAmen: (f: FeedItem) => void }) {
+  const d = describe(f);
+  return (
+    <li className={`feed-item k-${f.kind}`}>
+      <a href={`#/comunidade/membro/${f.member_id}`} aria-label={`Perfil de ${f.name}`}>
+        <img src={avatarUrl(f.avatar)} alt="" />
+      </a>
+      <div className="feed-body">
+        <p>
+          <a className="feed-name" href={`#/comunidade/membro/${f.member_id}`}>
+            <b>{f.name}</b>
+          </a>{' '}
+          <RoleBadge role={f.role} /> {d.href ? <a href={d.href}>{d.text}</a> : d.text}
+        </p>
+        <div className="feed-foot">
+          <span className="muted small">
+            <Icon name={d.icon} size={14} /> {relTime(f.created_at)}
+          </span>
+          <button className={`amen ${f.mine ? 'on' : ''}`} onClick={() => onAmen(f)} aria-pressed={f.mine}>
+            🙏 Amém{f.amens ? ` · ${f.amens}` : ''}
+          </button>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+type Filter = 'tudo' | 'publicacoes' | 'atividades';
+
+/** Feed da comunidade: publicações dos irmãos (devocionais, estudos, orações…) e atividades de leitura. */
 function Feed() {
   const c = useCommunity();
-  const [items, setItems] = useState<FeedItem[] | null>(null);
+  const { openDevotional } = useUI();
+  const [acts, setActs] = useState<FeedItem[] | null>(null);
+  const [posts, setPosts] = useState<Post[] | null>(null);
   const [more, setMore] = useState(true);
   const [error, setError] = useState('');
+  const [filter, setFilter] = useState<Filter>('tudo');
 
   const load = useCallback(
-    async (before?: number) => {
+    async (older = false) => {
       try {
-        const list = await c.call<FeedItem[]>('feed', { p_before: before ?? null });
-        setItems((cur) => (before ? [...(cur ?? []), ...list] : list));
-        setMore(list.length === 40);
+        const lastAct = older && acts?.length ? acts[acts.length - 1].id : null;
+        const lastPost = older && posts?.length ? posts[posts.length - 1].created_at : null;
+        const [a, p] = await Promise.all([c.call<FeedItem[]>('feed', { p_before: lastAct }), c.call<Post[]>('posts_feed', { p_before: lastPost, p_member: null })]);
+        setActs((cur) => (older ? [...(cur ?? []), ...a] : a));
+        setPosts((cur) => (older ? [...(cur ?? []), ...p] : p));
+        setMore(a.length === 40 || p.length === 25);
         setError('');
       } catch (e) {
         setError((e as Error).message);
       }
     },
-    [c.call],
+    [c.call, acts, posts],
   );
 
   useEffect(() => {
     c.syncNow().finally(() => load());
+    const onPost = (e: Event) => setPosts((cur) => [(e as CustomEvent<Post>).detail, ...(cur ?? [])]);
+    window.addEventListener('bf:post', onPost);
+    return () => window.removeEventListener('bf:post', onPost);
   }, []);
 
   const amen = async (f: FeedItem) => {
-    setItems((cur) => cur!.map((x) => (x.id === f.id ? { ...x, mine: !x.mine, amens: x.amens + (x.mine ? -1 : 1) } : x)));
+    setActs((cur) => cur!.map((x) => (x.id === f.id ? { ...x, mine: !x.mine, amens: x.amens + (x.mine ? -1 : 1) } : x)));
     try {
       const n = await c.call<number>('react', { p_activity: f.id });
-      setItems((cur) => cur!.map((x) => (x.id === f.id ? { ...x, amens: n } : x)));
+      setActs((cur) => cur!.map((x) => (x.id === f.id ? { ...x, amens: n } : x)));
     } catch {
       load();
     }
   };
 
+  const inspire = (p: Post) =>
+    openDevotional({ bookId: p.book ?? undefined, verse: p.verse ?? undefined, inspired: { postId: p.id, name: p.member.name, title: p.title ?? null } });
+
   if (error) return <p className="error">{error}</p>;
-  if (!items) return <div className="spinner" />;
-  if (!items.length) return <p className="muted">Nenhuma atividade ainda. Que tal ler um capítulo agora?</p>;
+  if (!acts || !posts) return <div className="spinner" />;
+  type Entry = { at: string; post?: Post; act?: FeedItem };
+  const entries: Entry[] = [
+    ...(filter !== 'atividades' ? posts.map((p) => ({ at: p.created_at, post: p })) : []),
+    ...(filter !== 'publicacoes' ? acts.map((a) => ({ at: a.created_at, act: a })) : []),
+  ].sort((x, y) => y.at.localeCompare(x.at));
+
   return (
     <>
+      <Composer onPosted={(p) => setPosts((cur) => [p, ...(cur ?? [])])} />
+      <div className="chips feed-filter">
+        {(
+          [
+            ['tudo', 'Tudo'],
+            ['publicacoes', 'Publicações'],
+            ['atividades', 'Leituras e atividades'],
+          ] as [Filter, string][]
+        ).map(([k, label]) => (
+          <button key={k} className={`chip sm ${filter === k ? 'on' : ''}`} onClick={() => setFilter(k)}>
+            {label}
+          </button>
+        ))}
+      </div>
+      {!entries.length && <p className="muted">Nada por aqui ainda. Que tal publicar a primeira devocional?</p>}
       <ol className="feed">
-        {items.map((f) => {
-          const d = describe(f);
-          return (
-            <li key={f.id} className={`feed-item k-${f.kind}`}>
-              <a href={`#/comunidade/membro/${f.member_id}`} aria-label={`Perfil de ${f.name}`}>
-                <img src={avatarUrl(f.avatar)} alt="" />
-              </a>
-              <div className="feed-body">
-                <p>
-                  <a className="feed-name" href={`#/comunidade/membro/${f.member_id}`}>
-                    <b>{f.name}</b>
-                  </a> <RoleBadge role={f.role} /> {d.href ? <a href={d.href}>{d.text}</a> : d.text}
-                </p>
-                <div className="feed-foot">
-                  <span className="muted small">
-                    <Icon name={d.icon} size={14} /> {relTime(f.created_at)}
-                  </span>
-                  <button className={`amen ${f.mine ? 'on' : ''}`} onClick={() => amen(f)} aria-pressed={f.mine}>
-                    🙏 Amém{f.amens ? ` · ${f.amens}` : ''}
-                  </button>
-                </div>
-              </div>
+        {entries.map((e) =>
+          e.post ? (
+            <li key={`p${e.post.id}`} className="feed-post">
+              <PostCard
+                post={e.post}
+                onChange={(np) => setPosts((cur) => cur!.map((x) => (x.id === np.id ? np : x)))}
+                onRemove={(id) => setPosts((cur) => cur!.filter((x) => x.id !== id))}
+                onInspire={inspire}
+              />
             </li>
-          );
-        })}
+          ) : (
+            <ActivityItem key={`a${e.act!.id}`} f={e.act!} onAmen={amen} />
+          ),
+        )}
       </ol>
       {more && (
-        <button className="btn btn-outline sm feed-more" onClick={() => load(items[items.length - 1].id)}>
+        <button className="btn btn-outline sm feed-more" onClick={() => load(true)}>
           Carregar mais
         </button>
       )}

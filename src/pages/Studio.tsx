@@ -4,11 +4,13 @@ import { Icon } from '../components/Icon';
 import { MediaPlayer, RichText } from '../components/RichText';
 import { Modal, useUI } from '../components/ui';
 import { COMMUNITY_NAME } from '../lib/church';
-import { MONTHS, monthKey, monthLabel, ROLE_LABEL, seasonsOf, useCommunity, type Content, type Series } from '../lib/community';
+import { MONTHS, monthKey, monthLabel, ROLE_LABEL, seasonsOf, useCommunity, type Announcement, type Content, type Series } from '../lib/community';
 import { fetchMediaInfo, MEDIA_LABEL, parseMedia } from '../lib/media';
 import { findRefs } from '../lib/refs';
 import { setQuery, useRoute } from '../lib/router';
 import { thumbOf } from './Messages';
+import { MediaPicker, resolveMedia, type PickedMedia } from '../components/Posts';
+import { AnnouncementCard } from '../components/Announcements';
 
 /** Estúdio da liderança: séries e lançamentos, mural do mês, mensagens completas e importação de vídeos/podcasts. */
 
@@ -524,7 +526,131 @@ function ImportEditor({ onClose }: { onClose: () => void }) {
   );
 }
 
-type Editing = { type: 'series'; d: SeriesDraft } | { type: 'content'; d: ContentDraft } | { type: 'import' } | null;
+type AnnDraft = Partial<Announcement> & { title: string };
+
+const LINK_PRESETS: [string, string][] = [
+  ['', 'Sem botão'],
+  ['#/mensagens', 'Mensagens'],
+  ['#/comunidade', 'Relacionamentos'],
+  ['#/igreja', 'Minha igreja'],
+  ['externo', 'Link externo…'],
+];
+
+function AnnouncementEditor({ initial, onClose, onSaved }: { initial: AnnDraft; onClose: () => void; onSaved: () => void }) {
+  const c = useCommunity();
+  const { toast } = useUI();
+  const [a, setA] = useState<AnnDraft>(initial);
+  const [banner, setBanner] = useState<PickedMedia | null>(initial.image_url ? { type: 'image', url: initial.image_url, preview: initial.image_url } : null);
+  const [media, setMedia] = useState<PickedMedia | null>(initial.media_type && initial.media_url ? { type: initial.media_type, url: initial.media_url, preview: initial.media_url } : null);
+  const [busy, setBusy] = useState(false);
+  const set = (p: Partial<AnnDraft>) => setA((cur) => ({ ...cur, ...p }));
+  const series = c.catalog?.series ?? [];
+  const preset = !a.link ? '' : LINK_PRESETS.some(([v]) => v === a.link) || series.some((s) => `#/mensagens/serie/${s.id}` === a.link) ? a.link : 'externo';
+
+  const save = async () => {
+    if (!a.title.trim()) return toast('Dê um título ao anúncio');
+    setBusy(true);
+    try {
+      const img = await resolveMedia(banner, c.upload);
+      const m = await resolveMedia(media, c.upload);
+      await c.call('save_announcement', {
+        p: { ...a, image_url: img.media_url ?? '', media_type: m.media_type ?? '', media_url: m.media_url ?? '', starts_at: a.starts_at ?? '', ends_at: a.ends_at ?? '' },
+      });
+      toast(a.id ? 'Anúncio atualizado' : 'Anúncio publicado na tela inicial');
+      onSaved();
+      onClose();
+    } catch (e) {
+      toast((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const preview: Announcement = { id: 'preview', title: a.title || 'Título do anúncio', body: a.body, image_url: banner?.preview, media_type: media?.type === 'image' ? null : (media?.type ?? null), media_url: media?.url ?? media?.preview, link: a.link, link_label: a.link_label, starts_at: '', author: c.member?.name };
+
+  return (
+    <Modal onClose={onClose} className="studio-modal wide" label="Anúncio">
+      <button className="modal-close" onClick={onClose} aria-label="Fechar">
+        <Icon name="close" />
+      </button>
+      <div className="studio-form">
+        <h2>{a.id ? 'Editar anúncio' : 'Novo anúncio'}</h2>
+        <p className="muted small">Aparece na tela inicial de todos, ao lado de “Continuar lendo”. Use para cultos, reuniões, eventos e novas séries.</p>
+        <div className="ann-editor">
+          <div>
+            <label className="field">
+              <span>Título *</span>
+              <input value={a.title} onChange={(e) => set({ title: e.target.value })} maxLength={100} placeholder="Ex.: Culto de Ceia neste domingo" />
+            </label>
+            <label className="field">
+              <span>Mensagem</span>
+              <textarea rows={3} value={a.body ?? ''} onChange={(e) => set({ body: e.target.value })} maxLength={1000} placeholder="Dia, horário, local e um convite especial." />
+            </label>
+            <div className="field">
+              <span>Banner (imagem)</span>
+              <MediaPicker value={banner} onChange={setBanner} allow={['image']} />
+            </div>
+            <div className="field">
+              <span>Vídeo ou áudio (opcional)</span>
+              <MediaPicker value={media} onChange={setMedia} allow={['video', 'audio']} />
+            </div>
+            <div className="form-grid">
+              <label>
+                <span>Botão leva para</span>
+                <select value={preset} onChange={(e) => set({ link: e.target.value === 'externo' ? 'https://' : e.target.value })}>
+                  {LINK_PRESETS.map(([v, l]) => (
+                    <option key={v} value={v}>
+                      {l}
+                    </option>
+                  ))}
+                  {series.map((s) => (
+                    <option key={s.id} value={`#/mensagens/serie/${s.id}`}>
+                      Série: {s.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {preset === 'externo' && (
+                <label>
+                  <span>Endereço</span>
+                  <input value={a.link ?? ''} onChange={(e) => set({ link: e.target.value })} placeholder="https://…" />
+                </label>
+              )}
+              {a.link && (
+                <label>
+                  <span>Texto do botão</span>
+                  <input value={a.link_label ?? ''} onChange={(e) => set({ link_label: e.target.value })} maxLength={40} placeholder="Saiba mais" />
+                </label>
+              )}
+              <label>
+                <span>Começa a aparecer</span>
+                <input type="datetime-local" value={toLocalInput(a.starts_at)} onChange={(e) => set({ starts_at: fromLocalInput(e.target.value) || undefined })} />
+              </label>
+              <label>
+                <span>Sai do ar (opcional)</span>
+                <input type="datetime-local" value={toLocalInput(a.ends_at)} onChange={(e) => set({ ends_at: fromLocalInput(e.target.value) || null })} />
+              </label>
+            </div>
+          </div>
+          <div className="ann-preview">
+            <span className="qs-title">Prévia</span>
+            <AnnouncementCard a={preview} />
+          </div>
+        </div>
+        <div className="modal-actions">
+          <button className="btn btn-outline" onClick={onClose}>
+            Cancelar
+          </button>
+          <button className="btn btn-primary" disabled={busy} onClick={save}>
+            <Icon name="check" /> {busy ? 'Publicando…' : a.id ? 'Salvar' : 'Publicar anúncio'}
+          </button>
+        </div>
+      </div>
+    </Modal>
+  );
+}
+
+type Editing = { type: 'series'; d: SeriesDraft } | { type: 'content'; d: ContentDraft } | { type: 'import' } | { type: 'ann'; d: AnnDraft } | null;
 
 export function Studio() {
   const c = useCommunity();
@@ -532,6 +658,11 @@ export function Studio() {
   const route = useRoute();
   const [editing, setEditing] = useState<Editing>(null);
   const cat = c.catalog;
+  const [ads, setAds] = useState<Announcement[] | null>(null);
+  const loadAds = () => c.call<Announcement[]>('announcements_manage').then(setAds).catch(() => setAds([]));
+  useEffect(() => {
+    if (c.isLeader) loadAds();
+  }, [c.isLeader]);
 
   const newContent = (p: Partial<ContentDraft> = {}): ContentDraft => ({
     title: '',
@@ -632,7 +763,50 @@ export function Studio() {
           <b>Importar vídeos e podcasts</b>
           <small>YouTube, Spotify, SoundCloud, Vimeo, Drive, MP3</small>
         </button>
+        <button className="studio-action" onClick={() => setEditing({ type: 'ann', d: { title: '' } })}>
+          <Icon name="bell" size={26} />
+          <b>Novo anúncio</b>
+          <small>Banner, texto, vídeo ou áudio na tela inicial</small>
+        </button>
       </div>
+
+      {!!ads?.length && (
+        <section className="panel studio-series">
+          <h2>
+            <Icon name="bell" size={20} /> Anúncios na tela inicial
+          </h2>
+          {ads.map((a) => {
+            const live = new Date(a.starts_at) <= new Date() && (!a.ends_at || new Date(a.ends_at) > new Date());
+            return (
+              <div key={a.id} className="studio-item">
+                {a.image_url ? <img src={a.image_url} alt="" /> : <span className="studio-thumb-ph"><Icon name="bell" size={18} /></span>}
+                <div>
+                  <b>{a.title}</b>
+                  <small className="muted">
+                    {live ? 'No ar' : new Date(a.starts_at) > new Date() ? `Agendado · ${new Date(a.starts_at).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}` : 'Encerrado'}
+                    {a.media_type ? ` · ${a.media_type === 'audio' ? 'áudio' : 'vídeo'}` : ''}
+                    {a.ends_at ? ` · até ${new Date(a.ends_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}` : ''}
+                  </small>
+                </div>
+                <button className="icon-btn" title="Editar" onClick={() => setEditing({ type: 'ann', d: { ...a } })}>
+                  <Icon name="pen" size={16} />
+                </button>
+                <button
+                  className="icon-btn"
+                  title="Remover"
+                  onClick={async () => {
+                    if (!confirm(`Remover o anúncio “${a.title}”?`)) return;
+                    await c.call('remove_announcement', { p_id: a.id }).catch((e: Error) => toast(e.message));
+                    loadAds();
+                  }}
+                >
+                  <Icon name="trash" size={16} />
+                </button>
+              </div>
+            );
+          })}
+        </section>
+      )}
 
       {!cat ? (
         <div className="spinner" />
@@ -690,6 +864,7 @@ export function Studio() {
       {editing?.type === 'series' && <SeriesEditor initial={editing.d} onClose={close} />}
       {editing?.type === 'content' && <ContentEditor initial={editing.d} onClose={close} />}
       {editing?.type === 'import' && <ImportEditor onClose={close} />}
+      {editing?.type === 'ann' && <AnnouncementEditor initial={editing.d} onClose={close} onSaved={loadAds} />}
     </main>
   );
 }

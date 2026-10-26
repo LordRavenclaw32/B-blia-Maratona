@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { episodeOfChapter, getBook } from './data/books';
 import { Navbar, TabBar } from './components/Navbar';
 import { BrandMark, BrandWord } from './components/Brand';
 import { AccessGate } from './components/AccessGate';
-import { CHURCH, IS_DEMO, SHOW_DEMO_BAR, needsAccess, nsKey } from './lib/church';
+import { CHURCH, IS_DEMO, SHOW_DEMO_BAR, needsAccess } from './lib/church';
 import { Church } from './pages/Church';
 import { ChurchSetup } from './pages/ChurchSetup';
 import { Pitch } from './pages/Pitch';
@@ -31,7 +31,7 @@ import { Stats } from './pages/Stats';
 
 function Intro({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 3300);
+    const t = setTimeout(onDone, 5300);
     return () => clearTimeout(t);
   }, [onDone]);
   return (
@@ -161,35 +161,23 @@ function Routes() {
 
 export default function App() {
   const [locked, setLocked] = useState(needsAccess);
-  const [intro, setIntro] = useState(() => {
-    try {
-      return !sessionStorage.getItem(nsKey('mb:intro'));
-    } catch {
-      return false;
-    }
-  });
-  const done = () => {
-    try {
-      sessionStorage.setItem(nsKey('mb:intro'), '1');
-    } catch {
-      /* ignore */
-    }
-    setIntro(false);
-  };
+  // a abertura (nome, logo e subtítulo) aparece sempre que o app é aberto
+  const [intro, setIntro] = useState(true);
+  const done = useCallback(() => setIntro(false), []);
   return (
     <StoreProvider>
       <CoversProvider>
+      <CommunityProvider>
       <UIProvider>
         <MusicProvider>
-          <CommunityProvider>
           <TopPanelProvider>
             {intro ? <Intro onDone={done} /> : locked ? <AccessGate onOk={() => setLocked(false)} /> : <Routes />}
             <TopPanels />
             {!intro && <DemoBar />}
           </TopPanelProvider>
-          </CommunityProvider>
         </MusicProvider>
       </UIProvider>
+      </CommunityProvider>
       </CoversProvider>
     </StoreProvider>
   );

@@ -10,6 +10,7 @@ import { APP_NAME } from '../lib/brand';
 import { CHURCH, planBooks } from '../lib/church';
 import { PlanCard } from './Church';
 import { ChurchContentRow } from './Messages';
+import { AnnouncementsCarousel, useAnnouncements } from '../components/Announcements';
 import { Icon } from '../components/Icon';
 
 const ORIGINALS = ['gn', 'ex', 'js', 'rt', '1sm', 'et', 'dn', 'jn', 'mt', 'jo', 'at', 'ap'];
@@ -21,6 +22,7 @@ function dayIndex() {
 
 export function Browse({ testament }: { testament?: Testament }) {
   const profile = useProfile();
+  const ads = useAnnouncements();
   const inT = (b: Book) => !testament || b.testament === testament;
 
   const cont = continueWatching(profile).filter(inT);
@@ -65,7 +67,12 @@ export function Browse({ testament }: { testament?: Testament }) {
           </div>
         )}
         {!testament && <ChurchContentRow />}
-        <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
+        <div className={`home-top ${!testament && ads.length && cont.length ? 'split' : ''}`}>
+          <div className="home-top-main">
+            <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
+          </div>
+          {!testament && <AnnouncementsCarousel list={ads} />}
+        </div>
         {planList.length > 0 && <Row title={`Plano da igreja · ${CHURCH!.plano!.titulo}`} books={planList} variant="poster" />}
         <Row title="Minha lista" books={list} />
         {top10.length >= 5 && <Row title={testament ? `Top ${top10.length} ${testament === 'AT' ? 'do Antigo' : 'do Novo'} Testamento` : 'Top 10 livros mais lidos'} books={top10} variant="top10" />}

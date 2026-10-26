@@ -4,7 +4,7 @@ import { MUSIC_PRESETS, parseMusicUrl, useMusic } from '../lib/music';
 import { navigate } from '../lib/router';
 import { useStore } from '../lib/store';
 import { useVersions } from '../lib/useVersions';
-import { CHURCH, nsKey } from '../lib/church';
+import { CHURCH } from '../lib/church';
 import { Icon } from './Icon';
 import { useUI } from './ui';
 import { restoreCoverImages, withCoverImages } from '../lib/covers';
@@ -391,11 +391,6 @@ function QuickSettings({ onClose }: { onClose: () => void }) {
             music.stop();
             if (document.fullscreenElement) await document.exitFullscreen().catch(() => undefined);
             actions.logout();
-            try {
-              sessionStorage.removeItem(nsKey('mb:intro'));
-            } catch {
-              /* ignore */
-            }
             navigate('/profiles');
             window.close();
           }}

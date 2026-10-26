@@ -61,6 +61,22 @@ try {
   await n.goto(BASE + '?igreja=bibliaflix#/comunidade');
   await n.waitForSelector('.feed-item', { timeout: 20000 });
   ok(true, 'relacionamentos (feed) no app normal');
+  // publicação privada com imagem (testa o envio de mídia ao servidor real) e exclusão
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64');
+  await n.click('.composer-closed');
+  await n.fill('.composer textarea', `Teste automático ${RUN}`);
+  await n.locator('.composer input[type=file][accept="image/*"]').setInputFiles({ name: 'teste.png', mimeType: 'image/png', buffer: png });
+  await n.waitForSelector('.composer .media-picked img');
+  await n.click('.composer .seg button:has-text("Privado")');
+  await n.click('.composer button:has-text("Publicar")');
+  const mine = n.locator(`.post-card:has-text("Teste automático ${RUN}")`);
+  await mine.locator('.post-image').waitFor({ timeout: 20000 });
+  ok((await mine.locator('.post-image').getAttribute('src')).includes('/storage/v1/object/public/midia/'), 'envio de imagem para o servidor');
+  ok(await n.evaluate(async (src) => (await fetch(src)).ok, await mine.locator('.post-image').getAttribute('src')), 'imagem publicada acessível');
+  await mine.locator('button[aria-label="Opções da publicação"]').click();
+  await mine.locator('.dd-item:has-text("Excluir")').click();
+  await mine.waitFor({ state: 'detached' });
+  ok(true, 'publicação de teste excluída');
   await n.click('.community-tabs button:has-text("Conversas")');
   await n.waitForSelector('.conv-list .conv-new');
   ok(true, 'conversas no app normal');
@@ -78,6 +94,8 @@ try {
   await c.waitForURL(/igreja=exemplo/);
   await enter(c, c.url(), 'Teste');
   ok((await c.title()) === 'Graça Play', 'app da igreja abre (Graça Play)');
+  await c.waitForSelector('.ann-card', { timeout: 20000 });
+  ok(true, 'igreja: anúncios na tela inicial');
   await c.goto(BASE + '?igreja=exemplo#/mensagens');
   await join(c, `teste-${RUN}@verificacao`);
   await c.waitForSelector('.c-hero', { timeout: 20000 });
@@ -86,6 +104,7 @@ try {
   await c.goto(BASE + '?igreja=exemplo#/comunidade');
   await c.waitForSelector('.feed-item', { timeout: 20000 });
   ok((await c.locator('.feed-item').count()) >= 5, 'igreja: feed de atividades dos irmãos');
+  ok((await c.locator('.post-card').count()) >= 2, 'igreja: publicações (devocionais e estudos) no feed');
   await c.click('.community-tabs button:has-text("Irmãos")');
   await c.waitForSelector('a.brother');
   await c.click('a.brother:has-text("Ana Paula")');
