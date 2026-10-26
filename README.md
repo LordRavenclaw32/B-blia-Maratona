@@ -23,26 +23,15 @@ No celular, abra o link e use **Adicionar à tela inicial** para instalar como a
 
 ## Novidades
 
-- 🎵 **Louvor de fundo** na barra superior: cole um link do Spotify, YouTube ou YouTube Music (ou escolha uma playlist sugerida). A música continua tocando enquanto você navega e lê; o painel recolhe e fica só o controle ▶/⏸ na barra.
+- 🎵 **Louvor de fundo** na barra superior com **YouTube Music**: cole o link de uma playlist ou música (ou escolha uma sugestão). A música continua enquanto você navega e lê; o painel recolhe e fica só o controle ▶/⏸ na barra.
 - ⚙️ **Configurações rápidas**: tela cheia, volume do louvor, fazer/carregar backup, importar outra versão da Bíblia em JSON (66 livros) e sair da conta/app.
 - **Temporadas ilustradas**: cada coleção (Pentateuco, Históricos, Poéticos, Profetas, Evangelhos, Cartas…) tem um banner temático.
 - 🎨 **Capas personalizadas**: em cada série (botão *Personalizar capa*) e em cada episódio (ícone de imagem na miniatura), escolha uma arte da galeria bíblica do app ou envie a sua, com estilos *Bíblico, Cinema, Dourado, Noite e P&B*. A capa vale no app e nas imagens de compartilhamento, e entra no backup.
 - **Imagens locais**: todas as obras são baixadas para `public/art/c` pelo workflow, sem depender de links externos.
 
-## Login do Spotify e do YouTube Music (louvor de fundo)
+## Louvor de fundo (YouTube Music)
 
-No painel 🎵 há os botões **Entrar com Spotify** e **Entrar no YouTube Music**.
-
-**Spotify (músicas completas dentro do BíbliaFlix):** usa o login oficial do Spotify e o Web Playback SDK — o BíbliaFlix vira um aparelho "BíbliaFlix" na sua conta. Exige conta **Premium** (regra do Spotify). Configuração única:
-
-1. Acesse https://developer.spotify.com/dashboard → **Create app**.
-2. Em **Redirect URIs**, adicione exatamente `https://lordravenclaw32.github.io/B-blia-Maratona/` (e `http://127.0.0.1:5173/` para testes locais). Marque **Web API** e **Web Playback SDK**.
-3. Copie o **Client ID** e, no GitHub, crie a variável do repositório **Settings → Secrets and variables → Actions → Variables → `SPOTIFY_CLIENT_ID`**. O próximo deploy já sai com o login ativo. (Também é possível colar o Client ID no próprio painel 🎵.)
-4. Enquanto o app do Spotify estiver em *Development mode*, adicione em **User Management** os e-mails de quem vai usar (até 25 contas) ou peça *Extended quota*.
-
-Sem Premium ou sem login, o app usa o player incorporado do Spotify (completo se você estiver logado no site do Spotify no mesmo navegador; senão, prévias de 30s).
-
-**YouTube Music:** o botão abre o login da sua conta Google; o player do YouTube passa a usar sua conta. Aceita links `music.youtube.com/playlist?list=…`, `music.youtube.com/browse/VL…`, `youtube.com/watch?v=…&list=…` e `youtu.be/…`. Faixas que as gravadoras bloqueiam fora do YouTube são puladas automaticamente; se a playlist inteira for bloqueada, use **Abrir no YouTube Music**.
+No painel 🎵, **Entrar no YouTube Music** abre o login da sua conta Google (com YouTube Premium, sem anúncios). Aceita links `music.youtube.com/playlist?list=…`, `music.youtube.com/browse/VL…`, `music.youtube.com/watch?v=…`, `youtube.com/watch?v=…&list=…` e `youtu.be/…`. Faixas que as gravadoras bloqueiam fora do YouTube são puladas automaticamente; se a playlist inteira for bloqueada, use **Abrir no YouTube Music**.
 
 ## Rodando
 
