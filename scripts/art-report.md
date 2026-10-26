@@ -22,9 +22,9 @@ Itens sem imagem: 0
 - E16: Jacob Blessing the Children of Joseph — Rembrandt `Rembrandt Jacob blessing the sons of Joseph`
 ## ex
 - **livro**: Passage of the Jews through the Red Sea — Ivan Aivazovsky `Aivazovsky Passage of the Jews through the Red Sea`
-- E1: Tissot Drawing 112 Moses speaks to pharaoh (Exodus 5 1) for Brunoff 106 Moïse parle à Pharaon — James Tissot `Tissot Drawing Moses Pharaoh daughter`
+- E1: Tissot Drawing 124 Pharaoh sues to Moses (Exodus 9 27) for Brunoff 115 Pharaon accorde à Moïse — James Tissot `Tissot Drawing Moses Pharaoh daughter`
 - E2: Landscape with Moses and the Burning Bush — Domenichino `Moses burning bush painting`
-- E3: Tissot Drawing 124 Pharaoh sues to Moses (Exodus 9 27) for Brunoff 115 Pharaon accorde à Moïse — James Tissot `Tissot Moses and Aaron before Pharaoh`
+- E3: Tissot Drawing 112 Moses speaks to pharaoh (Exodus 5 1) for Brunoff 106 Moïse parle à Pharaon — James Tissot `Tissot Moses and Aaron before Pharaoh`
 - E4: The Seventh Plague — John Martin `John Martin Seventh Plague of Egypt`
 - E5: Death of the Pharaoh's Firstborn Son (Ex. 12:29 — Lawrence Alma-Tadema `Alma-Tadema Death of the Pharaoh Firstborn Son`
 - E6: 037.The Egyptians Drown in the Sea — Gustave Doré `Doré Egyptians drowned in the Red Sea`
@@ -91,7 +91,7 @@ Itens sem imagem: 0
 - E7: Tissot Drawing 214 Samson kills a young lion Judges 14 5 for Brunoff 202 Samson et le lion — James Tissot `Tissot Samson lion`
 - E8: Samson and Delilah — Peter Paul Rubens `Rubens Samson and Delilah`
 - E9: Rembrandt workshop blinding samson, w34071 — Rembrandt `Rembrandt Blinding of Samson`
-- E10: Tissot Drawing 232 The old man invites the Levite Judges 19 17 for Brunoff 220 Le vieillard invite le Lévite — James Tissot `Tissot Levite concubine`
+- E10: Tissot Drawing 235 The Ephraimites wish to know the Levite Judges 19 22 for Brunoff 221 Les Ephraïmites veulen — James Tissot `Tissot Levite concubine`
 ## rt
 - **livro**: Ruth in Boaz's Field — Julius Schnorr von Carolsfeld `Julius Schnorr Ruth in Boaz field`
 - E1: Ruth and Naomi — Philip Hermogenes Calderon `Philip Hermogenes Calderon Ruth and Naomi`
@@ -103,7 +103,7 @@ Itens sem imagem: 0
 - E1: Le grand prétre et la vieille femme (1 Samuel 1 12-13) • invenit James Tissot • pinxit James Tissot • excudit  — Phillip Medhurst `Hannah presents Samuel to Eli painting`
 - E2: The Plague at Ashdod (after Poussin) — Angelo Caroselli `Poussin The Plague of Ashdod`
 - E3: Samuel Anointing Saul — François de Nomé `Samuel anoints Saul painting`
-- E4: Tissot Drawing 253 Saul sacrifices the oxen 1 Samuel 11 7 for Brunoff 244 Saül sacrifie les bœufs — James Tissot `Tissot Saul`
+- E4: Tissot Drawing 274 Saul prophesies before Samuel 1 Samuel 19 24 for Brunoff 262 Saül prophétise avec les proph — James Tissot `Tissot Saul`
 - E5: Caravaggio-David with the Head of Goliath-kunsthistorisches museum-Vienna — Yair Haklai `Caravaggio David with the Head of Goliath`
 - E6: David with the head of Goliath — Artemisia Gentileschi `Gentileschi David and Goliath`
 - E7: David and Jonathan — Giovanni Battista Cima da Conegliano `David and Jonathan painting`
@@ -245,10 +245,10 @@ Itens sem imagem: 0
 - E8: St. Anne Revealing to the Virgin the Prophecy of Isaiah — Noël Hallé `Isaiah prophecy painting`
 - E9: The Crucifixion (left wing), The Prophecy of the Recovery of Hezekiah (central panel), Abbot Jacob Delrio with — Jacob de Backer `Hezekiah Isaiah painting`
 - E10: 120.The Prophet Isaiah — Gustave Doré `Doré Isaiah`
-- E11: Daniel and Cyrus before the Idol Bel (detail). — Bartlomiej Strobel `Cyrus the Great painting`
+- E11: Carlo De Notaris Cyrus and Daniel — Carlo De Notaris `Cyrus the Great painting`
 - E12: The Prophet Isaiah — Raphael `Prophet Isaiah Raphael`
 - E13: Man of Sorrows — William Dyce `Man of Sorrows painting`
-- E14: Het voeden der wezen-Het voeden der wezen in het Diaconieweeshuis-Maaltijd van weesmeisjes uit het Diaconiewee — Jan Victors `feeding the hungry painting`
+- E14: Isaiah (detail) — Michelangelo `Michelangelo prophet Isaiah Sistine Chapel`
 - E15: Christ in the Heavenly Jerusalem — Anonymous ( Italy ) Unknown author `Heavenly Jerusalem painting`
 - E16: The Plains of Heaven — John Martin `John Martin The Plains of Heaven`
 ## jr
@@ -326,7 +326,7 @@ Itens sem imagem: 0
 - E3: Jonah Preaching before Nineveh — John Martin `Jonah preaching Nineveh painting`
 - E4: Jonah Under His Gourd — Maarten van Heemskerck `Jonah gourd vine painting`
 ## mq
-- **livro**: Prophet Micah PRIZREN 2 IMG 5342-2 — BLAGO Fund, Inc. `Prophet Micah painting`
+- **livro**: Prophet Micah PRIZREN 2 IMG 5342-4 — BLAGO Fund, Inc. `Prophet Micah painting`
 - E1: Pier Leone Ghezzi - Prophet Micah (cropped) — Sailko `Prophet Micah painting`
 - E2: Adoration of the Child — Gerard van Honthorst `Nativity painting Gerard van Honthorst`
 - E3: The Prophets - Micah, Haggai, Malachi, Zechariah (The Story of the Masterpieces) — Charles M. Stuart `Prophet Micah painting`
@@ -517,3 +517,14 @@ Itens sem imagem: 0
 - E7: The Whore of Babylon, from The Apocalypse — Albrecht Dürer `Dürer Whore of Babylon`
 - E8: The Four Horsemen of the Apocalypse: The Rider on the White Horse — George Frederic Watts `Rider on the white horse painting`
 - E9: The Plains of Heaven — John Martin `John Martin The Plains of Heaven`
+## Temporadas
+- AT: Cumaean Sibyl — Michelangelo `Michelangelo Sistine Chapel ceiling`
+- NT: The Sermon On the Mount — Carl Bloch `Carl Bloch Sermon on the Mount`
+- Pentateuco: Passage of the Jews through the Red Sea — Ivan Aivazovsky `Aivazovsky Passage of the Jews through the Red Sea`
+- Históricos: Joshua Commanding the Sun to Stand Still — John Martin `John Martin Joshua Commanding the Sun to Stand Still`
+- Poéticos: King David Playing the Harp — Gerard van Honthorst `King David psalms painting`
+- Profetas Maiores: 'Isaiah Sistine Chapel ceiling' by Michelangelo JBU36 — Jörg Bittner Unna `Michelangelo Isaiah Sistine`
+- Profetas Menores: Jonah Preaching before Nineveh — John Martin `John Martin Jonah Preaching before Nineveh`
+- Evangelhos: Christ and the young rich ruler — Heinrich Hofmann `Heinrich Hofmann Christ and the Rich Young Ruler`
+- Cartas Paulinas: St. Paul in Prison by Rembrandt - Staatsgalerie - Stuttgart - Germany 2017 — José Luiz Bernardes Ribeiro `Rembrandt Apostle Paul in Prison`
+- Cartas Gerais: The Four Apostles — Albrecht Dürer `Dürer The Four Apostles`
