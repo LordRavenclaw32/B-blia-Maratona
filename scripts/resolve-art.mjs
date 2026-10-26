@@ -15,6 +15,8 @@ const UA = 'BibliaFlixArtResolver/1.0 (https://github.com/LordRavenclaw32/B-blia
 const OK_MIME = /^image\/(jpeg|png|tiff|webp)$/;
 const BAD_TITLE = /geograph|stained glass|railway|station|baptist church|cylinder|statue|sculpture|relief|stamp|coin|\bmap\b|logo|diagram|\.pdf|\.djvu|\.svg|DSC_?\d|IMG_\d|photograph|church of|cathedral|basilica|tomb of|grave/i;
 const BIBLE = /bible|biblical|testament|prophet|christ|jesus|apostle|saint|gospel|tissot|dor[ée]|psalm|psalter|religious|christian|evangelist|moses|abraham|isaac|jacob|joseph|david|solomon|samson|elijah|elisha|daniel|jonah|isaiah|jeremiah|ezekiel|madonna|angel|scripture|israelite|hebrew|jewish|judaism|eden|paradise|apocalypse|revelation|nativity|crucifixion|resurrection|last supper|last judg|annunciation|magi|lazarus|pentecost|noah|deluge|babel|exodus|pharaoh|sinai|jericho|ruth|esther|job|habakkuk|zechariah|amos|hosea|micah|nahum|joel|malachi|haggai|obadiah|zephaniah|nehemiah|ezra|lamentations|song of songs|song of solomon|sistine|icons of|vanitas|nineveh|assyria/i;
+const ART = /paint|drawing|illustrat|icon|fresco|engrav|mosaic|miniature|manuscript|art project|tissot|dor[eé]|watercolou?r|etching|woodcut|lithograph|canvas|oil on|panel|altarpiece|museum|gallery|illumin|plate|blake|rembrandt|caravaggio|rubens|michelangelo|sistine|codex|bible/i;
+const NOT_ART = /photographs? of|concert|statue|sculpture|medal|coin|relief|stained glass|buildings|townscape|cityscape photo|streets|landscapes of|church buildings|exteriors/i;
 const BAD_ARTIST = /photo was taken|feel free to use|nasa|hubble|mu-tamajo|むーたんじょ/i;
 const BAD_CAT = /stained glass|church interiors|interiors of churches|aerial photographs|maps of|buildings in|exteriors of|streets in|photographs by/i;
 const STOP = new Set(['painting', 'paintings', 'the', 'of', 'and', 'in', 'a', 'an', 'at', 'on', 'to', 'by', 'his', 'her', 'with', 'from', 'icon', 'drawing', 'saint', 'st', 'prophet', 'king', 'tissot', 'dore', 'doré', 'holy', 'bible', 'plate']);
@@ -74,6 +76,7 @@ async function search(q) {
         })
         .filter(({ artist, cats, year }) => !BAD_ARTIST.test(artist) && !BAD_CAT.test(cats) && !(year >= 1930))
         .filter(({ file, rawName, cats, artist }) => BIBLE.test(`${file} ${rawName} ${cats} ${artist}`))
+        .filter(({ file, rawName, cats }) => ART.test(`${file} ${rawName} ${cats}`) && !NOT_ART.test(`${file} ${cats}`))
         .filter(({ file, rawName }) => {
           const kw = keywords(q);
           if (!kw.length) return true;
@@ -91,6 +94,8 @@ async function search(q) {
           n: name.slice(0, 110),
           d: ii.descriptionurl,
         }));
+      const sketch = (h) => (/Tissot Drawing|Brunoff|sketch/i.test(h.f) ? 1 : 0);
+      out.sort((a, b) => sketch(a) - sketch(b));
       cache.set(q, out);
       await sleep(120);
       return out;
