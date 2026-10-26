@@ -1,6 +1,7 @@
 import type { Book } from '../data/books';
 import manifest from '../data/artManifest.json';
 import { artUrl } from './art';
+import { CUSTOM_ART } from '../data/customArt';
 
 /** Obra de arte em domínio público (Wikimedia Commons) associada a um livro ou episódio. */
 export interface Painting {
@@ -13,21 +14,38 @@ export interface Painting {
   l: string;
   n: string;
   d: string;
+  /** arte própria servida de public/art */
+  local?: boolean;
 }
 
 type Kind = 'poster' | 'backdrop' | 'thumb';
 
 const M = manifest as unknown as { books: Record<string, Painting>; episodes: Record<string, Painting> };
 
-export function painting(book: Book, ep?: number): Painting | undefined {
-  return (ep ? M.episodes[`${book.id}:${ep}`] : undefined) ?? M.books[book.id];
+function custom(key: string): Painting | undefined {
+  const c = CUSTOM_ART[key];
+  if (!c) return undefined;
+  return { f: c.file, t: `art/${c.file}-sm.webp`, u: `art/${c.file}.webp`, w: c.w, h: c.h, a: '', l: '', n: c.name, d: '', local: true };
 }
+
+export function painting(book: Book, ep?: number): Painting | undefined {
+  if (ep) {
+    const key = `${book.id}:${ep}`;
+    const e = custom(key) ?? M.episodes[key];
+    if (e) return e;
+  }
+  return custom(book.id) ?? M.books[book.id];
+}
+
+/** Livros com arte própria (usados com prioridade no destaque da página inicial). */
+export const BOOKS_WITH_CUSTOM_ART = new Set(Object.keys(CUSTOM_ART).map((k) => k.split(':')[0]));
 
 /** Tamanhos padronizados de miniatura do Wikimedia. */
 const STEPS = [500, 960, 1280, 1920];
 const NEED: Record<Kind, number> = { thumb: 500, poster: 960, backdrop: 1920 };
 
 function sized(p: Painting, want: number): string {
+  if (p.local) return want <= 500 ? p.t : p.u;
   if (!p.t || !/\/\d+px-/.test(p.t)) return p.u;
   const fit = STEPS.filter((s) => s <= p.w);
   if (!fit.length) return p.u;

@@ -768,3 +768,26 @@ body:has(.reader) { padding-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }
+
+/* ───────── Artes próprias / fundos ───────── */
+img[src^='art/'] { object-position: center 28%; }
+.hero-art[src^='art/'] { object-position: center 22%; }
+.profiles-page.with-bg { position: relative; isolation: isolate; }
+.profiles-page.with-bg::before {
+  content: ''; position: fixed; inset: 0; z-index: -1;
+  background: linear-gradient(90deg, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.8) 50%, rgba(10, 10, 10, 0.3) 100%), var(--bg-img) right center / cover no-repeat;
+}
+.profiles-page.center.with-bg::before {
+  background: radial-gradient(ellipse at center, rgba(10, 10, 10, 0.7) 0%, rgba(10, 10, 10, 0.9) 75%), var(--bg-img) center / cover no-repeat;
+}
+
+.bd { position: absolute; inset: 0; overflow: hidden; background: #000; }
+.bd img { position: absolute; display: block; }
+.bd-full { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bd-blur { inset: -60px; width: calc(100% + 120px); height: calc(100% + 120px); object-fit: cover; filter: blur(34px) brightness(0.5) saturate(1.25); }
+.bd-sharp { top: 0; right: 0; height: 100%; width: auto; max-width: 64%; object-fit: cover; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%); mask-image: linear-gradient(90deg, transparent 0%, #000 28%); }
+.hero-bd .bd-full, .hero-bd .bd-sharp { animation: kenburns 30s ease-in-out infinite alternate; transform-origin: center 30%; }
+.tm-hero .bd { border-radius: 8px 8px 0 0; }
+@media (max-width: 800px) {
+  .bd.portrait .bd-sharp { inset: 0; width: 100%; max-width: none; height: 100%; -webkit-mask-image: none; mask-image: none; }
+}

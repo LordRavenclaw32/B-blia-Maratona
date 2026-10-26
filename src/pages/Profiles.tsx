@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { Logo } from '../components/Navbar';
+import { PROFILE_BACKGROUND } from '../data/customArt';
 import { VERSIONS, type VersionId } from '../lib/api';
 import { AVATARS, avatarUrl } from '../lib/art';
 import { navigate, useRoute } from '../lib/router';
@@ -196,7 +197,7 @@ export function Profiles() {
 
   if (!profiles.length || editing)
     return (
-      <div className="profiles-page">
+      <div className="profiles-page with-bg" style={{ ['--bg-img' as string]: `url(${new URL(PROFILE_BACKGROUND, document.baseURI).href})` }}>
         <header className="profiles-top">
           <Logo />
         </header>
@@ -225,7 +226,7 @@ export function Profiles() {
     );
 
   return (
-    <div className="profiles-page center">
+    <div className="profiles-page center with-bg" style={{ ['--bg-img' as string]: `url(${new URL(PROFILE_BACKGROUND, document.baseURI).href})` }}>
       <header className="profiles-top">
         <Logo />
       </header>

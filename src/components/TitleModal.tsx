@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book } from '../data/books';
 import { VERSIONS } from '../lib/api';
 import { Art } from './Art';
+import { Backdrop } from './Backdrop';
 import { credit, painting } from '../lib/paintings';
 import { setQuery } from '../lib/router';
 import { bookPercent, episodePercent, nextChapter, pct, formatMinutes } from '../lib/stats';
@@ -37,7 +38,7 @@ export function TitleModal({ book }: { book: Book }) {
         <Icon name="close" />
       </button>
       <div className="tm-hero">
-        <Art book={book} kind="backdrop" />
+        <Backdrop book={book} />
         <div className="tm-shade" />
         <div className="tm-hero-content">
           <Badge />
@@ -107,9 +108,13 @@ export function TitleModal({ book }: { book: Book }) {
             {painting(book) && (
               <p className="art-credit">
                 <span className="muted">Arte: </span>
-                <a href={painting(book)!.d} target="_blank" rel="noreferrer">
-                  {credit(painting(book))}
-                </a>
+                {painting(book)!.d ? (
+                  <a href={painting(book)!.d} target="_blank" rel="noreferrer">
+                    {credit(painting(book))}
+                  </a>
+                ) : (
+                  credit(painting(book))
+                )}
               </p>
             )}
           </div>

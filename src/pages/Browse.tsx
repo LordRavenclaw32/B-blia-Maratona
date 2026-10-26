@@ -4,6 +4,8 @@ import { Hero } from '../components/Hero';
 import { Row } from '../components/Row';
 import { completedBooks, continueWatching } from '../lib/stats';
 import { useProfile } from '../lib/store';
+import { BOOKS_WITH_CUSTOM_ART } from '../lib/paintings';
+import { CUSTOM_ART } from '../data/customArt';
 
 const ORIGINALS = ['gn', 'ex', 'js', 'rt', '1sm', 'et', 'dn', 'jn', 'mt', 'jo', 'at', 'ap'];
 
@@ -22,9 +24,9 @@ export function Browse({ testament }: { testament?: Testament }) {
 
   const hero = useMemo(() => {
     if (cont[0]) return { book: cont[0], kicker: undefined as string | undefined };
-    const pool = BOOKS.filter(inT);
-    const top = TOP10.map((id) => getBook(id)!).filter(inT);
-    const pick = top.length && dayIndex() % 3 === 0 ? top[dayIndex() % top.length] : pool[(dayIndex() * 7) % pool.length];
+    const featured = BOOKS.filter((b) => inT(b) && BOOKS_WITH_CUSTOM_ART.has(b.id) && (b.id in CUSTOM_ART));
+    const pool = featured.length ? featured : BOOKS.filter(inT);
+    const pick = pool[dayIndex() % pool.length];
     const rank = TOP10.indexOf(pick.id);
     return { book: pick, kicker: rank >= 0 ? `Nº ${rank + 1} entre os livros mais lidos` : undefined };
   }, [testament, cont[0]?.id]);
