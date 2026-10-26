@@ -1,8 +1,14 @@
 // Resolve as buscas de src/data/artQueries.ts em obras reais do Wikimedia Commons
 // e grava src/data/artManifest.json (+ scripts/art-report.md para revisão).
 // Uso: node --experimental-strip-types scripts/resolve-art.mjs
-import { writeFileSync } from 'node:fs';
-import { BOOK_ART, EPISODE_ART } from '../src/data/artQueries.ts';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import sharp from 'sharp';
+import { BOOK_ART, EPISODE_ART, GROUP_ART } from '../src/data/artQueries.ts';
+
+const OUT_DIR = new URL('../public/art/c/', import.meta.url);
+mkdirSync(OUT_DIR, { recursive: true });
+const MANIFEST = new URL('../src/data/artManifest.json', import.meta.url);
+const previous = existsSync(MANIFEST) ? JSON.parse(readFileSync(MANIFEST, 'utf8')) : {};
 
 const API = 'https://commons.wikimedia.org/w/api.php';
 const UA = 'BibliaFlixArtResolver/1.0 (https://github.com/LordRavenclaw32/B-blia-Maratona)';
@@ -101,6 +107,23 @@ async function search(q) {
 
 const workKey = (h) => `${norm(h.n).replace(/[^a-z]/g, '').slice(0, 28)}|${norm(h.a).replace(/[^a-z]/g, '').slice(0, 12)}`;
 
+/** Openverse (acervo de imagens com licença livre) — usado quando o Commons não encontra nada. */
+async function openverse(q) {
+  try {
+    const res = await fetch(`https://api.openverse.org/v1/images/?q=${encodeURIComponent(q)}&page_size=12&mature=false`, { headers: { 'User-Agent': UA } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    const kw = keywords(q);
+    return (data.results ?? [])
+      .filter((r) => r.url && (r.width ?? 0) >= 700 && (r.height ?? 0) >= 450)
+      .filter((r) => !kw.length || kw.some((w) => norm(`${r.title} ${(r.tags ?? []).map((t) => t.name).join(' ')}`).includes(w)))
+      .filter((r) => BIBLE.test(`${r.title} ${(r.tags ?? []).map((t) => t.name).join(' ')}`))
+      .map((r) => ({ f: `openverse:${r.id}`, t: r.url, u: r.url, w: r.width, h: r.height, a: strip(r.creator ?? '').slice(0, 90), l: `${r.license ?? ''} ${r.license_version ?? ''}`.trim().toUpperCase(), n: strip(r.title ?? '').slice(0, 110), d: r.foreign_landing_url ?? '' }));
+  } catch {
+    return [];
+  }
+}
+
 async function resolve(queries, used) {
   for (const q of queries) {
     const hits = await search(q);
@@ -111,7 +134,42 @@ async function resolve(queries, used) {
       return { ...pick, q };
     }
   }
+  for (const q of queries.slice(0, 2)) {
+    const pick = (await openverse(q)).find((h) => !used.has(h.f));
+    if (pick) {
+      used.add(pick.f);
+      return { ...pick, q: `openverse: ${q}` };
+    }
+  }
   return null;
+}
+
+/** Baixa a imagem para public/art/c (webp), para o app não depender de links externos. */
+async function download(entry, key, width) {
+  const file = `${key.replace(/[:@]/g, '-')}.webp`;
+  const dest = new URL(file, OUT_DIR);
+  const old = key.includes(':') ? previous.episodes?.[key] : previous.books?.[key] ?? previous.groups?.[key];
+  if (existsSync(dest) && old?.f === entry.f && old?.p) return { ...entry, p: `art/c/${file}` };
+  const std = [500, 960, 1280, 1920].filter((v) => v <= entry.w);
+  const size = std.find((v) => v >= width) ?? std[std.length - 1];
+  const src = entry.t && /\/\d+px-/.test(entry.t) && size && size < entry.w ? entry.t.replace(/\/\d+px-/, `/${size}px-`) : entry.u;
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const res = await fetch(src, { headers: { 'User-Agent': UA } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const buf = Buffer.from(await res.arrayBuffer());
+      const img = sharp(buf, { limitInputPixels: false }).rotate().resize({ width, withoutEnlargement: true });
+      const out = await img.webp({ quality: 78 }).toBuffer();
+      writeFileSync(dest, out);
+      const meta = await sharp(out).metadata();
+      await sleep(150);
+      return { ...entry, p: `art/c/${file}`, w: meta.width ?? entry.w, h: meta.height ?? entry.h };
+    } catch (e) {
+      await sleep(2000 * (attempt + 1));
+      if (attempt === 3) console.warn('download falhou', key, e.message);
+    }
+  }
+  return entry;
 }
 
 const manifest = { generatedAt: new Date().toISOString(), books: {}, episodes: {} };
@@ -149,7 +207,24 @@ for (const [id, queries0] of Object.entries(BOOK_ART)) {
   console.log(id, 'ok');
 }
 
-writeFileSync(new URL('../src/data/artManifest.json', import.meta.url), JSON.stringify(manifest));
+manifest.groups = {};
+report.push('## Temporadas');
+const usedGroups = new Set();
+for (const [key, queries] of Object.entries(GROUP_ART)) {
+  const g = await resolve(queries, usedGroups);
+  if (g) manifest.groups[key] = g;
+  else missing++;
+  report.push(`- ${key}: ${g ? `${g.n} — ${g.a} \`${g.q}\`` : '❌ sem resultado'}`);
+}
+
+console.log('baixando imagens…');
+for (const [k, v] of Object.entries(manifest.books)) manifest.books[k] = await download(v, k, 1280);
+for (const [k, v] of Object.entries(manifest.groups)) manifest.groups[k] = await download(v, `t-${k}`, 1600);
+for (const [k, v] of Object.entries(manifest.episodes)) manifest.episodes[k] = await download(v, k, 640);
+const notLocal = [...Object.values(manifest.books), ...Object.values(manifest.groups), ...Object.values(manifest.episodes)].filter((v) => !v.p).length;
+console.log('imagens sem cópia local:', notLocal);
+
+writeFileSync(MANIFEST, JSON.stringify(manifest));
 report.splice(1, 0, `Itens sem imagem: ${missing}`, '');
 writeFileSync(new URL('./art-report.md', import.meta.url), report.join('\n') + '\n');
 console.log('itens sem imagem:', missing);

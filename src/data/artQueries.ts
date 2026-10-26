@@ -73,6 +73,20 @@ export const BOOK_ART: Record<string, string[]> = {
   ap: ['John Martin The Great Day of His Wrath', 'Viktor Vasnetsov Four Horsemen of Apocalypse'],
 };
 
+/** Arte temática de cada temporada (coleção de livros) e dos testamentos. */
+export const GROUP_ART: Record<string, string[]> = {
+  AT: ['Michelangelo Sistine Chapel ceiling', 'Sistine Chapel ceiling frescoes'],
+  NT: ['Carl Bloch Sermon on the Mount', 'Heinrich Hofmann Christ teaching'],
+  Pentateuco: ['Aivazovsky Passage of the Jews through the Red Sea', 'Moses Mount Sinai painting'],
+  Históricos: ['John Martin Joshua Commanding the Sun to Stand Still', 'Tissot Seven Trumpets of Jericho'],
+  Poéticos: ['Pieter de Grebber King David playing the harp', 'King David psalms painting'],
+  'Profetas Maiores': ['Michelangelo Isaiah Sistine', 'Rembrandt Jeremiah Lamenting the Destruction of Jerusalem'],
+  'Profetas Menores': ['John Martin Jonah Preaching before Nineveh', 'Michelangelo Jonah Sistine'],
+  Evangelhos: ['Heinrich Hofmann Christ and the Rich Young Ruler', 'Carl Bloch Jesus healing'],
+  'Cartas Paulinas': ['Rembrandt Apostle Paul in Prison', 'Saint Paul writing his epistles'],
+  'Cartas Gerais': ['Dürer The Four Apostles', 'Apostles painting El Greco'],
+};
+
 /** Uma lista de buscas por episódio, na mesma ordem dos episódios de `books.ts`. */
 export const EPISODE_ART: Record<string, string[][]> = {
   gn: [
