@@ -5,11 +5,14 @@ import { useStore, useProfile } from '../lib/store';
 import { Icon } from './Icon';
 import { Logo } from './Brand';
 import { TopButtons } from './TopTools';
+import { APP_NAME } from '../lib/brand';
+import { CHURCH } from '../lib/church';
 
 export { Logo };
 
 const LINKS = [
   { to: '/browse', label: 'Início', key: 'browse' },
+  ...(CHURCH ? [{ to: '/igreja', label: 'Minha igreja', key: 'igreja' }] : []),
   { to: '/series/at', label: 'Antigo Testamento', key: 'series/at' },
   { to: '/series/nt', label: 'Novo Testamento', key: 'series/nt' },
   { to: '/list', label: 'Minha lista', key: 'list' },
@@ -124,7 +127,7 @@ export function Navbar() {
                   navigate('/profiles');
                 }}
               >
-                Sair do BíbliaFlix
+                Sair do {APP_NAME}
               </button>
             </div>
           )}
@@ -140,7 +143,9 @@ export function TabBar() {
   const items = [
     { to: '/browse', icon: 'home', label: 'Início', on: cur === 'browse' || cur === 'series' },
     { to: '/search', icon: 'search', label: 'Buscar', on: cur === 'search' },
-    { to: '/list', icon: 'list', label: 'Minha lista', on: cur === 'list' },
+    CHURCH
+      ? { to: '/igreja', icon: 'church', label: 'Igreja', on: cur === 'igreja' }
+      : { to: '/list', icon: 'list', label: 'Minha lista', on: cur === 'list' },
     { to: '/diary', icon: 'pen', label: 'Diário', on: cur === 'diary' },
     { to: '/stats', icon: 'chart', label: 'Progresso', on: cur === 'stats' || cur === 'settings' },
   ];

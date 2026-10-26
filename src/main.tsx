@@ -11,6 +11,9 @@ import '@fontsource/merriweather/400.css';
 import '@fontsource/merriweather/400-italic.css';
 import '@fontsource/merriweather/700.css';
 import './styles.css';
+import { applyChurchTheme } from './lib/church';
+
+applyChurchTheme();
 
 
 createRoot(document.getElementById('root')!).render(

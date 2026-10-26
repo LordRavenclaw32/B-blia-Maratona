@@ -1,3 +1,4 @@
+import { APP_NAME } from '../lib/brand';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book, type Episode } from '../data/books';
 import { getChapter, SOURCE_LABEL, type ChapterData, type VersionId } from '../lib/api';
@@ -92,9 +93,9 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
 
   useEffect(() => {
     actions.setLastChapter(book.id, chapter);
-    document.title = `${book.name} · E${ep.n}: ${ep.title} — BíbliaFlix`;
+    document.title = `${book.name} · E${ep.n}: ${ep.title} — ${APP_NAME}`;
     return () => {
-      document.title = 'BíbliaFlix';
+      document.title = APP_NAME;
     };
   }, []);
 

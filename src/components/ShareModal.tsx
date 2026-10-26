@@ -1,3 +1,4 @@
+import { APP_NAME } from '../lib/brand';
 import { useEffect, useState } from 'react';
 import { useProfile } from '../lib/store';
 import { canvasToBlob, renderShareImage, shareText, type ShareFormat, type ShareInput } from '../lib/share';
@@ -66,9 +67,9 @@ export function ShareModal({ input, onClose }: { input: Omit<ShareInput, 'profil
     const file = new File([blob], fileName, { type: 'image/png' });
     try {
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], text, title: 'BíbliaFlix' });
+        await navigator.share({ files: [file], text, title: APP_NAME });
       } else if (navigator.share) {
-        await navigator.share({ text, title: 'BíbliaFlix' });
+        await navigator.share({ text, title: APP_NAME });
       } else {
         download();
       }

@@ -4,7 +4,7 @@ import { COVER_STYLES, fileToCover, galleryItems, styleFilter, useCovers } from 
 import { imageUrl } from '../lib/paintings';
 import { useProfile, useStore, type Cover } from '../lib/store';
 import { normalize } from '../data/books';
-import { BFMark } from './Brand';
+import { BrandMark } from './Brand';
 import { Icon } from './Icon';
 import { Modal, useUI } from './ui';
 
@@ -88,7 +88,7 @@ export function CoverEditor({ book, ep, onClose }: { book: Book; ep?: number; on
           <div className={`cover-preview ${ep ? 'wide' : 'tall'}`}>
             {previewUrl && <img src={previewUrl} alt="" style={{ filter: styleFilter(style) }} />}
             <span className="series-badge">
-              <BFMark size={18} />
+              <BrandMark size={18} />
               SÉRIE
             </span>
             <span className="card-title poster-title">{ep ? episode?.title : book.name}</span>

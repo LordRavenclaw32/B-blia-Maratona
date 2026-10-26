@@ -67,3 +67,11 @@ src/lib/share.ts       imagens para redes sociais (canvas)
 src/lib/store.tsx      perfis, progresso, lista, devocionais (localStorage)
 src/pages/             Perfis, Início, Leitor, Diário, Minha maratona, Busca, Configurações
 ```
+
+## BíbliaFlix para igrejas
+
+- **Apresentação comercial:** `#/apresentacao`, com benefícios, pacotes e preços (edite `src/data/vendas.ts` e preencha `VENDEDOR` com seu WhatsApp).
+- **Configurador:** `#/configurar-igreja`. Monte o app da igreja (logo, cor, plano de leitura, cultos, avisos, contatos, Pix, playlists, versões e código de acesso). Em seguida, teste no aparelho ou baixe o arquivo da igreja.
+- **Publicar:** envie o arquivo para a pasta `igrejas/`. O app da igreja fica em `…/igreja/<endereco>/`, com prévia própria no WhatsApp. Veja `igrejas/LEIA-ME.md`.
+- **Demonstração pronta:** `…/igreja/exemplo/` (Graça Play).
+- **Voltar ao BíbliaFlix padrão** em um aparelho que abriu o app de uma igreja: `…/?igreja=bibliaflix`.

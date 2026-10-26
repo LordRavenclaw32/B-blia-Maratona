@@ -1,5 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { configureApi, type SourcePref, type VersionId } from './api';
+import { CHURCH, nsKey } from './church';
 
 export type ReaderTheme = 'dark' | 'sepia' | 'light';
 export type Rating = 'down' | 'up' | 'love';
@@ -76,11 +77,11 @@ interface DB {
   profiles: Profile[];
 }
 
-const KEY = 'mb:db';
-const SESSION = 'mb:session';
+const KEY = nsKey('mb:db');
+const SESSION = nsKey('mb:session');
 
 export const DEFAULT_SETTINGS: Settings = {
-  version: 'nvi',
+  version: CHURCH?.versaoPadrao || CHURCH?.versoes?.[0] || 'nvi',
   fontSize: 20,
   readerTheme: 'dark',
   autoplay: true,
@@ -120,6 +121,13 @@ function load(): DB {
   return { v: 1, profiles: [] };
 }
 
+/** No app de uma igreja, troca uma versão não liberada pela versão padrão da igreja. */
+function allowedVersion(s: Settings): Settings {
+  const allowed = CHURCH?.versoes;
+  if (allowed?.length && !s.version.startsWith('u-') && !allowed.includes(s.version)) return { ...s, version: DEFAULT_SETTINGS.version };
+  return s;
+}
+
 function normalizeProfile(p: Partial<Profile>): Profile {
   return {
     id: p.id ?? uid(),
@@ -127,7 +135,7 @@ function normalizeProfile(p: Partial<Profile>): Profile {
     avatar: p.avatar ?? 0,
     pinHash: p.pinHash,
     createdAt: p.createdAt ?? Date.now(),
-    settings: { ...DEFAULT_SETTINGS, ...(p.settings ?? {}) },
+    settings: allowedVersion({ ...DEFAULT_SETTINGS, ...(p.settings ?? {}) }),
     progress: p.progress ?? {},
     myList: p.myList ?? [],
     ratings: p.ratings ?? {},

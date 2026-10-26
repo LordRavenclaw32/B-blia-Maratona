@@ -6,7 +6,7 @@ import { navigate, setQuery } from '../lib/router';
 import { bookPercent, nextChapter, pct } from '../lib/stats';
 import { useProfile, useStore, type Rating } from '../lib/store';
 import { Icon } from './Icon';
-import { BFMark } from './Brand';
+import { BrandMark } from './Brand';
 
 export type CardVariant = 'wide' | 'poster' | 'top10' | 'continue';
 
@@ -23,7 +23,7 @@ export function playBook(book: Book, chapter?: number) {
 export function Badge() {
   return (
     <span className="series-badge">
-      <BFMark size={18} />
+      <BrandMark size={18} />
       SÉRIE
     </span>
   );

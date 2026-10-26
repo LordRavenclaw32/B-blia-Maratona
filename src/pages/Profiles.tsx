@@ -5,7 +5,8 @@ import { PROFILE_BACKGROUND, WELCOME_BACKGROUND } from '../data/customArt';
 import { type VersionId } from '../lib/api';
 import { AVATARS, avatarUrl } from '../lib/art';
 import { navigate, useRoute } from '../lib/router';
-import { hashPin, useStore, type Profile } from '../lib/store';
+import { DEFAULT_SETTINGS, hashPin, useStore, type Profile } from '../lib/store';
+import { CHURCH } from '../lib/church';
 import { useVersions } from '../lib/useVersions';
 
 function PinPad({ profile, onOk, onCancel }: { profile: Profile; onOk: () => void; onCancel: () => void }) {
@@ -68,7 +69,7 @@ function ProfileForm({ existing, onDone, first }: { existing?: Profile; onDone: 
   const { actions } = useStore();
   const [name, setName] = useState(existing?.name ?? '');
   const [avatar, setAvatar] = useState(existing?.avatar ?? Math.floor(Math.random() * AVATARS.length));
-  const [version, setVersion] = useState<VersionId>(existing?.settings.version ?? 'nvi');
+  const [version, setVersion] = useState<VersionId>(existing?.settings.version ?? DEFAULT_SETTINGS.version);
   const [usePin, setUsePin] = useState(!!existing?.pinHash);
   const [pin, setPin] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -208,8 +209,10 @@ export function Profiles() {
         </header>
         {!profiles.length && (
           <section className="welcome">
-            <h2>Troque a maratona de séries pela maratona da Palavra.</h2>
+            <h2>{CHURCH ? CHURCH.boasVindas || `Bem-vindo ao app da ${CHURCH.nome}!` : 'Troque a maratona de séries pela maratona da Palavra.'}</h2>
             <ul>
+              {CHURCH?.plano && <li>Leia junto com a igreja: {CHURCH.plano.titulo}</li>}
+              {CHURCH && <li>Avisos, cultos e contatos da {CHURCH.nome} sempre à mão</li>}
               <li>66 livros viram séries, com episódios, resumos e obras de arte bíblica clássica</li>
               <li>Acompanhe seu progresso, sequência de dias e conquistas</li>
               <li>Escreva devocionais e compartilhe sua jornada</li>

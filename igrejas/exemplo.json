@@ -1,0 +1,41 @@
+{
+  "slug": "exemplo",
+  "nome": "Igreja Comunidade da Graça",
+  "app": { "nome": "Graça Play", "subtitulo": "A maratona bíblica da nossa igreja" },
+  "cor": "#1e6bd6",
+  "logo": "exemplo.png",
+  "cidade": "Sua cidade · Demonstração",
+  "pastor": "Pr. Daniel e Pra. Ana",
+  "boasVindas": "Que alegria ter você aqui! Neste mês estamos lendo Atos juntos: um capítulo por dia.",
+  "contato": {
+    "whatsapp": "11999999999",
+    "instagram": "@comunidadedagraca",
+    "youtube": "youtube.com/@comunidadedagraca",
+    "site": "comunidadedagraca.com.br",
+    "endereco": "Praça da Sé, São Paulo - SP",
+    "pix": "contato@comunidadedagraca.com.br"
+  },
+  "cultos": [
+    { "dia": "Domingo", "hora": "9h e 18h", "nome": "Culto da Família" },
+    { "dia": "Quarta-feira", "hora": "19h30", "nome": "Estudo bíblico e oração" },
+    { "dia": "Sábado", "hora": "19h", "nome": "Culto de Jovens" }
+  ],
+  "avisos": [
+    { "titulo": "Batismo nas águas", "data": "2026-11-15", "texto": "Inscrições abertas na secretaria até 08/11." },
+    { "titulo": "Conferência de Jovens", "data": "2026-11-28", "texto": "Dois dias de louvor e Palavra. Traga um amigo!" },
+    { "titulo": "Cantata de Natal", "data": "2026-12-20", "texto": "Ensaios aos sábados, às 16h." }
+  ],
+  "playlists": [
+    { "nome": "Louvores da Graça", "descricao": "O repertório do nosso ministério de louvor", "url": "https://youtu.be/XpIDU2R_j2M" }
+  ],
+  "manterPlaylistsPadrao": true,
+  "plano": {
+    "titulo": "Maratona de Atos",
+    "descricao": "Um capítulo por dia para conhecer a igreja que transformou o mundo.",
+    "inicio": "2026-10-20",
+    "capitulosPorDia": 1,
+    "livros": ["at"]
+  },
+  "versoes": [],
+  "creditoBibliaFlix": true
+}

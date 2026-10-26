@@ -6,6 +6,10 @@ import { completedBooks, continueWatching } from '../lib/stats';
 import { useProfile } from '../lib/store';
 import { BOOKS_WITH_CUSTOM_ART } from '../lib/paintings';
 import { CUSTOM_ART } from '../data/customArt';
+import { APP_NAME } from '../lib/brand';
+import { CHURCH, planBooks } from '../lib/church';
+import { PlanCard } from './Church';
+import { Icon } from '../components/Icon';
 
 const ORIGINALS = ['gn', 'ex', 'js', 'rt', '1sm', 'et', 'dn', 'jn', 'mt', 'jo', 'at', 'ap'];
 
@@ -36,15 +40,34 @@ export function Browse({ testament }: { testament?: Testament }) {
   const shorts = BOOKS.filter((b) => b.chapters <= 5 && inT(b));
   const top10 = TOP10.map((id) => getBook(id)!).filter(inT);
   const originals = ORIGINALS.map((id) => getBook(id)!).filter(inT);
+  const planList = CHURCH?.plano ? planBooks(CHURCH.plano).filter(inT) : [];
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const nextNotice = CHURCH?.avisos?.filter((a) => a.titulo && (!a.data || a.data >= todayIso)).sort((a, b) => (a.data ?? '9999').localeCompare(b.data ?? '9999'))[0];
 
   return (
     <main className="browse">
       <Hero book={hero.book} kicker={hero.kicker} />
       <div className="rows">
+        {CHURCH && !testament && (
+          <div className="church-strip">
+            <PlanCard church={CHURCH} compact />
+            {nextNotice && (
+              <a className="notice-strip" href="#/igreja">
+                <Icon name="bell" size={18} />
+                <span>
+                  <b>{nextNotice.titulo}</b>
+                  {nextNotice.data && <small> · {new Date(`${nextNotice.data}T12:00:00`).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}</small>}
+                </span>
+                <Icon name="chevronRight" size={18} />
+              </a>
+            )}
+          </div>
+        )}
         <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
+        {planList.length > 0 && <Row title={`Plano da igreja · ${CHURCH!.plano!.titulo}`} books={planList} variant="poster" />}
         <Row title="Minha lista" books={list} />
         {top10.length >= 5 && <Row title={testament ? `Top ${top10.length} ${testament === 'AT' ? 'do Antigo' : 'do Novo'} Testamento` : 'Top 10 livros mais lidos'} books={top10} variant="top10" />}
-        <Row title="Originais BíbliaFlix · Grandes épicos" books={originals} variant="poster" />
+        <Row title={`Originais ${APP_NAME} · Grandes épicos`} books={originals} variant="poster" />
         {because.length > 0 && <Row title={`Porque você está lendo ${last!.name}`} books={because} />}
         {GROUP_ROWS.map((g) => {
           const groups = Array.isArray(g.group) ? g.group : [g.group];

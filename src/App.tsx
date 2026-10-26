@@ -1,7 +1,13 @@
 import { useEffect, useState } from 'react';
 import { episodeOfChapter, getBook } from './data/books';
 import { Navbar, TabBar } from './components/Navbar';
-import { BFMark } from './components/Brand';
+import { BrandMark, BrandWord } from './components/Brand';
+import { AccessGate } from './components/AccessGate';
+import { CHURCH, IS_DEMO, SHOW_DEMO_BAR, needsAccess, nsKey } from './lib/church';
+import { Church } from './pages/Church';
+import { ChurchSetup } from './pages/ChurchSetup';
+import { Pitch } from './pages/Pitch';
+import { Icon } from './components/Icon';
 import { TopPanelProvider, TopPanels } from './components/TopTools';
 import { MusicProvider } from './lib/music';
 import { CoversProvider } from './lib/covers';
@@ -27,12 +33,31 @@ function Intro({ onDone }: { onDone: () => void }) {
   return (
     <div className="intro" onClick={onDone} role="img" aria-label={`${APP_NAME} — ${APP_TAGLINE}`}>
       <div className="intro-stage">
-        <BFMark className="intro-mark" size={220} />
-        <div className="intro-word">
-          BÍBLIA<b>FLIX</b>
-        </div>
+        <BrandMark className="intro-mark" size={220} />
+        <BrandWord className="intro-word" />
         <div className="intro-tag">{APP_TAGLINE}</div>
+        {CHURCH && CHURCH.creditoBibliaFlix !== false && <div className="intro-credit">tecnologia BíbliaFlix</div>}
       </div>
+    </div>
+  );
+}
+
+/** Rotas abertas sem perfil: apresentação comercial e configurador (só no BíbliaFlix padrão ou na demonstração). */
+const PUBLIC = new Set(!CHURCH || IS_DEMO ? ['apresentacao', 'configurar-igreja'] : []);
+
+function DemoBar() {
+  if (!SHOW_DEMO_BAR) return null;
+  const base = location.pathname;
+  return (
+    <div className="demo-bar" role="status">
+      <Icon name="church" size={16} />
+      <span>
+        Demonstração · <b>{CHURCH?.nome}</b>
+      </span>
+      {IS_DEMO && <a href={`${base}?igreja=bibliaflix#/configurar-igreja`}>Editar</a>}
+      <a href={`${base}?igreja=bibliaflix#/apresentacao`} onClick={() => sessionStorage.removeItem('mb:demo-bar')}>
+        Sair
+      </a>
     </div>
   );
 }
@@ -41,16 +66,20 @@ function Routes() {
   const { profile } = useStore();
   const route = useRoute();
   const [head, ...rest] = route.path;
+  const open = PUBLIC.has(head);
 
   useEffect(() => {
+    if (open) return;
     if (!profile && head !== 'profiles') navigate('/profiles', true);
     else if (profile && !head) navigate('/browse', true);
-  }, [profile, head]);
+  }, [profile, head, open]);
 
   useEffect(() => {
     if (head !== 'read') window.scrollTo(0, 0);
   }, [head, rest[0]]);
 
+  if (head === 'apresentacao' && open) return <Pitch />;
+  if (head === 'configurar-igreja' && open) return <ChurchSetup />;
   if (!profile || head === 'profiles') return <Profiles />;
 
   if (head === 'read') {
@@ -85,6 +114,9 @@ function Routes() {
     case 'search':
       page = <Search />;
       break;
+    case 'igreja':
+      page = CHURCH ? <Church /> : <Browse />;
+      break;
     default:
       page = <Browse />;
   }
@@ -95,8 +127,17 @@ function Routes() {
       {page}
       <footer className="site-footer">
         <p>
-          BíbliaFlix · Seu app de maratona bíblica · Textos bíblicos via <a href="https://www.abibliadigital.com.br" target="_blank" rel="noreferrer">ABíbliaDigital</a>. Seus dados
-          ficam salvos apenas neste dispositivo.
+          {CHURCH ? (
+            <>
+              {APP_NAME} · App oficial da {CHURCH.nome}
+              {CHURCH.creditoBibliaFlix !== false && ' · tecnologia BíbliaFlix'}
+            </>
+          ) : (
+            <>
+              BíbliaFlix · Seu app de maratona bíblica · <a href="#/apresentacao">Para igrejas</a>
+            </>
+          )}{' '}
+          · Textos bíblicos via <a href="https://www.abibliadigital.com.br" target="_blank" rel="noreferrer">ABíbliaDigital</a>. Seus dados ficam salvos apenas neste dispositivo.
         </p>
       </footer>
       <TabBar />
@@ -106,16 +147,17 @@ function Routes() {
 }
 
 export default function App() {
+  const [locked, setLocked] = useState(needsAccess);
   const [intro, setIntro] = useState(() => {
     try {
-      return !sessionStorage.getItem('mb:intro');
+      return !sessionStorage.getItem(nsKey('mb:intro'));
     } catch {
       return false;
     }
   });
   const done = () => {
     try {
-      sessionStorage.setItem('mb:intro', '1');
+      sessionStorage.setItem(nsKey('mb:intro'), '1');
     } catch {
       /* ignore */
     }
@@ -127,8 +169,9 @@ export default function App() {
       <UIProvider>
         <MusicProvider>
           <TopPanelProvider>
-            {intro ? <Intro onDone={done} /> : <Routes />}
+            {intro ? <Intro onDone={done} /> : locked ? <AccessGate onOk={() => setLocked(false)} /> : <Routes />}
             <TopPanels />
+            {!intro && <DemoBar />}
           </TopPanelProvider>
         </MusicProvider>
       </UIProvider>

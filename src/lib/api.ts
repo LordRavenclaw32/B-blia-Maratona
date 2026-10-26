@@ -1,5 +1,6 @@
 import type { Book } from '../data/books';
 import { idbGet, idbSet } from './idb';
+import { CHURCH } from './church';
 
 export type BaseVersion = 'nvi' | 'ara' | 'arc';
 /** 'nvi' | 'ara' | 'arc' ou uma versão importada pelo usuário ('u-…'). */
@@ -222,7 +223,8 @@ export function customVersions(): VersionInfo[] {
 }
 
 export function allVersions(): VersionInfo[] {
-  return [...VERSIONS, ...customVersions()];
+  const allowed = CHURCH?.versoes?.length ? VERSIONS.filter((v) => CHURCH!.versoes!.includes(v.id)) : VERSIONS;
+  return [...(allowed.length ? allowed : VERSIONS), ...customVersions()];
 }
 
 function saveCustomList(list: VersionInfo[]) {

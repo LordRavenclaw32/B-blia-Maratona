@@ -4,6 +4,7 @@ import { MUSIC_PRESETS, parseMusicUrl, useMusic } from '../lib/music';
 import { navigate } from '../lib/router';
 import { useStore } from '../lib/store';
 import { useVersions } from '../lib/useVersions';
+import { CHURCH, nsKey } from '../lib/church';
 import { Icon } from './Icon';
 import { useUI } from './ui';
 import { restoreCoverImages, withCoverImages } from '../lib/covers';
@@ -348,6 +349,29 @@ function QuickSettings({ onClose }: { onClose: () => void }) {
         <Icon name="settings" />
         <span>Todas as configurações</span>
       </button>
+      {CHURCH ? (
+        <button
+          className="qs-row"
+          onClick={() => {
+            onClose();
+            navigate('/igreja');
+          }}
+        >
+          <Icon name="church" />
+          <span>{CHURCH.nome}</span>
+        </button>
+      ) : (
+        <button
+          className="qs-row"
+          onClick={() => {
+            onClose();
+            navigate('/apresentacao');
+          }}
+        >
+          <Icon name="church" />
+          <span>BíbliaFlix para igrejas</span>
+        </button>
+      )}
 
       <div className="qs-footer">
         <button
@@ -368,7 +392,7 @@ function QuickSettings({ onClose }: { onClose: () => void }) {
             if (document.fullscreenElement) await document.exitFullscreen().catch(() => undefined);
             actions.logout();
             try {
-              sessionStorage.removeItem('mb:intro');
+              sessionStorage.removeItem(nsKey('mb:intro'));
             } catch {
               /* ignore */
             }

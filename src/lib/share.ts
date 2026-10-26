@@ -1,6 +1,7 @@
 import { BOOKS, TOTAL_CHAPTERS, type Book, type Episode } from '../data/books';
 import { artUrl, avatarUrl } from './art';
-import { APP_TAGLINE, bfMarkUrl } from './brand';
+import { APP_NAME, APP_TAGLINE, BRAND_RED, CHURCH_LOGO, bfMarkUrl } from './brand';
+import { CHURCH, churchLink } from './church';
 import { assetUrl, fallbackChain, imageUrl } from './paintings';
 import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
 import type { Devotional, Profile } from './store';
@@ -21,7 +22,7 @@ export interface ShareInput {
   cover?: { url: string; filter: string };
 }
 
-const RED = '#e50914';
+const RED = BRAND_RED;
 
 export function cleanVerse(t: string): string {
   return t.trim().replace(/^["“”']+|["“”']+$/g, '').trim();
@@ -119,21 +120,54 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.closePath();
 }
 
-/** Monograma BF + "BÍBLIAFLIX" + subtítulo; `y` é a linha de base do nome. */
+/** Logo da igreja (ou monograma BF), com o monograma como reserva se a imagem falhar. */
+async function brandMark(): Promise<HTMLImageElement> {
+  if (CHURCH_LOGO) {
+    try {
+      return await loadImage(CHURCH_LOGO);
+    } catch {
+      /* usa o monograma */
+    }
+  }
+  return loadImage(bfMarkUrl());
+}
+
+/** Marca + nome do app + subtítulo; `y` é a linha de base do nome. */
 function logo(ctx: CanvasRenderingContext2D, mark: HTMLImageElement, x: number, y: number, size: number) {
   ctx.save();
   ctx.shadowColor = 'rgba(0,0,0,.55)';
   ctx.shadowBlur = 14;
   const m = size * 1.25;
-  ctx.drawImage(mark, x, y - m * 0.78, m, m);
+  const ratio = mark.naturalWidth && mark.naturalHeight ? mark.naturalWidth / mark.naturalHeight : 1;
+  const mw = Math.min(m * 1.8, m * ratio);
+  const mh = mw / ratio;
+  ctx.drawImage(mark, x, y - m * 0.78 + (m - mh) / 2, mw, mh);
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
-  ctx.font = `400 ${size}px ${DISPLAY}`;
-  const tx = x + m + size * 0.18;
-  ctx.fillStyle = '#fff';
-  ctx.fillText('BÍBLIA', tx, y);
-  ctx.fillStyle = RED;
-  ctx.fillText('FLIX', tx + ctx.measureText('BÍBLIA').width, y);
+  const tx = x + mw + size * 0.18;
+  if (CHURCH) {
+    // nome do app da igreja: última palavra em destaque, reduzido até caber
+    const words = APP_NAME.toUpperCase().split(/\s+/);
+    const last = words.length > 1 ? words.pop()! : '';
+    const first = words.join(' ') + (last ? ' ' : '');
+    const max = ctx.canvas.width - tx - x;
+    let fs = size;
+    ctx.font = `400 ${fs}px ${DISPLAY}`;
+    while (fs > size * 0.45 && ctx.measureText(first + last).width > max) {
+      fs -= 2;
+      ctx.font = `400 ${fs}px ${DISPLAY}`;
+    }
+    ctx.fillStyle = '#fff';
+    ctx.fillText(first, tx, y);
+    ctx.fillStyle = RED;
+    ctx.fillText(last, tx + ctx.measureText(first).width, y);
+  } else {
+    ctx.font = `400 ${size}px ${DISPLAY}`;
+    ctx.fillStyle = '#fff';
+    ctx.fillText('BÍBLIA', tx, y);
+    ctx.fillStyle = RED;
+    ctx.fillText('FLIX', tx + ctx.measureText('BÍBLIA').width, y);
+  }
   ctx.shadowBlur = 0;
   ctx.fillStyle = 'rgba(255,255,255,.75)';
   ctx.font = `600 ${size * 0.24}px ${SANS}`;
@@ -250,7 +284,7 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
-  logo(ctx, await loadImage(bfMarkUrl()), pad, pad + 70 * s, 84 * s);
+  logo(ctx, await brandMark(), pad, pad + 70 * s, 84 * s);
 
   // badge "série"
   const top = pad + 70 * s;
@@ -499,18 +533,18 @@ export function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob> {
 export function shareText(input: ShareInput): string {
   const { profile } = input;
   const book = input.book;
-  const url = location.href.split('#')[0];
+  const url = CHURCH ? churchLink() : location.href.split('#')[0];
   switch (input.kind) {
     case 'book':
       return book
-        ? `Estou maratonando ${book.name} no BíbliaFlix: ${profile.progress[book.id]?.read.length ?? 0}/${book.chapters} capítulos (${pct(bookPercent(profile, book))}). Bora maratonar junto? ${url}`
+        ? `Estou maratonando ${book.name} no ${APP_NAME}: ${profile.progress[book.id]?.read.length ?? 0}/${book.chapters} capítulos (${pct(bookPercent(profile, book))}). Bora maratonar junto? ${url}`
         : url;
     case 'episode':
       return book && input.episode
         ? `Acabei de concluir o episódio "${input.episode.title}" de ${book.name} (E${input.episode.n}). ${url}`
         : url;
     case 'overall':
-      return `Já li ${totalRead(profile)} de ${TOTAL_CHAPTERS} capítulos da Bíblia (${pct(overallPercent(profile))}) no BíbliaFlix! ${url}`;
+      return `Já li ${totalRead(profile)} de ${TOTAL_CHAPTERS} capítulos da Bíblia (${pct(overallPercent(profile))}) no ${APP_NAME}! ${url}`;
     case 'devotional':
       return input.devotional ? `${input.devotional.title}\n\n${input.devotional.text}\n\n${input.devotional.verse ?? ''}`.trim() : url;
     case 'verse':

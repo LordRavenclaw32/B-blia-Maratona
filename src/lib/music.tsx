@@ -1,3 +1,4 @@
+import { CHURCH, nsKey } from './church';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 
 /**
@@ -19,9 +20,15 @@ export interface NowPlaying {
   artist?: string;
 }
 
-export const MUSIC_PRESETS: { name: string; desc: string; url: string }[] = [
+const DEFAULT_PRESETS: { name: string; desc: string; url: string }[] = [
   { name: 'Louvores Clássicos', desc: 'Hinos e louvores que marcaram gerações', url: 'https://youtu.be/XpIDU2R_j2M' },
   { name: 'Gospel 2026', desc: 'Playlist com os louvores mais tocados', url: 'https://www.youtube.com/watch?v=ldK43s9UyQI&list=PLveUSFqkZWtOQ252_YytOiV-ckTFMKCeg' },
+];
+
+/** Playlists sugeridas: as da igreja primeiro, depois as padrão (se mantidas). */
+export const MUSIC_PRESETS: { name: string; desc: string; url: string }[] = [
+  ...(CHURCH?.playlists ?? []).filter((p) => p.url).map((p) => ({ name: p.nome, desc: p.descricao ?? `Louvores da ${CHURCH!.nome}`, url: p.url })),
+  ...(CHURCH && CHURCH.manterPlaylistsPadrao === false && CHURCH.playlists?.length ? [] : DEFAULT_PRESETS),
 ];
 
 export function parseMusicUrl(raw: string): ParsedMusic | null {
@@ -98,7 +105,7 @@ interface MusicState {
 }
 
 const Ctx = createContext<MusicState | null>(null);
-const LS_URL = 'mb:music:url';
+const LS_URL = nsKey('mb:music:url');
 const LS_VOL = 'mb:music:vol';
 
 function lsGet(k: string) {

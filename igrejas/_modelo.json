@@ -1,0 +1,20 @@
+{
+  "slug": "nome-da-igreja",
+  "nome": "Nome completo da igreja",
+  "app": { "nome": "Nome do app", "subtitulo": "A maratona bíblica da nossa igreja" },
+  "cor": "#e50914",
+  "logo": "nome-da-igreja.png",
+  "cidade": "Cidade · UF",
+  "pastor": "Pr. Fulano",
+  "boasVindas": "Mensagem de boas-vindas",
+  "contato": { "whatsapp": "", "instagram": "", "youtube": "", "site": "", "email": "", "endereco": "", "pix": "" },
+  "cultos": [{ "dia": "Domingo", "hora": "18h", "nome": "Culto da Família" }],
+  "avisos": [{ "titulo": "Evento", "data": "2026-12-01", "texto": "Descrição", "link": "" }],
+  "playlists": [{ "nome": "Louvores da igreja", "descricao": "", "url": "https://www.youtube.com/playlist?list=..." }],
+  "manterPlaylistsPadrao": true,
+  "plano": { "titulo": "Maratona de Atos", "descricao": "", "inicio": "2026-11-01", "capitulosPorDia": 1, "livros": ["at"] },
+  "versoes": [],
+  "versaoPadrao": "nvi",
+  "acesso": { "codigo": "", "dica": "Peça na secretaria" },
+  "creditoBibliaFlix": true
+}
