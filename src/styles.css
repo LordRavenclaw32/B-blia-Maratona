@@ -804,3 +804,66 @@ img[src^='art/'] { object-position: center 28%; }
 @media (max-width: 600px) { .dev-banner { margin: -3.6rem -1.1rem 1rem; border-radius: 0; } }
 .diary .page-banner { background-position: center, center, center 80%; }
 .dev-banner { background-position: center 78%; }
+
+/* temporadas */
+.season-banner {
+  position: relative; margin: 0 var(--gutter) 0.7rem; min-height: 132px; border-radius: 6px; overflow: hidden;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; padding: 1rem 1.4rem;
+  background: linear-gradient(90deg, #1b1b1b 0%, #161616 100%);
+}
+.season-banner img { position: absolute; inset: 0 0 0 30%; width: 70%; height: 100%; object-fit: cover; object-position: center 35%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 45%); mask-image: linear-gradient(90deg, transparent 0%, #000 45%); opacity: 0.85; }
+.season-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0, 0, 0, 0.55), transparent 60%); pointer-events: none; }
+.season-text, .season-count { position: relative; z-index: 1; }
+.season-text h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.8rem, 3vw, 2.6rem); line-height: 0.95; margin: 0.15rem 0 0.2rem; letter-spacing: 0.02em; }
+.season-text p { margin: 0; color: #d6d6d6; font-size: 0.92rem; }
+.season-count { font-size: 0.8rem; color: #e5e5e5; background: rgba(0, 0, 0, 0.55); padding: 0.3rem 0.7rem; border-radius: 999px; white-space: nowrap; }
+@media (max-width: 600px) { .season-banner { min-height: 112px; padding: 0.8rem 1rem; } .season-banner img { inset: 0; width: 100%; -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,.25), #000 70%); mask-image: linear-gradient(90deg, rgba(0,0,0,.25), #000 70%); } .season-count { display: none; } }
+
+/* ───────── Barra superior: louvor e configurações ───────── */
+.top-buttons { display: flex; align-items: center; gap: 0.15rem; }
+.now-playing { display: inline-flex; align-items: center; gap: 0.35rem; height: 32px; padding: 0 0.6rem; border-radius: 999px; background: rgba(229, 9, 20, 0.18); border: 1px solid rgba(229, 9, 20, 0.6); color: #fff; margin-right: 0.2rem; }
+.now-playing:hover { background: rgba(229, 9, 20, 0.32); }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
+.eq i { width: 3px; height: 4px; background: var(--red); border-radius: 1px; }
+.now-playing.on .eq i { animation: eq 0.9s ease-in-out infinite; }
+.now-playing.on .eq i:nth-child(2) { animation-delay: 0.2s; }
+.now-playing.on .eq i:nth-child(3) { animation-delay: 0.4s; }
+@keyframes eq { 0%, 100% { height: 4px; } 50% { height: 14px; } }
+.top-panel {
+  position: fixed; top: 70px; right: max(12px, var(--gutter)); z-index: 45; width: min(390px, calc(100vw - 24px)); max-height: calc(100vh - 150px); overflow: auto;
+  background: rgba(20, 20, 20, 0.98); border: 1px solid #2c2c2c; border-radius: 10px; padding: 0.9rem 1rem 1rem; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.65);
+  color: #fff; animation: fadeIn 0.15s; backdrop-filter: blur(8px);
+}
+.top-panel header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+.top-panel header b { display: inline-flex; align-items: center; gap: 0.4rem; }
+.music-dock.hidden { position: fixed; left: -10000px; right: auto; top: 0; opacity: 0; pointer-events: none; animation: none; }
+.music-form { display: flex; gap: 0.5rem; margin-bottom: 0.6rem; }
+.music-form input { flex: 1; min-width: 0; padding: 0.55rem 0.7rem !important; font-size: 0.88rem; }
+.music-dock .chips { margin-bottom: 0.7rem; }
+.music-dock .chip { font-size: 0.78rem; padding: 0.28rem 0.7rem; }
+.music-host:empty { display: none; }
+.music-host { border-radius: 12px; overflow: hidden; background: #000; }
+.music-host iframe { display: block; width: 100%; border: 0; border-radius: 12px; }
+.music-dock footer { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin-top: 0.6rem; flex-wrap: wrap; }
+.vol { display: inline-flex; align-items: center; gap: 0.3rem; }
+.vol input { width: 110px; accent-color: var(--red); }
+.tiny { font-size: 0.72rem; margin: 0.6rem 0 0; line-height: 1.4; }
+.qs-row { display: flex; align-items: center; gap: 0.7rem; width: 100%; padding: 0.65rem 0.4rem; border-radius: 6px; text-align: left; }
+.qs-row:hover:not(.static) { background: #2a2a2a; }
+.qs-row span { flex: 1; }
+.qs-vol { display: inline-flex; align-items: center; gap: 0.5rem; }
+.qs-vol button { width: 32px; height: 32px; border-radius: 50%; background: #333; display: grid; place-items: center; }
+.qs-vol b { min-width: 2rem; text-align: center; }
+.qs-group { border-top: 1px solid #2c2c2c; padding: 0.7rem 0.4rem; }
+.qs-title { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.5rem; font-weight: 700; }
+.qs-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.qs-label { width: 130px !important; padding: 0.45rem 0.6rem !important; font-size: 0.85rem; }
+.qs-version { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font-size: 0.85rem; padding: 0.4rem 0; }
+.qs-footer { display: flex; gap: 0.5rem; justify-content: space-between; border-top: 1px solid #2c2c2c; padding-top: 0.8rem; margin-top: 0.2rem; }
+.reader-top .top-buttons .now-playing { display: none; }
+@media (max-width: 900px) { .top-panel { top: 62px; right: 12px; } }
+@media (max-width: 520px) { .top-buttons .icon-btn { width: 36px; height: 36px; } .navbar { gap: 0.6rem; } .now-playing { padding: 0 0.45rem; } }
+
+.rp-row select { width: auto !important; max-width: 210px; padding: 0.4rem 0.6rem !important; }
+@media (max-width: 600px) { .reader-top .rt-right > .icon-btn[aria-label='Compartilhar progresso'] { display: none; } .rt-title span { max-width: 38vw; } }

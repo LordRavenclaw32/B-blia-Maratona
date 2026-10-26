@@ -3,14 +3,15 @@ import { BOOKS, getBook } from '../data/books';
 import { Art } from '../components/Art';
 import { navigate } from '../lib/router';
 import { useProfile, useStore } from '../lib/store';
-import { VERSIONS } from '../lib/api';
 import { Icon } from '../components/Icon';
 import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
 import { assetUrl } from '../lib/paintings';
 import { StarRating } from '../components/DevotionalModal';
 import { useUI } from '../components/ui';
+import { useVersions } from '../lib/useVersions';
 
 export function Diary() {
+  const versions = useVersions();
   const profile = useProfile();
   const { actions } = useStore();
   const { openDevotional, openShare, toast } = useUI();
@@ -135,7 +136,7 @@ export function Diary() {
             {favs.map((f) => {
               const b = getBook(f.bookId)!;
               const ref = `${b.name} ${f.chapter}:${f.verse}`;
-              const vname = VERSIONS.find((v) => v.id === f.version)?.name ?? f.version;
+              const vname = versions.find((v) => v.id === f.version)?.name ?? f.version;
               return (
                 <article key={f.id} className="fav-card">
                   <blockquote>“{f.text}”</blockquote>

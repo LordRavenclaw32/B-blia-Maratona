@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { Logo } from '../components/Navbar';
 import { PROFILE_BACKGROUND, WELCOME_BACKGROUND } from '../data/customArt';
-import { VERSIONS, type VersionId } from '../lib/api';
+import { type VersionId } from '../lib/api';
 import { AVATARS, avatarUrl } from '../lib/art';
 import { navigate, useRoute } from '../lib/router';
 import { hashPin, useStore, type Profile } from '../lib/store';
+import { useVersions } from '../lib/useVersions';
 
 function PinPad({ profile, onOk, onCancel }: { profile: Profile; onOk: () => void; onCancel: () => void }) {
   const [digits, setDigits] = useState(['', '', '', '']);
@@ -63,6 +64,7 @@ function PinPad({ profile, onOk, onCancel }: { profile: Profile; onOk: () => voi
 }
 
 function ProfileForm({ existing, onDone, first }: { existing?: Profile; onDone: (p?: Profile) => void; first?: boolean }) {
+  const versions = useVersions();
   const { actions } = useStore();
   const [name, setName] = useState(existing?.name ?? '');
   const [avatar, setAvatar] = useState(existing?.avatar ?? Math.floor(Math.random() * AVATARS.length));
@@ -98,7 +100,7 @@ function ProfileForm({ existing, onDone, first }: { existing?: Profile; onDone: 
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nome" maxLength={24} autoFocus aria-label="Nome" />
           <label className="pf-label">Versão preferida</label>
           <div className="seg">
-            {VERSIONS.map((v) => (
+            {versions.map((v) => (
               <button type="button" key={v.id} className={version === v.id ? 'on' : ''} onClick={() => setVersion(v.id)} title={v.name}>
                 {v.label}
               </button>

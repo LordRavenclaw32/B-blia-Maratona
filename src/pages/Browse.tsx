@@ -44,12 +44,13 @@ export function Browse({ testament }: { testament?: Testament }) {
         <Row title={`Continuar lendo como ${profile.name}`} books={cont} variant="continue" />
         <Row title="Minha lista" books={list} />
         {top10.length >= 5 && <Row title={testament ? `Top ${top10.length} ${testament === 'AT' ? 'do Antigo' : 'do Novo'} Testamento` : 'Top 10 livros mais lidos'} books={top10} variant="top10" />}
-        <Row title="Originais Maratona · Grandes épicos" books={originals} variant="poster" />
+        <Row title="Originais BíbliaFlix · Grandes épicos" books={originals} variant="poster" />
         {because.length > 0 && <Row title={`Porque você está lendo ${last!.name}`} books={because} />}
         {GROUP_ROWS.map((g) => {
           const groups = Array.isArray(g.group) ? g.group : [g.group];
           const books = BOOKS.filter((b) => groups.includes(b.group) && inT(b));
-          return <Row key={g.title} title={g.title} books={books} />;
+          const [name, subtitle] = g.title.split(' · ');
+          return <Row key={g.title} title={g.title} books={books} season={{ key: groups[0], name, subtitle: subtitle ?? '' }} />;
         })}
         <Row title="Minisséries · Leia numa sentada" books={shorts} />
         <Row title="Ler novamente" books={done} />

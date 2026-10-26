@@ -1,13 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
-import { ABD_BASE, configureApi, testAbd, VERSIONS, type SourcePref } from '../lib/api';
+import { ABD_BASE, configureApi, testAbd, type SourcePref } from '../lib/api';
 import { AVATARS, avatarUrl } from '../lib/art';
 import { idbClear, idbCount } from '../lib/idb';
 import { navigate } from '../lib/router';
 import { useProfile, useStore, type ReaderTheme } from '../lib/store';
 import { Icon } from '../components/Icon';
 import { useUI } from '../components/ui';
+import { useVersions } from '../lib/useVersions';
 
 export function Settings() {
+  const versions = useVersions();
   const profile = useProfile();
   const { actions } = useStore();
   const { toast } = useUI();
@@ -103,10 +105,10 @@ export function Settings() {
         <div className="set-row">
           <div>
             <b>Versão da Bíblia</b>
-            <span className="muted">{VERSIONS.find((v) => v.id === s.version)?.name}</span>
+            <span className="muted">{versions.find((v) => v.id === s.version)?.name}</span>
           </div>
           <div className="seg">
-            {VERSIONS.map((v) => (
+            {versions.map((v) => (
               <button key={v.id} className={s.version === v.id ? 'on' : ''} onClick={() => actions.updateSettings({ version: v.id })} title={v.name}>
                 {v.label}
               </button>

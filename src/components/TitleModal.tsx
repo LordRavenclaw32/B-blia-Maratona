@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book } from '../data/books';
-import { VERSIONS } from '../lib/api';
 import { Art } from './Art';
 import { Backdrop } from './Backdrop';
 import { credit, painting } from '../lib/paintings';
@@ -11,8 +10,10 @@ import { Badge, openTitle, playBook, RatingButtons } from './Card';
 import { StarRating } from './DevotionalModal';
 import { Icon } from './Icon';
 import { Modal, useUI } from './ui';
+import { useVersions } from '../lib/useVersions';
 
 export function TitleModal({ book }: { book: Book }) {
+  const versions = useVersions();
   const profile = useProfile();
   const { actions } = useStore();
   const { openShare, openDevotional, toast } = useUI();
@@ -67,7 +68,7 @@ export function TitleModal({ book }: { book: Book }) {
               <span>
                 {book.episodes.length} episódio{book.episodes.length > 1 ? 's' : ''}
               </span>
-              <span className="hd">{VERSIONS.find((v) => v.id === profile.settings.version)?.label}</span>
+              <span className="hd">{versions.find((v) => v.id === profile.settings.version)?.label}</span>
             </div>
             <div className="meta">
               <span className="age">L</span>
@@ -122,7 +123,7 @@ export function TitleModal({ book }: { book: Book }) {
 
         <div className="ep-head">
           <h3>Episódios</h3>
-          <span className="muted">{book.name} · Temporada completa</span>
+          <span className="muted">Temporada: {book.group}</span>
         </div>
         <ol className="episodes">
           {book.episodes.map((e) => {

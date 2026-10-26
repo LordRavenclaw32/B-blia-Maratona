@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { episodeOfChapter, getBook } from './data/books';
 import { Navbar, TabBar } from './components/Navbar';
 import { BFMark } from './components/Brand';
+import { TopPanelProvider, TopPanels } from './components/TopTools';
+import { MusicProvider } from './lib/music';
 import { APP_NAME, APP_TAGLINE } from './lib/brand';
 import { TitleModal } from './components/TitleModal';
 import { UIProvider } from './components/ui';
@@ -121,7 +123,12 @@ export default function App() {
   return (
     <StoreProvider>
       <UIProvider>
-        {intro ? <Intro onDone={done} /> : <Routes />}
+        <MusicProvider>
+          <TopPanelProvider>
+            {intro ? <Intro onDone={done} /> : <Routes />}
+            <TopPanels />
+          </TopPanelProvider>
+        </MusicProvider>
       </UIProvider>
     </StoreProvider>
   );

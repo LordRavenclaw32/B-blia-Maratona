@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BOOKS, chapterRange, episodeOfChapter, readingMinutes, type Book, type Episode } from '../data/books';
-import { getChapter, SOURCE_LABEL, VERSIONS, type ChapterData, type VersionId } from '../lib/api';
+import { getChapter, SOURCE_LABEL, type ChapterData, type VersionId } from '../lib/api';
 import { Art } from '../components/Art';
 import { credit, painting } from '../lib/paintings';
 import { navigate } from '../lib/router';
@@ -9,7 +9,9 @@ import { useProfile, useStore, type ReaderTheme } from '../lib/store';
 import { Icon } from '../components/Icon';
 import { RatingButtons } from '../components/Card';
 import { useUI } from '../components/ui';
+import { TopButtons } from '../components/TopTools';
 import { cleanVerse } from '../lib/share';
+import { useVersions } from '../lib/useVersions';
 
 type ChState = { status: 'loading' } | { status: 'ok'; data: ChapterData } | { status: 'error'; message: string };
 
@@ -39,6 +41,7 @@ function prevEpisodeOf(book: Book, ep: Episode): { book: Book; ep: Episode } | n
 }
 
 export function Reader({ book, chapter }: { book: Book; chapter: number }) {
+  const versions = useVersions();
   const profile = useProfile();
   const { actions } = useStore();
   const { openShare, openDevotional, toast } = useUI();
@@ -254,7 +257,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
       .join(' ');
   };
 
-  const versionLabel = VERSIONS.find((v) => v.id === version)!.label;
+  const versionLabel = versions.find((v) => v.id === version)?.label ?? version.toUpperCase();
   const sel = selection ? formatRef(book, selection.chapter, selection.verses) : '';
 
   const goNext = () => {
@@ -281,7 +284,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
         </div>
         <div className="rt-right">
           <div className="seg small" role="group" aria-label="Versão">
-            {VERSIONS.map((v) => (
+            {versions.map((v) => (
               <button key={v.id} className={version === v.id ? 'on' : ''} onClick={() => changeVersion(v.id)} title={v.name}>
                 {v.label}
               </button>
@@ -296,6 +299,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
           <button className="icon-btn" onClick={() => openShare({ kind: 'book', book, episode: ep })} aria-label="Compartilhar progresso">
             <Icon name="share" />
           </button>
+          <TopButtons />
         </div>
         <div className="rt-progress" aria-hidden="true">
           <i style={{ width: `${progress * 100}%` }} />
@@ -304,6 +308,16 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
 
       {panel === 'text' && (
         <div className="reader-panel" role="dialog" aria-label="Aparência">
+          <div className="rp-row">
+            <span>Versão</span>
+            <select value={version} onChange={(e) => changeVersion(e.target.value)} aria-label="Versão da Bíblia">
+              {versions.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.label} — {v.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="rp-row">
             <span>Tamanho</span>
             <div className="rp-size">
@@ -460,7 +474,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
                   </p>
                   <div className="ch-foot">
                     <span className="src">
-                      {st.data.source === 'abibliadigital' ? 'ABíbliaDigital' : 'Fonte alternativa'} · {SOURCE_LABEL[st.data.servedAs] ?? st.data.servedAs.toUpperCase()}
+                      {st.data.servedAs.startsWith('u-') ? `Versão importada · ${versionLabel}` : `${st.data.source === 'abibliadigital' ? 'ABíbliaDigital' : 'Fonte alternativa'} · ${SOURCE_LABEL[st.data.servedAs] ?? st.data.servedAs.toUpperCase()}`}
                     </span>
                     <button className={`read-toggle ${read.has(c) ? 'on' : ''}`} onClick={() => actions.setChapterRead(book.id, c, !read.has(c))}>
                       <Icon name="check" size={18} /> {read.has(c) ? 'Lido' : 'Marcar como lido'}
@@ -588,7 +602,7 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
               <Icon name="copy" size={20} />
               <span>Copiar</span>
             </button>
-            <button onClick={() => openShare({ kind: 'verse', book, verse: { ref: sel, text: selectionText(), version: VERSIONS.find((v) => v.id === version)!.name } })}>
+            <button onClick={() => openShare({ kind: 'verse', book, verse: { ref: sel, text: selectionText(), version: versions.find((v) => v.id === version)?.name ?? versionLabel } })}>
               <Icon name="image" size={20} />
               <span>Imagem</span>
             </button>

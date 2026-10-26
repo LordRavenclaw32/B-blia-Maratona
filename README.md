@@ -14,6 +14,20 @@
 - **Compartilhamento**: gera imagens para Stories (9:16) e Feed (1:1) com o progresso de uma série, um episódio concluído, a maratona geral, uma devocional ou um versículo. Dá para baixar, compartilhar pelo menu do sistema, enviar no WhatsApp ou copiar.
 - Busca por livros, episódios e referências (`Jo 3:16`, `1 Samuel 17`), lista pessoal, avaliação 👍/❤️ e PWA instalável.
 
+## Testar agora
+
+- **Link de teste (direto do repositório):** https://raw.githack.com/LordRavenclaw32/B-blia-Maratona/gh-pages/index.html
+- **Link oficial (GitHub Pages):** https://lordravenclaw32.github.io/B-blia-Maratona/ — se ainda não abrir, ative uma vez em *Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `gh-pages` / root*.
+
+No celular, abra o link e use **Adicionar à tela inicial** para instalar como app (PWA).
+
+## Novidades
+
+- 🎵 **Louvor de fundo** na barra superior: cole um link do Spotify, YouTube ou YouTube Music (ou escolha uma playlist sugerida). A música continua tocando enquanto você navega e lê; o painel recolhe e fica só o controle ▶/⏸ na barra.
+- ⚙️ **Configurações rápidas**: tela cheia, volume do louvor, fazer/carregar backup, importar outra versão da Bíblia em JSON (66 livros) e sair da conta/app.
+- **Temporadas ilustradas**: cada coleção (Pentateuco, Históricos, Poéticos, Profetas, Evangelhos, Cartas…) tem um banner temático.
+- **Imagens locais**: todas as obras são baixadas para `public/art/c` pelo workflow, sem depender de links externos.
+
 ## Rodando
 
 ```bash
@@ -28,7 +42,14 @@ Sem token, a API limita as requisições por hora. Cadastre-se no site da ABíbl
 
 ## Publicação
 
-O workflow `.github/workflows/deploy.yml` publica no GitHub Pages a cada push na `main`. Para ativar, vá em *Settings → Pages → Source: GitHub Actions*.
+O workflow `.github/workflows/deploy.yml` gera o build e publica no branch `gh-pages` a cada push (e após cada atualização das artes). Para instalar localmente:
+
+```bash
+git clone https://github.com/LordRavenclaw32/B-blia-Maratona.git
+cd B-blia-Maratona
+npm install
+npm run dev
+```
 
 ## Estrutura
 

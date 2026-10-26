@@ -1,6 +1,5 @@
 import type { Book } from '../data/books';
 import manifest from '../data/artManifest.json';
-import { artUrl } from './art';
 import { CUSTOM_ART } from '../data/customArt';
 
 /** Obra de arte em domínio público (Wikimedia Commons) associada a um livro ou episódio. */
@@ -16,11 +15,16 @@ export interface Painting {
   d: string;
   /** arte própria servida de public/art */
   local?: boolean;
+  /** cópia local baixada pelo workflow (public/art/c) */
+  p?: string;
 }
 
 type Kind = 'poster' | 'backdrop' | 'thumb';
 
-const M = manifest as unknown as { books: Record<string, Painting>; episodes: Record<string, Painting> };
+const M = manifest as unknown as { books: Record<string, Painting>; episodes: Record<string, Painting>; groups?: Record<string, Painting> };
+
+/** Imagem bíblica genérica, usada só se nada mais estiver disponível. */
+export const GENERIC_ART = 'art/bg-livro-luz.webp';
 
 function custom(key: string): Painting | undefined {
   const c = CUSTOM_ART[key];
@@ -50,6 +54,7 @@ const NEED: Record<Kind, number> = { thumb: 500, poster: 960, backdrop: 1920 };
 
 function sized(p: Painting, want: number): string {
   if (p.local) return want <= 500 ? p.t : p.u;
+  if (p.p) return p.p;
   if (!p.t || !/\/\d+px-/.test(p.t)) return p.u;
   const fit = STEPS.filter((s) => s <= p.w);
   if (!fit.length) return p.u;
@@ -61,11 +66,30 @@ function sized(p: Painting, want: number): string {
 /** URL da imagem (pintura real; arte vetorial apenas como reserva). */
 export function imageUrl(book: Book, kind: Kind, ep?: number): string {
   const p = painting(book, ep, kind);
-  return p ? sized(p, NEED[kind]) : artUrl(book, kind, ep);
+  return p ? sized(p, NEED[kind]) : groupUrl(book.group) ?? GENERIC_ART;
 }
 
-export function fallbackUrl(book: Book, kind: Kind, ep?: number): string {
-  return artUrl(book, kind, ep);
+/** Cadeia de reservas quando a imagem principal falha: original remoto → pôster do livro → imagem genérica. */
+export function fallbackChain(book: Book, kind: Kind, ep?: number): string[] {
+  const p = painting(book, ep, kind);
+  const out: string[] = [];
+  if (p && !p.local && p.p && p.t) out.push(p.t);
+  const bookP = painting(book, undefined, 'poster');
+  if (ep && bookP) out.push(sized(bookP, NEED.poster));
+  const g = groupUrl(book.group);
+  if (g) out.push(g);
+  out.push(GENERIC_ART);
+  return out.filter((u, i, a) => a.indexOf(u) === i);
+}
+
+/** Arte temática da temporada (coleção) ou do testamento. */
+export function groupPainting(key: string): Painting | undefined {
+  return M.groups?.[key];
+}
+
+export function groupUrl(key: string): string | undefined {
+  const g = M.groups?.[key];
+  return g ? sized(g, 1600) : undefined;
 }
 
 /** Resolve caminhos de public/ em URLs absolutas (CSS e canvas). */

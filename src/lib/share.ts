@@ -1,7 +1,7 @@
 import { BOOKS, TOTAL_CHAPTERS, type Book, type Episode } from '../data/books';
 import { artUrl, avatarUrl } from './art';
 import { APP_TAGLINE, bfMarkUrl } from './brand';
-import { assetUrl, imageUrl } from './paintings';
+import { assetUrl, fallbackChain, imageUrl } from './paintings';
 import { DEVOTIONAL_BACKGROUND } from '../data/customArt';
 import type { Devotional, Profile } from './store';
 import { bookPercent, completedBooks, overallPercent, pct, streak, totalRead } from './stats';
@@ -40,11 +40,14 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 async function loadArt(book: Book, kind: 'poster' | 'backdrop' | 'thumb', ep?: number): Promise<HTMLImageElement> {
-  try {
-    return await loadImage(imageUrl(book, kind, ep));
-  } catch {
-    return loadImage(artUrl(book, kind, ep));
+  for (const src of [imageUrl(book, kind, ep), ...fallbackChain(book, kind, ep)]) {
+    try {
+      return await loadImage(/^https?:|^data:/.test(src) ? src : assetUrl(src));
+    } catch {
+      /* tenta a próxima reserva */
+    }
   }
+  return loadImage(artUrl(book, kind, ep));
 }
 
 async function ensureFonts() {

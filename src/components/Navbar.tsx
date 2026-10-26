@@ -4,6 +4,7 @@ import { navigate, useRoute } from '../lib/router';
 import { useStore, useProfile } from '../lib/store';
 import { Icon } from './Icon';
 import { Logo } from './Brand';
+import { TopButtons } from './TopTools';
 
 export { Logo };
 
@@ -82,6 +83,7 @@ export function Navbar() {
             </button>
           )}
         </div>
+        <TopButtons />
         <div className="profile-menu" onMouseLeave={() => setMenu(false)}>
           <button className="avatar-btn" onClick={() => setMenu((m) => !m)} onMouseEnter={() => setMenu(true)} aria-label="Menu do perfil" aria-expanded={menu}>
             <img src={avatarUrl(profile.avatar)} alt="" />

@@ -2,8 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import type { Book } from '../data/books';
 import { Card, type CardVariant } from './Card';
 import { Icon } from './Icon';
+import { groupUrl } from '../lib/paintings';
 
-export function Row({ title, books, variant = 'wide', id }: { title: string; books: Book[]; variant?: CardVariant; id?: string }) {
+export interface Season {
+  key: string;
+  name: string;
+  subtitle: string;
+}
+
+export function Row({ title, books, variant = 'wide', id, season }: { title: string; books: Book[]; variant?: CardVariant; id?: string; season?: Season }) {
   const track = useRef<HTMLDivElement>(null);
   const [edges, setEdges] = useState({ left: false, right: true });
 
@@ -28,7 +35,21 @@ export function Row({ title, books, variant = 'wide', id }: { title: string; boo
   if (!books.length) return null;
   return (
     <section className={`row row-${variant}`} id={id}>
-      <h2 className="row-title">{title}</h2>
+      {season ? (
+        <div className="season-banner">
+          {groupUrl(season.key) && <img src={groupUrl(season.key)} alt="" loading="lazy" referrerPolicy="no-referrer" />}
+          <div className="season-text">
+            <span className="kick">Temporada</span>
+            <h2>{season.name}</h2>
+            <p>{season.subtitle}</p>
+          </div>
+          <span className="season-count">
+            {books.length} série{books.length > 1 ? 's' : ''} · {books.reduce((s, b) => s + b.chapters, 0)} capítulos
+          </span>
+        </div>
+      ) : (
+        <h2 className="row-title">{title}</h2>
+      )}
       <div className="row-wrap">
         {edges.left && (
           <button className="row-arrow left" onClick={() => scroll(-1)} aria-label="Anterior">

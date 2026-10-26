@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: pages-deploy
@@ -35,3 +36,11 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
           commit_message: Publica BíbliaFlix
+      - name: Ativar GitHub Pages (branch gh-pages)
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api -X POST "repos/${GITHUB_REPOSITORY}/pages" -f "source[branch]=gh-pages" -f "source[path]=/" \
+            || gh api -X PUT "repos/${GITHUB_REPOSITORY}/pages" -f "source[branch]=gh-pages" -f "source[path]=/" \
+            || echo "Ative em Settings → Pages → Branch: gh-pages"

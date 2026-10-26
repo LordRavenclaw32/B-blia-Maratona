@@ -1,7 +1,9 @@
 import type { Book } from '../data/books';
 import { idbGet, idbSet } from './idb';
 
-export type VersionId = 'nvi' | 'ara' | 'arc';
+export type BaseVersion = 'nvi' | 'ara' | 'arc';
+/** 'nvi' | 'ara' | 'arc' ou uma versão importada pelo usuário ('u-…'). */
+export type VersionId = string;
 export type SourcePref = 'auto' | 'abibliadigital' | 'github';
 
 export interface Verse {
@@ -16,7 +18,14 @@ export interface ChapterData {
   servedAs: string;
 }
 
-export const VERSIONS: { id: VersionId; label: string; name: string }[] = [
+export interface VersionInfo {
+  id: VersionId;
+  label: string;
+  name: string;
+  custom?: boolean;
+}
+
+export const VERSIONS: VersionInfo[] = [
   { id: 'nvi', label: 'NVI', name: 'Nova Versão Internacional' },
   { id: 'ara', label: 'ARA', name: 'Almeida Revista e Atualizada' },
   { id: 'arc', label: 'ARC', name: 'Almeida Revista e Corrigida' },
@@ -25,14 +34,14 @@ export const VERSIONS: { id: VersionId; label: string; name: string }[] = [
 export const ABD_BASE = 'https://www.abibliadigital.com.br/api';
 
 /** Identificadores aceitos pela ABíbliaDigital para cada versão (o primeiro disponível é usado). */
-const ABD_KEYS: Record<VersionId, string[]> = {
+const ABD_KEYS: Record<BaseVersion, string[]> = {
   nvi: ['nvi'],
   ara: ['ara', 'ra'],
   arc: ['arc', 'acf'],
 };
 
 /** Fallback: Bíblias completas em JSON de domínio aberto no GitHub (thiagobodruk/biblia). */
-const GH_FILES: Record<VersionId, string> = { nvi: 'nvi', ara: 'aa', arc: 'acf' };
+const GH_FILES: Record<BaseVersion, string> = { nvi: 'nvi', ara: 'aa', arc: 'acf' };
 const GH_URL = (file: string) => `https://raw.githubusercontent.com/thiagobodruk/biblia/master/json/${file}.json`;
 
 export const SOURCE_LABEL: Record<string, string> = {
@@ -108,7 +117,8 @@ export async function abdListBooks(): Promise<unknown[]> {
 async function abdChapter(version: VersionId, book: Book, chapter: number): Promise<ChapterData> {
   if (Date.now() < abdDownUntil) throw new Error('ABíbliaDigital indisponível');
   const available = await abdListVersions();
-  const key = ABD_KEYS[version].find((k) => !available || available.includes(k)) ?? ABD_KEYS[version][0];
+  const keys = ABD_KEYS[version as BaseVersion];
+  const key = keys.find((k) => !available || available.includes(k)) ?? keys[0];
   try {
     const data = (await fetchJson(
       `${ABD_BASE}/verses/${key}/${encodeURIComponent(book.abbrev)}/${chapter}`,
@@ -125,7 +135,7 @@ async function abdChapter(version: VersionId, book: Book, chapter: number): Prom
 }
 
 // ───────────── GitHub (fallback) ─────────────
-const ghMemory = new Map<VersionId, Promise<string[][][]>>();
+const ghMemory = new Map<string, Promise<string[][][]>>();
 
 function ghBible(version: VersionId): Promise<string[][][]> {
   let p = ghMemory.get(version);
@@ -133,7 +143,7 @@ function ghBible(version: VersionId): Promise<string[][][]> {
     p = (async () => {
       const stored = await idbGet<string[][][]>(`gh:${version}`);
       if (stored) return stored;
-      const data = (await fetchJson(GH_URL(GH_FILES[version]), {}, 45000)) as { chapters: string[][] }[];
+      const data = (await fetchJson(GH_URL(GH_FILES[version as BaseVersion]), {}, 45000)) as { chapters: string[][] }[];
       const chapters = data.map((b) => b.chapters);
       idbSet(`gh:${version}`, chapters);
       return chapters;
@@ -151,7 +161,7 @@ async function ghChapter(version: VersionId, book: Book, chapter: number): Promi
   return {
     verses: verses.map((text, i) => ({ number: i + 1, text: text.trim() })),
     source: 'github',
-    servedAs: GH_FILES[version],
+    servedAs: GH_FILES[version as BaseVersion],
   };
 }
 
@@ -163,6 +173,7 @@ export function getChapter(version: VersionId, book: Book, chapter: number): Pro
   const existing = inflight.get(key);
   if (existing) return existing;
   const p = (async () => {
+    if (version.startsWith('u-')) return customChapter(version, book, chapter);
     const cached = await idbGet<ChapterData>(key);
     if (cached) return cached;
     let data: ChapterData;
@@ -196,4 +207,105 @@ export async function testAbd(): Promise<{ ok: boolean; versions?: string[]; mes
   } catch (e) {
     return { ok: false, message: `Sem conexão com a ABíbliaDigital (${(e as Error).message}). O app usará a fonte alternativa.` };
   }
+}
+
+// ───────────── versões importadas (JSON) ─────────────
+const LS_CUSTOM = 'mb:customVersions';
+export const VERSIONS_EVENT = 'mb:versions';
+
+export function customVersions(): VersionInfo[] {
+  try {
+    return (JSON.parse(localStorage.getItem(LS_CUSTOM) ?? '[]') as VersionInfo[]).map((v) => ({ ...v, custom: true }));
+  } catch {
+    return [];
+  }
+}
+
+export function allVersions(): VersionInfo[] {
+  return [...VERSIONS, ...customVersions()];
+}
+
+function saveCustomList(list: VersionInfo[]) {
+  try {
+    localStorage.setItem(LS_CUSTOM, JSON.stringify(list.map(({ id, label, name }) => ({ id, label, name }))));
+  } catch {
+    /* ignore */
+  }
+  window.dispatchEvent(new Event(VERSIONS_EVENT));
+}
+
+const customMemory = new Map<string, Promise<string[][][] | undefined>>();
+
+async function customChapter(version: string, book: Book, chapter: number): Promise<ChapterData> {
+  let p = customMemory.get(version);
+  if (!p) {
+    p = idbGet<string[][][]>(`custom:${version}`);
+    customMemory.set(version, p);
+  }
+  const bible = await p;
+  const verses = bible?.[book.index]?.[chapter - 1];
+  if (!verses?.length) throw new Error('Capítulo ausente na versão importada');
+  return { verses: verses.map((text, i) => ({ number: i + 1, text: String(text).trim() })), source: 'github', servedAs: version };
+}
+
+type AnyObj = Record<string, unknown>;
+
+function chaptersFromBook(b: unknown): string[][] | null {
+  const chapters = (b as AnyObj)?.chapters ?? b;
+  if (!Array.isArray(chapters)) return null;
+  return chapters.map((c) => {
+    const verses = Array.isArray(c) ? c : ((c as AnyObj)?.verses as unknown[]) ?? [];
+    return verses.map((v) => (typeof v === 'string' ? v : String((v as AnyObj)?.text ?? '')));
+  });
+}
+
+/** Normaliza formatos comuns de Bíblia em JSON para livros → capítulos → versículos. */
+export function normalizeBible(json: unknown): string[][][] {
+  let books: unknown[] | null = null;
+  if (Array.isArray(json) && json.length && typeof json[0] === 'object' && json[0] && 'text' in (json[0] as AnyObj) && 'chapter' in (json[0] as AnyObj)) {
+    // lista plana [{ book, chapter, verse, text }]
+    const map = new Map<string, string[][]>();
+    const order: string[] = [];
+    for (const row of json as AnyObj[]) {
+      const bk = String(row.book ?? row.book_id ?? row.livro);
+      if (!map.has(bk)) {
+        map.set(bk, []);
+        order.push(bk);
+      }
+      const chs = map.get(bk)!;
+      const c = Number(row.chapter ?? row.capitulo) - 1;
+      const v = Number(row.verse ?? row.versiculo) - 1;
+      (chs[c] ??= [])[v] = String(row.text ?? row.texto ?? '');
+    }
+    const numeric = order.every((k) => /^\d+$/.test(k));
+    const keys = numeric ? [...order].sort((a, b) => Number(a) - Number(b)) : order;
+    return keys.map((k) => map.get(k)!.map((c) => (c ?? []).map((t) => t ?? '')));
+  }
+  if (Array.isArray(json)) books = json;
+  else if (json && typeof json === 'object') {
+    const o = json as AnyObj;
+    books = (Array.isArray(o.books) ? o.books : Array.isArray(o.livros) ? o.livros : Array.isArray(o.data) ? o.data : null) as unknown[] | null;
+  }
+  if (!books) throw new Error('Formato não reconhecido');
+  const out = books.map(chaptersFromBook);
+  if (out.some((b) => !b)) throw new Error('Formato não reconhecido');
+  return out as string[][][];
+}
+
+export async function importBibleVersion(file: File, label: string, name: string): Promise<VersionInfo> {
+  const json = JSON.parse((await file.text()).replace(/^\uFEFF/, ''));
+  const bible = normalizeBible(json);
+  if (bible.length !== 66) throw new Error(`O arquivo tem ${bible.length} livros; são esperados 66`);
+  const id = `u-${Date.now().toString(36)}`;
+  await idbSet(`custom:${id}`, bible);
+  const info: VersionInfo = { id, label: label.trim().toUpperCase().slice(0, 8) || 'IMP', name: name.trim() || file.name.replace(/\.json$/i, ''), custom: true };
+  saveCustomList([...customVersions(), info]);
+  customMemory.delete(id);
+  return info;
+}
+
+export function removeBibleVersion(id: string) {
+  saveCustomList(customVersions().filter((v) => v.id !== id));
+  customMemory.delete(id);
+  idbSet(`custom:${id}`, null);
 }

@@ -46,6 +46,12 @@ const PATHS: Record<string, string> = {
   menu: 'M3 6h18v2H3Zm0 5h18v2H3Zm0 5h18v2H3Z',
   image: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2ZM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5Z',
   refresh: 'M17.7 6.3A8 8 0 1 0 19.8 14h-2.1a6 6 0 1 1-1.4-6.3L13 11h7V4Z',
+  music: 'M12 3v10.55A4 4 0 1 0 14 17V7h4V3Z',
+  pause: 'M6 5h4v14H6Zm8 0h4v14h-4Z',
+  fullscreen: 'M7 14H5v5h5v-2H7Zm-2-4h2V7h3V5H5Zm12 7h-3v2h5v-5h-2ZM14 5v2h3v3h2V5Z',
+  fullscreenExit: 'M5 16h3v3h2v-5H5Zm3-8H5v2h5V5H8Zm6 11h2v-3h3v-2h-5Zm2-11V5h-2v5h5V8Z',
+  volumeUp: 'M3 9v6h4l5 5V4L7 9Zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4ZM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6Z',
+  volumeDown: 'M5 9v6h4l5 5V4L9 9Zm13.5 3A4.5 4.5 0 0 0 16 8v8a4.5 4.5 0 0 0 2.5-4Z',
   wifiOff: 'M2.3 3.7 3.7 2.3l18 18-1.4 1.4-6.9-6.9a3 3 0 0 0-3.4 3.1l-2-2a5 5 0 0 1 3-1.6L9 12.4A9 9 0 0 0 5 14.6l-2-2A13 13 0 0 1 6.9 10L4.6 7.7A17 17 0 0 0 1 10.6L-.9 8.6Z',
 };
 
