@@ -41,6 +41,8 @@ const open = async (viewport) => {
   const ctx = await browser.newContext({ viewport });
   const page = await ctx.newPage();
   page.on('pageerror', (e) => errors.push(e.message));
+  page.on('response', (r) => r.url().includes('/rpc/') && r.status() >= 400 && r.text().then((t) => console.log(`  RPC ${r.status()} ${r.url().split('/rpc/')[1]}: ${t.slice(0, 200)}`)).catch(() => undefined));
+  page.on('requestfailed', (r) => r.url().includes('supabase') && console.log(`  RPC falhou ${r.url().split('/rpc/')[1]}: ${r.failure()?.errorText}`));
   page.on('dialog', (d) => d.accept());
   return page;
 };
@@ -96,6 +98,13 @@ try {
   ok(true, 'conta temporária excluída (igreja)');
 } catch (e) {
   console.log('FAIL erro: ' + e.message.split('\n')[0]);
+  for (const [name, pg] of [['normal', n], ['igreja', c]]) {
+    console.log(`  [${name}] ${pg.url()} :: ${(await pg.locator('.error, .toast').allInnerTexts().catch(() => [])).join(' | ')}`);
+    if (process.env.SHOTS) {
+      await import('node:fs').then((fs) => fs.mkdirSync(process.env.SHOTS, { recursive: true }));
+      await pg.screenshot({ path: `${process.env.SHOTS}/${name}.png`, fullPage: true }).catch(() => undefined);
+    }
+  }
   fails++;
 }
 ok(errors.length === 0, 'sem erros de JavaScript ' + JSON.stringify(errors.slice(0, 3)));
