@@ -67,6 +67,7 @@ export function Navbar() {
         {[...LINKS, ...(community.isLeader ? [{ to: '/estudio', label: 'Estúdio', key: 'estudio' }] : []), ...MORE_LINKS].map((l) => (
           <a key={l.key} href={`#${l.to}`} className={current.split('/')[0] === l.key.split('/')[0] && (l.key.includes('/') ? current === l.key : true) ? 'active' : ''}>
             {l.label}
+            {l.key === 'comunidade' && community.unread > 0 && <span className="badge-count">{community.unread}</span>}
           </a>
         ))}
       </nav>
@@ -162,6 +163,7 @@ export function Navbar() {
 
 export function TabBar() {
   const route = useRoute();
+  const { unread } = useCommunity();
   const cur = route.path[0] ?? 'browse';
   const home = { to: '/browse', icon: 'home', label: 'Início', on: cur === 'browse' || cur === 'series' };
   const progress = { to: '/stats', icon: 'chart', label: 'Progresso', on: cur === 'stats' || cur === 'settings' || cur === 'diary' || cur === 'list' };
@@ -185,6 +187,7 @@ export function TabBar() {
       {items.map((i) => (
         <a key={i.to} href={`#${i.to}`} className={i.on ? 'on' : ''}>
           <Icon name={i.icon} />
+          {i.to === '/comunidade' && unread > 0 && <span className="badge-count dot">{unread}</span>}
           <span>{i.label}</span>
         </a>
       ))}

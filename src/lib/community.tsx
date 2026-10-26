@@ -95,6 +95,51 @@ export interface CommunityMember {
   login?: string | null;
 }
 
+export interface ProfileStats {
+  total: number;
+  last7: number;
+  streak: number;
+  plan_read: number;
+  plan_total: number;
+  books_done: number;
+  devotionals: number;
+  last_read_at?: string | null;
+  last_ref?: string | null;
+  updated_at?: string;
+  detail?: { days?: Record<string, number>; books?: Record<string, number>; recent?: { book: string; chapter: number }[] };
+}
+
+export interface MemberProfile {
+  member: CommunityMember;
+  visible: boolean;
+  stats: ProfileStats | null;
+  activity: { id: number; kind: string; data: Record<string, unknown>; created_at: string }[] | null;
+}
+
+export interface ConversationSummary {
+  id: string;
+  is_group: boolean;
+  title: string;
+  avatar?: number | null;
+  role?: Role | null;
+  other_id?: string | null;
+  members: number;
+  last_message_at: string;
+  last?: { body: string; mine: boolean; name?: string | null } | null;
+  unread: number;
+}
+
+export interface ChatMessage {
+  id: number;
+  body: string;
+  created_at: string;
+  member_id?: string | null;
+  mine: boolean;
+  name?: string | null;
+  avatar?: number | null;
+  role?: Role | null;
+}
+
 interface Session {
   token: string;
   member: Member;
@@ -118,6 +163,8 @@ interface CommunityValue {
   isPastor: boolean;
   catalog: Catalog | null;
   catalogError: string | null;
+  unread: number;
+  refreshUnread(): void;
   join(name: string, login: string, pin: string): Promise<void>;
   login(login: string, pin: string): Promise<void>;
   logout(): Promise<void>;
@@ -179,7 +226,15 @@ export function statsOf(p: Profile) {
     return p.activity[today(d)] ?? 0;
   }).reduce((a, b) => a + b, 0);
   const plan = CHURCH?.plano ? planChapters(CHURCH.plano) : [];
-  const recent = Object.entries(p.progress).sort((a, b) => b[1].updatedAt - a[1].updatedAt)[0];
+  const ordered = Object.entries(p.progress).sort((a, b) => b[1].updatedAt - a[1].updatedAt);
+  const recent = ordered[0];
+  const days: Record<string, number> = {};
+  for (let i = 0; i < 84; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const k = today(d);
+    if (p.activity[k]) days[k] = p.activity[k];
+  }
   return {
     total: totalRead(p),
     last7,
@@ -190,6 +245,12 @@ export function statsOf(p: Profile) {
     devotionals: p.devotionals.length,
     last_read_at: recent ? new Date(recent[1].updatedAt).toISOString() : null,
     last_ref: recent ? `${getBook(recent[0])?.name ?? recent[0]} ${recent[1].lastChapter}` : null,
+    // rotina detalhada exibida no perfil (últimas 12 semanas e séries em andamento)
+    detail: {
+      days,
+      books: Object.fromEntries(ordered.map(([id, pr]) => [id, pr.read.length])),
+      recent: ordered.slice(0, 8).map(([id, pr]) => ({ book: id, chapter: pr.lastChapter })),
+    },
   };
 }
 
@@ -215,6 +276,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(() => (CHURCH ? lsGet<Session>(LS_SESSION) : null));
   const [catalog, setCatalog] = useState<Catalog | null>(() => (CHURCH ? lsGet<Catalog>(LS_CATALOG) : null));
   const [catalogError, setCatalogError] = useState<string | null>(null);
+  const [unread, setUnread] = useState(0);
   const sessionRef = useRef(session);
   sessionRef.current = session;
 
@@ -294,6 +356,31 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener('visibilitychange', on);
   }, [syncNow]);
 
+  // mensagens não lidas: consulta a cada 20 s com o app aberto e ao navegar
+  const lastUnread = useRef(0);
+  const refreshUnread = useCallback(() => {
+    if (!sessionRef.current) return;
+    lastUnread.current = Date.now();
+    call<number>('unread_count')
+      .then(setUnread)
+      .catch(() => undefined);
+  }, [call]);
+  useEffect(() => {
+    if (!session) return setUnread(0);
+    refreshUnread();
+    const tick = () => document.visibilityState === 'visible' && refreshUnread();
+    // ao navegar pelo app, atualiza no máximo a cada 8 s
+    const onNav = () => Date.now() - lastUnread.current > 8000 && tick();
+    const t = setInterval(tick, 20000);
+    document.addEventListener('visibilitychange', tick);
+    window.addEventListener('hashchange', onNav);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener('visibilitychange', tick);
+      window.removeEventListener('hashchange', onNav);
+    };
+  }, [session?.token, refreshUnread]);
+
   // atualiza papel/nome e catálogo ao abrir o app
   useEffect(() => {
     if (!session) return;
@@ -314,6 +401,8 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       isPastor: member?.role === 'pastor',
       catalog,
       catalogError,
+      unread,
+      refreshUnread,
       async join(name, login, pin) {
         start(await rpc<{ token: string; member: Member }>('join_church', { p_slug: SLUG, p_name: name, p_login: login, p_pin: pin, p_avatar: profile?.avatar ?? 0 }));
       },
@@ -343,7 +432,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       call,
       syncNow,
     };
-  }, [session, catalog, catalogError, start, save, call, refreshCatalog, syncNow, profile?.avatar]);
+  }, [session, catalog, catalogError, unread, refreshUnread, start, save, call, refreshCatalog, syncNow, profile?.avatar]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

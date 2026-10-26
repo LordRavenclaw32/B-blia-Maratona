@@ -35,8 +35,7 @@ function Ring({ value, size = 180, stroke = 14, label, sub }: { value: number; s
   );
 }
 
-function Heatmap({ activity, goal }: { activity: Record<string, number>; goal: number }) {
-  const weeks = 20;
+export function Heatmap({ activity, goal, weeks = 20 }: { activity: Record<string, number>; goal: number; weeks?: number }) {
   const end = new Date();
   const start = new Date(end);
   start.setDate(end.getDate() - end.getDay() - (weeks - 1) * 7);

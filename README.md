@@ -80,6 +80,8 @@ src/pages/             Perfis, Início, Leitor, Diário, Minha maratona, Busca, 
 
 - **Mensagens:** séries com temporadas, lançamentos com contagem regressiva e lembrete na agenda, mural do mês (antes e depois da pregação), vídeos e podcasts (YouTube, Spotify, SoundCloud, Vimeo, Drive, MP3). As mensagens são completas e os versículos citados viram links clicáveis.
 - **Relacionamentos:** atividades dos irmãos com "Amém", lista de membros, acompanhamento da leitura para líderes (situação, últimos 7 dias, sequência, plano da igreja, exportação de planilha, WhatsApp) e gestão para pastores (níveis de acesso, PIN, códigos).
+- **Perfil dos irmãos:** rotina de leitura das últimas 12 semanas, séries em andamento e concluídas, e atividades. O membro pode deixar o perfil privado (líderes continuam vendo).
+- **Conversas:** mensagens individuais entre qualquer membro, líder ou pastor da igreja, e grupos criados pela liderança. Versículos e links ficam clicáveis e há contador de mensagens não lidas.
 - **Estúdio:** área de pastores e líderes para criar séries, lançamentos, mural do mês e mensagens, e importar vídeos e podcasts.
 - **Níveis de acesso:** membro (conta com celular/e-mail + PIN), líder e pastor(a), liberados por código.
 - **Ativar uma igreja:** use o Configurador → "7. Comunidade da igreja", com a sua chave mestra. Ele gera os códigos do pastor e dos líderes.

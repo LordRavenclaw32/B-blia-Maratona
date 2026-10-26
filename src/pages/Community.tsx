@@ -7,12 +7,14 @@ import { APP_NAME } from '../lib/brand';
 import { CHURCH, whatsappLink } from '../lib/church';
 import { relTime, ROLE_LABEL, useCommunity, type CommunityMember, type FeedItem, type Role } from '../lib/community';
 import { useRoute, setQuery } from '../lib/router';
+import { Chat, ConversationList } from './Conversations';
+import { MemberProfile } from './MemberProfile';
 
 /** Relacionamentos: atividades dos irmãos, lista de membros, acompanhamento (líderes) e gestão (pastor). */
 
-type Tab = 'atividades' | 'irmaos' | 'acompanhamento' | 'gestao';
+type Tab = 'atividades' | 'conversas' | 'irmaos' | 'acompanhamento' | 'gestao';
 
-function describe(f: FeedItem): { text: React.ReactNode; href?: string; icon: string } {
+export function describe(f: Pick<FeedItem, 'kind' | 'data'>): { text: React.ReactNode; href?: string; icon: string } {
   const d = f.data as Record<string, string | number | null>;
   switch (f.kind) {
     case 'join':
@@ -40,7 +42,7 @@ function describe(f: FeedItem): { text: React.ReactNode; href?: string; icon: st
   }
 }
 
-function RoleBadge({ role }: { role: Role }) {
+export function RoleBadge({ role }: { role: Role }) {
   if (role === 'member') return null;
   return <span className={`role-badge ${role}`}>{ROLE_LABEL[role]}</span>;
 }
@@ -89,10 +91,14 @@ function Feed() {
           const d = describe(f);
           return (
             <li key={f.id} className={`feed-item k-${f.kind}`}>
-              <img src={avatarUrl(f.avatar)} alt="" />
+              <a href={`#/comunidade/membro/${f.member_id}`} aria-label={`Perfil de ${f.name}`}>
+                <img src={avatarUrl(f.avatar)} alt="" />
+              </a>
               <div className="feed-body">
                 <p>
-                  <b>{f.name}</b> <RoleBadge role={f.role} /> {d.href ? <a href={d.href}>{d.text}</a> : d.text}
+                  <a className="feed-name" href={`#/comunidade/membro/${f.member_id}`}>
+                    <b>{f.name}</b>
+                  </a> <RoleBadge role={f.role} /> {d.href ? <a href={d.href}>{d.text}</a> : d.text}
                 </p>
                 <div className="feed-foot">
                   <span className="muted small">
@@ -139,7 +145,7 @@ function Brothers() {
   return (
     <div className="brothers">
       {list.map((m) => (
-        <div key={m.id} className={`brother ${m.id === c.member?.id ? 'me' : ''}`}>
+        <a key={m.id} href={`#/comunidade/membro/${m.id}`} className={`brother ${m.id === c.member?.id ? 'me' : ''}`}>
           <img src={avatarUrl(m.avatar)} alt="" />
           <div>
             <b>
@@ -159,7 +165,7 @@ function Brothers() {
           ) : (
             <small className="muted">privado</small>
           )}
-        </div>
+        </a>
       ))}
     </div>
   );
@@ -259,13 +265,13 @@ function FollowUp() {
           const phone = (m.login ?? '').replace(/\D/g, '');
           return (
             <div key={m.id} className="ft-row" role="row">
-              <span className="ft-name">
+              <a className="ft-name" href={`#/comunidade/membro/${m.id}`}>
                 <img src={avatarUrl(m.avatar)} alt="" />
                 <span>
                   <b>{m.name}</b> <RoleBadge role={m.role} />
                   <small className="muted">{m.grp ?? m.login}</small>
                 </span>
-              </span>
+              </a>
               <span>
                 <span className={`status ${s}`}>{STATUS_LABEL[s]}</span>
               </span>
@@ -483,7 +489,7 @@ function MyCard() {
   );
 }
 
-export function Community() {
+export function Community({ path = [] }: { path?: string[] }) {
   const c = useCommunity();
   const route = useRoute();
   if (!c.session)
@@ -492,8 +498,21 @@ export function Community() {
         <CommunityGate title="Relacionamentos" text={`Leia junto com os irmãos da ${CHURCH?.nome}: veja quem está lendo, incentive com um “Amém” e cresça em comunidade.`} />
       </main>
     );
+  if (path[0] === 'membro' && path[1])
+    return (
+      <main className="page community">
+        <MemberProfile key={path[1]} id={path[1]} />
+      </main>
+    );
+  if (path[0] === 'conversa' && path[1])
+    return (
+      <main className="page community chat-page">
+        <Chat key={path[1]} id={path[1]} />
+      </main>
+    );
   const tabs: [Tab, string][] = [
     ['atividades', 'Atividades'],
+    ['conversas', 'Conversas'],
     ['irmaos', 'Irmãos'],
     ...(c.isLeader ? ([['acompanhamento', 'Acompanhamento']] as [Tab, string][]) : []),
     ...(c.isPastor ? ([['gestao', 'Gestão']] as [Tab, string][]) : []),
@@ -519,10 +538,12 @@ export function Community() {
             {tabs.map(([k, label]) => (
               <button key={k} className={tab === k ? 'on' : ''} onClick={() => setQuery('aba', k === 'atividades' ? null : k, true)} role="tab" aria-selected={tab === k}>
                 {label}
+                {k === 'conversas' && c.unread > 0 && <span className="badge-count">{c.unread}</span>}
               </button>
             ))}
           </div>
           {tab === 'atividades' && <Feed />}
+          {tab === 'conversas' && <ConversationList />}
           {tab === 'irmaos' && <Brothers />}
           {tab === 'acompanhamento' && c.isLeader && <FollowUp />}
           {tab === 'gestao' && c.isPastor && <Management />}
