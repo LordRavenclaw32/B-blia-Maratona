@@ -3,6 +3,9 @@ import { avatarUrl } from '../lib/art';
 import { navigate, useRoute } from '../lib/router';
 import { useStore, useProfile } from '../lib/store';
 import { Icon } from './Icon';
+import { Logo } from './Brand';
+
+export { Logo };
 
 const LINKS = [
   { to: '/browse', label: 'Início', key: 'browse' },
@@ -12,15 +15,6 @@ const LINKS = [
   { to: '/diary', label: 'Diário', key: 'diary' },
   { to: '/stats', label: 'Minha maratona', key: 'stats' },
 ];
-
-export function Logo({ small = false }: { small?: boolean }) {
-  return (
-    <a href="#/browse" className={`logo ${small ? 'sm' : ''}`} aria-label="Maratona Bíblica — início">
-      <span className="logo-main">MARATONA</span>
-      <span className="logo-sub">BÍBLICA</span>
-    </a>
-  );
-}
 
 export function Navbar() {
   const profile = useProfile();
@@ -128,7 +122,7 @@ export function Navbar() {
                   navigate('/profiles');
                 }}
               >
-                Sair da Maratona Bíblica
+                Sair do BíbliaFlix
               </button>
             </div>
           )}

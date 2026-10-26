@@ -29,7 +29,7 @@ export function Settings() {
     const blob = new Blob([actions.exportData()], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `maratona-biblica-${profile.name.toLowerCase().replace(/\s+/g, '-')}.json`;
+    a.download = `bibliaflix-${profile.name.toLowerCase().replace(/\s+/g, '-')}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
     toast('Backup exportado');

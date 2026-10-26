@@ -1,0 +1,28 @@
+name: Resolver arte bíblica (Wikimedia Commons)
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - src/data/artQueries.ts
+      - scripts/resolve-art.mjs
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --experimental-strip-types scripts/resolve-art.mjs
+      - name: Commit do manifesto
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/artManifest.json scripts/art-report.md
+          git diff --cached --quiet || git commit -m "Atualiza manifesto de arte bíblica"
+          git push

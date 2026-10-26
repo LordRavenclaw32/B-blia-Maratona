@@ -1,5 +1,6 @@
 import { BOOKS, TOTAL_CHAPTERS, type Book, type Episode } from '../data/books';
 import { artUrl, avatarUrl } from './art';
+import { APP_TAGLINE, bfMarkUrl } from './brand';
 import type { Devotional, Profile } from './store';
 import { bookPercent, completedBooks, overallPercent, pct, streak, totalRead } from './stats';
 
@@ -102,19 +103,26 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.closePath();
 }
 
-function logo(ctx: CanvasRenderingContext2D, x: number, y: number, size: number, align: CanvasTextAlign = 'left') {
+/** Monograma BF + "BÍBLIAFLIX" + subtítulo; `y` é a linha de base do nome. */
+function logo(ctx: CanvasRenderingContext2D, mark: HTMLImageElement, x: number, y: number, size: number) {
   ctx.save();
-  ctx.textAlign = align;
+  ctx.shadowColor = 'rgba(0,0,0,.55)';
+  ctx.shadowBlur = 14;
+  const m = size * 1.25;
+  ctx.drawImage(mark, x, y - m * 0.78, m, m);
+  ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = RED;
   ctx.font = `400 ${size}px ${DISPLAY}`;
-  ctx.shadowColor = 'rgba(0,0,0,.5)';
-  ctx.shadowBlur = 12;
-  ctx.fillText('MARATONA', x, y);
+  const tx = x + m + size * 0.18;
   ctx.fillStyle = '#fff';
-  ctx.font = `600 ${size * 0.26}px ${SANS}`;
-  ctx.letterSpacing = `${size * 0.12}px`;
-  ctx.fillText('BÍBLICA', align === 'left' ? x + 4 : x, y + size * 0.36);
+  ctx.fillText('BÍBLIA', tx, y);
+  ctx.fillStyle = RED;
+  ctx.fillText('FLIX', tx + ctx.measureText('BÍBLIA').width, y);
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = 'rgba(255,255,255,.75)';
+  ctx.font = `600 ${size * 0.24}px ${SANS}`;
+  ctx.letterSpacing = `${size * 0.04}px`;
+  ctx.fillText(APP_TAGLINE.toUpperCase(), tx + 2, y + size * 0.36);
   ctx.restore();
 }
 
@@ -210,7 +218,7 @@ export async function renderShareImage(input: ShareInput): Promise<HTMLCanvasEle
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, W, H);
 
-  logo(ctx, pad, pad + 70 * s, 92 * s);
+  logo(ctx, await loadImage(bfMarkUrl()), pad, pad + 70 * s, 84 * s);
 
   // badge "série"
   const top = pad + 70 * s;
@@ -463,14 +471,14 @@ export function shareText(input: ShareInput): string {
   switch (input.kind) {
     case 'book':
       return book
-        ? `Estou maratonando ${book.name} na Maratona Bíblica: ${profile.progress[book.id]?.read.length ?? 0}/${book.chapters} capítulos (${pct(bookPercent(profile, book))}). Bora maratonar junto? ${url}`
+        ? `Estou maratonando ${book.name} no BíbliaFlix: ${profile.progress[book.id]?.read.length ?? 0}/${book.chapters} capítulos (${pct(bookPercent(profile, book))}). Bora maratonar junto? ${url}`
         : url;
     case 'episode':
       return book && input.episode
         ? `Acabei de concluir o episódio "${input.episode.title}" de ${book.name} (E${input.episode.n}). ${url}`
         : url;
     case 'overall':
-      return `Já li ${totalRead(profile)} de ${TOTAL_CHAPTERS} capítulos da Bíblia (${pct(overallPercent(profile))}) na Maratona Bíblica! ${url}`;
+      return `Já li ${totalRead(profile)} de ${TOTAL_CHAPTERS} capítulos da Bíblia (${pct(overallPercent(profile))}) no BíbliaFlix! ${url}`;
     case 'devotional':
       return input.devotional ? `${input.devotional.title}\n\n${input.devotional.text}\n\n${input.devotional.verse ?? ''}`.trim() : url;
     case 'verse':

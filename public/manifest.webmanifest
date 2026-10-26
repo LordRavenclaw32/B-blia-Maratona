@@ -1,6 +1,6 @@
 {
-  "name": "Maratona Bíblica",
-  "short_name": "Maratona",
+  "name": "BíbliaFlix — Seu app de maratona bíblica",
+  "short_name": "BíbliaFlix",
   "description": "Maratone a Bíblia: livros como séries, capítulos como episódios.",
   "start_url": "./#/browse",
   "scope": "./",

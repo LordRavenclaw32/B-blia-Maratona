@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { episodeOfChapter, getBook } from './data/books';
 import { Navbar, TabBar } from './components/Navbar';
+import { BFMark } from './components/Brand';
+import { APP_NAME, APP_TAGLINE } from './lib/brand';
 import { TitleModal } from './components/TitleModal';
 import { UIProvider } from './components/ui';
 import { navigate, useRoute } from './lib/router';
@@ -16,13 +18,17 @@ import { Stats } from './pages/Stats';
 
 function Intro({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 2100);
+    const t = setTimeout(onDone, 3300);
     return () => clearTimeout(t);
   }, [onDone]);
   return (
-    <div className="intro" onClick={onDone} aria-hidden="true">
-      <div className="intro-logo">
-        <span>M</span>
+    <div className="intro" onClick={onDone} role="img" aria-label={`${APP_NAME} — ${APP_TAGLINE}`}>
+      <div className="intro-stage">
+        <BFMark className="intro-mark" size={220} />
+        <div className="intro-word">
+          BÍBLIA<b>FLIX</b>
+        </div>
+        <div className="intro-tag">{APP_TAGLINE}</div>
       </div>
     </div>
   );
@@ -86,7 +92,7 @@ function Routes() {
       {page}
       <footer className="site-footer">
         <p>
-          Maratona Bíblica · Textos bíblicos via <a href="https://www.abibliadigital.com.br" target="_blank" rel="noreferrer">ABíbliaDigital</a>. Seus dados
+          BíbliaFlix · Seu app de maratona bíblica · Textos bíblicos via <a href="https://www.abibliadigital.com.br" target="_blank" rel="noreferrer">ABíbliaDigital</a>. Seus dados
           ficam salvos apenas neste dispositivo.
         </p>
       </footer>

@@ -88,9 +88,9 @@ export function Reader({ book, chapter }: { book: Book; chapter: number }) {
 
   useEffect(() => {
     actions.setLastChapter(book.id, chapter);
-    document.title = `${book.name} · E${ep.n}: ${ep.title} — Maratona Bíblica`;
+    document.title = `${book.name} · E${ep.n}: ${ep.title} — BíbliaFlix`;
     return () => {
-      document.title = 'Maratona Bíblica';
+      document.title = 'BíbliaFlix';
     };
   }, []);
 

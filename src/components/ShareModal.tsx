@@ -43,7 +43,7 @@ export function ShareModal({ input, onClose }: { input: Omit<ShareInput, 'profil
     };
   }, [format]);
 
-  const fileName = `maratona-biblica-${input.kind}-${format}.png`;
+  const fileName = `bibliaflix-${input.kind}-${format}.png`;
 
   const download = () => {
     if (!url) return;
@@ -59,9 +59,9 @@ export function ShareModal({ input, onClose }: { input: Omit<ShareInput, 'profil
     const file = new File([blob], fileName, { type: 'image/png' });
     try {
       if (navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], text, title: 'Maratona Bíblica' });
+        await navigator.share({ files: [file], text, title: 'BíbliaFlix' });
       } else if (navigator.share) {
-        await navigator.share({ text, title: 'Maratona Bíblica' });
+        await navigator.share({ text, title: 'BíbliaFlix' });
       } else {
         download();
       }
